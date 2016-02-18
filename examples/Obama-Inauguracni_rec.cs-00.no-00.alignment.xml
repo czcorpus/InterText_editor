@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='utf-8'?>
+<linkGrp toDoc='Obama-Inauguracni_rec.no-00.xml' fromDoc='Obama-Inauguracni_rec.cs-00.xml'>
+<link type='1-1' xtargets='1:1;1:1' status='man'/>
+<link type='1-1' xtargets='2:1;2:1' status='man'/>
+<link type='1-1' xtargets='2:2;2:2' status='man'/>
+<link type='1-1' xtargets='3:1;3:1' status='man'/>
+<link type='1-1' xtargets='3:2;3:2' status='man'/>
+<link type='1-1' xtargets='3:3;3:3' status='man'/>
+<link type='1-1' xtargets='4:1;3:4' status='man'/>
+<link type='1-1' xtargets='5:1;4:1' status='man'/>
+<link type='1-1' xtargets='5:2;4:2' status='man'/>
+<link type='1-1' xtargets='6:1;5:1' status='man'/>
+<link type='1-1' xtargets='6:2;5:2' status='man'/>
+<link type='1-1' xtargets='6:3;5:3' status='man'/>
+<link type='1-1' xtargets='6:4;5:4' status='man'/>
+<link type='2-1' xtargets='6:5 6:6;5:5' status='man'/>
+<link type='1-1' xtargets='7:1;6:1' status='man'/>
+<link type='1-1' xtargets='7:2;6:2' status='man'/>
+<link type='1-0' xtargets='8:1;' status='man'/>
+<link type='1-1' xtargets='8:2;7:1' status='man'/>
+<link type='1-1' xtargets='8:3;7:2' status='man'/>
+<link type='1-1' xtargets='8:4;7:3' status='man'/>
+<link type='1-1' xtargets='8:5;7:4' status='man'/>
+<link type='1-1' xtargets='9:1;8:1' status='man'/>
+<link type='1-1' xtargets='10:1;9:1' status='man'/>
+<link type='1-1' xtargets='11:1;10:1' status='man'/>
+<link type='2-1' xtargets='11:2 11:3;10:2' status='man'/>
+<link type='1-1' xtargets='12:1;11:1' status='man'/>
+<link type='1-1' xtargets='12:2;11:2' status='man'/>
+<link type='1-1' xtargets='12:3;11:3' status='man'/>
+<link type='1-1' xtargets='12:4;11:4' status='man'/>
+<link type='1-1' xtargets='12:5;11:5' status='man'/>
+<link type='1-1' xtargets='13:1;12:1' status='man'/>
+<link type='2-1' xtargets='14:1 14:2;12:2' status='man'/>
+<link type='1-1' xtargets='15:1;12:3' status='man'/>
+<link type='1-0' xtargets='16:1;' status='man'/>
+<link type='1-1' xtargets='16:2;13:1' status='man'/>
+<link type='1-1' xtargets='16:3;13:2' status='man'/>
+<link type='1-1' xtargets='16:4;13:3' status='man'/>
+<link type='1-1' xtargets='17:1;14:1' status='man'/>
+<link type='1-1' xtargets='17:2;14:2' status='man'/>
+<link type='1-1' xtargets='17:3;14:3' status='man'/>
+<link type='1-1' xtargets='17:4;14:4' status='man'/>
+<link type='1-1' xtargets='17:5;14:5' status='man'/>
+<link type='1-1' xtargets='17:6;14:6' status='man'/>
+<link type='1-1' xtargets='17:7;14:7' status='man'/>
+<link type='1-1' xtargets='18:1;15:1' status='man'/>
+<link type='1-1' xtargets='18:2;15:2' status='man'/>
+<link type='1-1' xtargets='18:3;15:3' status='man'/>
+<link type='1-1' xtargets='18:4;15:4' status='man'/>
+<link type='1-1' xtargets='18:5;15:5' status='man'/>
+<link type='1-1' xtargets='18:6;15:6' status='man'/>
+<link type='1-1' xtargets='18:7;15:7' status='man'/>
+<link type='1-1' xtargets='18:8;15:8' status='man'/>
+<link type='1-1' xtargets='19:1;16:1' status='man'/>
+<link type='1-1' xtargets='19:2;16:2' status='man'/>
+<link type='2-1' xtargets='19:3 19:4;16:3' status='man'/>
+<link type='1-1' xtargets='20:1;17:1' status='man'/>
+<link type='1-1' xtargets='20:2;17:2' status='man'/>
+<link type='1-1' xtargets='21:1;17:3' status='man'/>
+<link type='1-1' xtargets='21:2;17:4' status='man'/>
+<link type='1-1' xtargets='21:3;17:5' status='man'/>
+<link type='1-1' xtargets='22:1;18:1' status='man'/>
+<link type='1-1' xtargets='22:2;18:2' status='man'/>
+<link type='3-1' xtargets='22:3 22:4 22:5;18:3' status='man'/>
+<link type='1-1' xtargets='23:1;19:1' status='man'/>
+<link type='1-1' xtargets='23:2;19:2' status='man'/>
+<link type='1-1' xtargets='23:3;19:3' status='man'/>
+<link type='2-2' xtargets='24:1 24:2;19:4 19:5' status='man'/>
+<link type='1-1' xtargets='25:1;20:1' status='man'/>
+<link type='1-1' xtargets='25:2;20:2' status='man'/>
+<link type='2-1' xtargets='25:3 25:4;20:3' status='man'/>
+<link type='1-1' xtargets='26:1;21:1' status='man'/>
+<link type='1-1' xtargets='26:2;21:2' status='man'/>
+<link type='1-1' xtargets='26:3;21:3' status='man'/>
+<link type='1-1' xtargets='26:4;21:4' status='man'/>
+<link type='3-1' xtargets='27:1 27:2 27:3;21:5' status='man'/>
+<link type='1-1' xtargets='28:1;22:1' status='man'/>
+<link type='1-1' xtargets='28:2;22:2' status='man'/>
+<link type='2-2' xtargets='28:3 28:4;22:3 22:4' status='man'/>
+<link type='2-1' xtargets='29:1 29:2;23:1' status='man'/>
+<link type='1-1' xtargets='29:3;23:2' status='man'/>
+<link type='1-1' xtargets='29:4;23:3' status='man'/>
+<link type='2-1' xtargets='29:5 29:6;23:4' status='man'/>
+<link type='2-2' xtargets='30:1 30:2;24:1 24:2' status='man'/>
+<link type='2-1' xtargets='30:3 30:4;24:3' status='man'/>
+<link type='1-1' xtargets='30:5;24:4' status='man'/>
+<link type='1-1' xtargets='31:1;25:1' status='man'/>
+<link type='1-1' xtargets='31:2;25:2' status='man'/>
+<link type='1-1' xtargets='31:3;25:3' status='man'/>
+<link type='1-1' xtargets='31:4;25:4' status='man'/>
+<link type='1-1' xtargets='32:1;26:1' status='man'/>
+<link type='2-1' xtargets='32:2 32:3;26:2' status='man'/>
+<link type='1-1' xtargets='32:4;26:3' status='man'/>
+<link type='1-1' xtargets='33:1;27:1' status='man'/>
+<link type='1-1' xtargets='33:2;27:2' status='man'/>
+<link type='1-1' xtargets='33:3;27:3' status='man'/>
+<link type='1-1' xtargets='33:4;27:4' status='man'/>
+<link type='1-1' xtargets='33:5;27:5' status='man'/>
+<link type='1-1' xtargets='33:6;27:6' status='man'/>
+<link type='1-1' xtargets='34:1;27:7' status='man'/>
+<link type='1-1' xtargets='35:1;28:1' status='man'/>
+<link type='1-1' xtargets='36:1;29:1' status='man'/>
+<link type='1-1' xtargets='37:1;30:1' status='man'/>
+<link type='1-1' xtargets='38:1;31:1' status='man'/>
+<link type='1-1' xtargets='38:2;31:2' status='man'/>
+<link type='1-1' xtargets='38:3;31:3' status='man'/>
+<link type='1-1' xtargets='38:4;31:4' status='man'/>
+<link type='1-1' xtargets='38:5;31:5' status='man'/>
+<link type='1-1' xtargets='38:6;31:6' status='man'/>
+<link type='1-1' xtargets='39:1;32:1' status='man'/>
+<link type='2-1' xtargets='40:1 40:2;33:1' status='man'/>
+<link type='2-1' xtargets='40:3 40:4;33:2' status='man'/>
+<link type='2-1' xtargets='40:5 40:6;33:3' status='man'/>
+</linkGrp>

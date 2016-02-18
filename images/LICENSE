@@ -1,0 +1,10 @@
+This directory and its subdirectories contain images from the KDE project Oxygen: 
+http://www.kde.org
+https://techbase.kde.org/Projects/Oxygen
+
+These icons are licensed under LGPL v3 (see COPYING.LESSER).
+
+The only exception is the InterText icon (files with the name "InterText.png" 
+in different sizes and thus different subdirectories), which is part of 
+InterText Editor and is covered by the GPL v3 license (or newer) 
+like the rest of the software.

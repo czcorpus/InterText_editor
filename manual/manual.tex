@@ -1,0 +1,1097 @@
+%\documentclass[a4paper,10pt]{book}
+\documentclass[a4paper,10pt,oneside]{book}
+%\usepackage[utf8x]{inputenc}
+
+%\usepackage{unicode}
+% for XeLaTeX
+\usepackage{xltxtra}
+\usepackage{fontspec}
+%\usepackage{tipa}
+\usepackage{paralist} % custom list numbering
+%\usepackage{linguex}
+%\usepackage[font=small,labelfont=sc,textfont=it]{caption} % format for the captions
+%\usepackage{booktabs} % to get \toprule, \midrule and \bottomrule in the tables
+\usepackage{graphicx} % to include graphics
+%\usepackage{times} % use times font (bad kerning for \'d, \'t)
+%\usepackage{listings}
+%\usepackage{fancyvrb}
+%\usepackage[usenames,dvipsnames]{color}
+\usepackage{color}
+%\usepackage{qtree}
+%\usepackage{natbib}
+\usepackage{scalefnt}
+\usepackage[hyphens]{url}
+\usepackage[xetex,colorlinks=false,pdfborder={0 0 0}]{hyperref}
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+%\setotherlanguages{norsk,czech}
+%\usepackage[english]{babel}
+
+\usepackage{svg}
+\setsvg{svgpath=../images/svg/}
+
+\usepackage{enumitem}
+\setlist{noitemsep}
+\usepackage{multirow}
+
+\clubpenalty=1800
+\widowpenalty=1800
+%\usepackage{trackchanges}
+%\addeditor{vasek}
+
+
+%\setromanfont[Mapping=tex-text]{Times New Roman}
+%\fontspec[SmallCapsFont={Latin Modern Roman Caps}]{Latin Modern Roman}
+\setmainfont[Mapping=tex-text]{TeX Gyre Termes}
+
+% Fancy headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+% with this we ensure that the chapter and section
+% headings are in lowercase.
+\renewcommand{\chaptermark}[1]{%
+        \markboth{#1}{}}
+\renewcommand{\chaptermark}[1]{%
+        \markright{\thesection\ #1}}
+\fancyhf{} % delete current header and footer
+\setlength{\headheight}{15pt}
+\fancyhead[LE,RO]{\bfseries\thepage}
+\fancyhead[LO]{\bfseries\rightmark}
+\fancyhead[RE]{\bfseries\leftmark}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\addtolength{\headheight}{0.5pt} % space for the rule
+\fancypagestyle{plain}{%
+   \fancyhead{} % get rid of headers on plain pages
+   \renewcommand{\headrulewidth}{0pt} % and the line
+}
+
+\setlength{\marginparwidth}{0pt}
+
+% TikZ
+\usepackage{tikz}
+\usetikzlibrary{er,arrows,trees,positioning}
+% styles
+\tikzstyle{every entity}=[fill=blue!20,draw=blue,thin,minimum width=2cm,text badly centered]
+\tikzstyle{div}=[entity,fill=white,draw=black,thin,minimum width=2cm,text badly centered]
+\tikzstyle{perl}=[entity,fill=yellow!40,draw=black,thin,minimum width=2cm,text badly centered]
+
+\tikzstyle{env}=[circle,fill=yellow!40,draw=yellow,thin,minimum width=2cm,text badly centered]
+\tikzstyle{template}=[entity,fill=yellow!60,draw=yellow,thin,minimum width=1cm,text badly centered]
+\tikzstyle{tempedge}=[draw=red,thin]
+\tikzstyle{every edge}=[draw=black,line width=0.5pt]
+\tikzstyle{every child node}=[entity,minimum width=1cm]
+\tikzstyle{action}=[latex-,black,thick]
+\tikzstyle{reaction}=[-latex,black,thick]
+\tikzstyle{interaction}=[latex-latex,black,thick]
+\tikzstyle{influence}=[latex-,black,thick,double]
+\tikzstyle{equiv}=[latex-latex,green,thick]
+\tikzstyle{equivof}=[latex-,green,thick]
+
+\usepackage[tikz]{bclogo}
+\makeatletter
+\@namedef{Gin@rule@.mps}#1{{eps}{.mps}{#1}}
+\def\Gin@extensions{.pdf,.eps,.ps,%
+.png,.jpg,.bmp,.pict,.tif,.psd,.mac,.sga,.tga,.gif,.mps}
+\makeatother
+\renewcommand\bcStyleTitre[1]{\hfill\large\textsl{#1}\hfill}
+
+\usepackage{xspace}
+\newcommand{\IT}{\textit{\textsc{InterText}}\xspace}
+\newcommand{\ITeditor}{\textit{\textsc{InterText editor}}\xspace}
+\newcommand{\ITserver}{\textit{\textsc{InterText server}}\xspace}
+\newcommand{\keys}[1]{\texttt{#1}}
+\newcommand{\menu}[1]{\textsc{#1}}
+
+%opening
+%\title{\includegraphics[width=4ex]{icon.png}\\\ITeditor\\v1.2.1\\comprehensive guide}
+%\author{Pavel Vondřička\\Institute of the Czech National Corpus\\Charles University in Prague, Faculty of Arts\\
+%\\
+%\url{http://wanthalf.saga.cz/intertext}}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+
+\begin{Large}
+Univerzita Karlova v Praze, Filozofická fakulta \\
+Ústav Českého národního korpusu
+\end{Large}
+\rule{\linewidth}{0.5mm}
+%\HRule
+
+%\begin{Large}
+%Charles University in Prague, Faculty of Arts \\
+%Institute of the Czech National Corpus
+%\end{Large}
+%\HRule
+\vspace*{4cm}
+
+\begin{Huge}
+\includegraphics[width=4ex]{icon.png}\\
+\vspace*{1cm}
+\ITeditor
+\end{Huge}
+
+\begin{huge}
+v1.3.1\\
+\medskip
+comprehensive guide
+\end{huge}
+\bigskip
+
+\begin{Large}
+September 2015\\
+\end{Large}
+
+%\vspace*{2cm}
+
+%\begin{Large}
+%Formalizovaný kontrastivní popis lexikálních jednotek:\\[0.2cm] deskriptivní rámec pro dvojjazyčné slovníky
+%\end{Large}
+
+\bigskip
+
+\vspace*{2.5cm}
+
+\begin{Large}
+Pavel Vondřička\\
+Institute of the Czech National Corpus\\
+Charles University in Prague, Faculty of Arts\\
+\bigskip
+\url{http://wanthalf.saga.cz/intertext}
+\end{Large}
+
+\end{center}
+
+\end{titlepage}
+\thispagestyle{empty}
+
+\vspace*{18cm}
+\begin{flushleft}
+\hrule\medskip
+This software and documentation resulted from the implementation of the \emph{Czech National Corpus} project (LM2011023) funded by the \emph{Ministry of Education, Youth and Sports} within the framework of \emph{Large Research, Development and Innovation Infrastructures}.
+\end{flushleft}
+
+
+%\maketitle
+\frontmatter
+\tableofcontents
+\mainmatter
+
+\part{Before you start\ldots}\label{ch:beforestart}
+
+\chapter{What is \ITeditor}\label{ch:intro:whatis}
+
+\IT is an editor for aligned parallel texts, mainly aimed at creation of translational parallel corpora, potentially also usable with translational (CAT) or educational (CAE) software. It has been developed for the project \emph{InterCorp}\footnote{Project of parallel corpora of more than 30 languages, managed by Institute of the Czech National Corpus, Charles University in Prague. \url{http://www.korpus.cz/intercorp/?lang=en}} to edit and manage alignments of multiple parallel language versions (i.e. translations) of texts at the level of sentences, but it is designed with flexibility in mind and supports custom XML documents and Unicode (UTF-8) encoding.
+
+\IT is a post-alignment editor but it is now distributed with the automatic aligner \emph{hunalign}, which it can utilize.
+
+There are now two different tools available under this name:
+\begin{enumerate}
+	\item \ITserver is a server based software package for central management and editing of aligned texts. It uses a web-based interface to manage the texts, their different language versions and their mutual alignments. An editor is available to manually correct both the alignment and the contents of the texts. It can also be controlled through scripts for batch manipulation of texts. The software is written in PHP and uses MySQL database as back-end.
+	\item \ITeditor is a desktop application, which can be simply downloaded and run locally on a private computer, without the need for an internet connection. However, it can also be used as a remote editor for alignments managed by an \ITserver, usable without a permanent connection (off-line editing). It offers richer and more comfortable editing capabilities and it also offers tools for easy creation of personal collections of aligned texts from raw texts without deeper knowledge of programming or text processing.
+\end{enumerate}
+
+This guide only covers the latter \ITeditor desktop application, not the \ITserver package. Both applications can be obtained from \url{http://wanthalf.saga.cz/intertext}.
+
+\chapter{Current features of \IT}\label{ch:intro:features}
+
+General features of \IT:
+\begin{itemize}
+	\item can manage any number of texts and any number of their versions (translations)
+	\item can work with very large texts at once (novels of several hundred pages, tens thousands of sentences)
+	\item can work with (nearly) any valid XML document
+	\item supports Unicode (UTF-8) by default
+	\item allows for arbitrary and independent alignments between any pair of versions of the same text
+	\item uses single-level alignment; every text version can define its own XML elements containing text to be aligned
+	\item cooperates with \emph{hunalign}\footnote{\url{http://mokk.bme.hu/resources/hunalign/}} and \emph{TCA2}\footnote{\url{http://gandalf.aksis.uib.no/tca2/}} automatic aligners
+	\item import and export of alignments in TEI XML format (stand-off alignment based on element IDs)
+	\item free editing of the alignment
+	\item free editing of the text contents
+	\item split or merge existing text units (sentences or paragraphs), incl. automatic renumbering of their IDs
+	\item synchronisation of multiple alignments of one text version (structural changes done to the text while editing one alignment should not break the others)
+	\item manage status of each aligned segment (automatically aligned or manually verified)
+	\item set bookmarks for later revision
+	\item search in text (incl. regular expressions)
+\end{itemize}
+
+Additional features of \ITeditor:
+\begin{itemize}
+	\item creating new alignments from plain text files
+  \item import of new-line aligned text files
+	\item integrated sentence-splitter (fully configurable, based on regular expressions)
+	\item (re)align any selected part of the alignment with an automatic aligner at any time
+  \item compute direct alignment of two texts aligned indirectly (via a third common version)
+	\item automatic detection of basic numbering schemes of text unit IDs
+	\item undo/redo capability
+	\item full search and replace capability (including regular expressions with backreferences, ``find all'' (highlighting), ``replace all'', search for element IDs, bookmarks, empty segments and non-trivial segments)
+	\item user-configurable interface and integrated text-processing tools
+	\item fully configurable export of text contents (pre-defined profiles for new-line aligned texts, ParaConc, TMX)
+  \item configurable transformations for visualization of complex or non-HTML marked text contents
+	\item runs on Linux, MacOs X, MS Windows
+\end{itemize}
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/mainwindow_naum.png}
+\end{figure}
+
+\chapter{Basic terms, concepts and problems of text alignment}\label{ch:intro:albasics}
+
+\section{Structured text and its basic text units}\label{ch:intro:albasics:textstruc}
+
+A text is usually not just an unstructured linear string of characters, but it consists of several levels of text units of different size, which build a hierarchical structure. The most basic two are paragraphs and sentences. Higher level structures may exist as well (chapters, parts, volumes, collections, etc.) but they are not so crucial for the process of alignment.
+
+In the phase of manual verification of a pair of aligned texts, the alignment is mostly relevant on one level only\footnote{Higher levels (e.g. document) are usually already manually ``aligned'' by the sole fact that we compare two corresponding versions (e.g. in the form of two text files) of one and the same text.} and the most practical is the level of sentences.\footnote{Considering a written prosaic text. Alignment on lower levels, e.g. phrases or words, is too complex to be manually edited on the scale of very large texts and processed by current corpus engines.}
+
+Therefore, the term \emph{text unit} will be used as a more general term in this guide, while the term \emph{sentence} as its typical example. So, even though both terms have the same denotation in the context of this guide, the difference may still be relevant when speaking about a sentence (or text unit) wrongly split into two text units (not really sentences -- that is what is probably wrong with the split).
+
+In XML files, the \emph{text units} are usually delimited by XML elements. Therefore the term \emph{elements} also mostly refers to text units in this guide, however it is understood more technically as a component of the data structure.
+
+Anyway, the level of text units (or elements) to be aligned can include units of different type, e.g. sentences and verses in a book containing a combination of prose and poetry. The only condition is that those structural elements must be exclusive and cannot include each other (in a hierarchical relationship) nor overlap.
+
+\section{Texts, their versions and their alignment}\label{ch:intro:albasics:textversions}
+
+The term \emph{text} is sometimes too general: not just any two texts can be aligned, it must be two \emph{versions} of one and the same text (or document) which are in some way equivalent or corresponding with each other. For parallel translational corpora this means \emph{language versions} or \emph{translations}.\footnote{But the term ``translations'' excludes the original, which is not what we desire either. The original is also one of the parallel versions. Actually the original may not be present at all: translations may be aligned with each other directly.} However, generally the versions to be aligned can also be two different versions (e.g. two different translations) in one and the same language.
+
+Therefore, in the context of this guide (and \IT generally), the term \emph{version} refers generally to one of the multiple parallel versions of one text (or document), which can be aligned with another version of the same text.
+
+\section{Alignable elements and their parents}\label{ch:intro:albasics:alignable}
+
+In the context of an XML document, all text units which should be aligned are called \emph{alignable elements}. XML documents may also contain other types of text elements (metadata), information, which is not part of the text contents and the alignment, and several levels of structural markup irrelevant for the alignment.
+
+The ID attributes of the alignable text units are important for \IT, because they are used to identify the text units grouped into segments in a separate (stand-off) alignment file, and they must be changed (renumbered) whenever a structural change is made to the text and the number of units changes -- i.e. when two units are merged or one unit is split into two. 
+
+If the IDs are numbered in two levels (e.g. when the ID of a sentence includes first the number of the paragraph and then the number of the sentence within this paragraph), \IT must also take care of the parent elements (i.e. paragraphs, or generally any higher level text units, a kind of ``containers'') of the alignable elements (see chapter \ref{ch:detail:managing_local:new:numbering} for more details).\footnote{The terms \emph{parent element} or \emph{container} and the term \emph{paragraph} will be used here in the same way as the mentioned basic terms \emph{text unit} (or \emph{text element}) and \emph{sentence}. For a \emph{verse} as a basic text unit, its parent element may be a \emph{stanza} and not a \emph{paragraph}.} \IT is also capable of merging or splitting the parent elements.
+
+If you only start with plain text, there are no metadata and all the text is considered alignable and is split into alignable text units, which will be automatically numbered by \IT. The number will become their ID.
+
+\section{Segments of aligned units}\label{ch:intro:albasics:segments}
+
+One \emph{segment} is a cluster of alignable text units from two aligned texts: a pair of groups of units from the two text versions that fully correspond to each other. It is supposed that a segment is ideally a complete semantic and pragmatic unit: everything expressed by the units in the first version is either expressed by the units from the second version, or it has been ``lost in the translation'', or the other way around.
+
+The most common and most trivial type of segments contains only one text unit on each side: one sentence is usually translated by one sentence. Such segments are also marked as 1:1-segments and may thus also be called \emph{trivial} segments. However, no alignment would be necessary if all the texts corresponded to each other so directly. Besides of the question ``what is one sentence'', which cannot be treated here, quite often one sentence in one language corresponds to two or more sentences in another language. Then one segment may contain one sentence from one text version, but two or more sentences from the other version. Such \emph{non-trivial} segments (1:2, 1:3, etc.) require most attention in the process of automatic alignment and especially its manual verification.
+
+The following example illustrates the most common situations:
+
+\vspace{1.5ex}
+\begin{tabular}{|p{0.4\textwidth}|p{0.4\textwidth}|}
+\hline
+\textbf{[en-s1]} Then there was a great scraping of chairs and the next moment, Harry found himself shaking hands with everyone in the Leaky Cauldron. &
+\textbf{[it-s1]} Ci fu un grande tramestio di sedie, e subito dopo Harry si trovò a stringere la mano di tutti i presenti. \\
+\hline
+\multirow{3}{0.4\textwidth}{\textbf{[en-s2]} "Doris Crockford, Mr. Potter, can't believe I'm meeting you at last."}
+&
+\textbf{[it-s2]} ‘Sono Doris Crockford, Mr Potter. \\
+& \textbf{[it-s3]} Non riesco a crederci! \\
+& \textbf{[it-s4]} Finalmente la conosco!’ \\
+\hline
+\textbf{[en-s3]} "So proud, Mr. Potter, I'm just so proud."
+&
+\textbf{[it-s5]} ‘Sono così orgoglioso, Mr Potter, veramente orgoglioso’. \\
+\hline
+\textbf{[en-s4]} "Always wanted to shake your hand -- I'm all of a flutter."
+&
+\textbf{[it-s6]} ‘Ho sempre desiderato stringerle la mano… Sono così agitato!’ \\
+\hline
+\end{tabular}
+\vspace{1.5ex}
+
+In the table above, each row corresponds to one segment and each cell to a cluster of sentences from one text version. Most of the segments include only single sentences in the trivial ratio 1:1. Only the second row shows a segment where a single English sentence has three corresponding sentences in the Italian translation. The ratio is thus 1:3.\footnote{The example also illustrates the problem of the definition of a ``sentence'': Some of the more complex sentences in both languages could actually be split into smaller independent sentences according to different more or less sensible linguistic arguments, especially in the last segment. What delimits a sentence is a difficult question even for European languages. If it is a period, exclamation and question mark, why not a dash or an ellipsis sign as well, especially when followed by a capital letter.}
+
+Sometimes, translations may omit a whole sentence (or even several) completely. In such cases, segments with a ratio like 1:0 are convenient.
+
+More complex segments are those where each side includes more than one sentence. For example, when complex sentences in one language continuously overlap in meaning with differently segmented complex sentences in the other language, more complicated clusters may arise, such as 2:3, 3:5, etc. The ration may as well be equal (2:2, 3:3, etc.) -- for example if one text uses one long sentence and one short sentence to express what the other language expresses by one short and one long sentence subsequently.   
+
+The most tricky situations (and fortunately the rarest ones) are those where one sentence seemingly corresponds to another one in the second language, but maybe just one detail (e.g. a single word's meaning) is seemingly missing. A closer look may reveal, that the word or its meaning is projected into the following sentence in the other language, so that the actual segment should contain both pairs of sentences (2:2) and not stay as two seemingly independent trivial 1:1 segments. This is a case which is extremely difficult for automatic aligners and which is easily overlooked even in the process of quick manual verification, unless the editor compares both texts really carefully. An extreme case of such configuration may appear where the meaning is projected beyond the lexical level: e.g. when a modal adverb in one sentence is actually ``translated'' into a modified grammatical category of the main verb in another sentence. From both a translatological and linguistic point of view, such sentences should all 
+become members of one single segment, even though the sentences would otherwise seemingly easily correspond to each other in the trivial 1:1 ratio. Otherwise the user of the final corpus would be mislead by the impression that the translator just completely omitted the word and its meaning.
+
+
+\chapter{How does \ITeditor work}\label{ch:intro:itbasics}
+
+\section{Why a local repository \ldots?}\label{ch:intro:itbasics:repository}
+
+\ITeditor stores all its files (documents and alignments) in a \emph{local repository}, its own subdirectory created somewhere\footnote{In Linux, the path is typically \url{~/.local/share/InterText/}; in MacOS X it can be found in \url{~/Library/Application Support/InterText/}; in MS Windows XP it is \url{C:\\Documents and Settings\\<username>\\Local Settings\\Application Data\\InterText\\}} in the user's directory. It takes care of consistency across several alignments of one text version as long as all the alignments are in the repository. Therefore it does not operate directly on just any text file you point at. Documents and alignments must be first imported into the repository from local files, from a remote \ITserver, or they must be created from some plain-text or XML document files.
+
+When two language versions of the same text are pre-aligned, the list of their align\-able elements (usually sentences) is displayed in the form of a table, such as shown above. Each column represents one text version and each row represents one segment of aligned elements and the sentences can be moved around as necessary. Their order cannot be changed, however: even though cross-align would be no technical problem for \IT, it is still a complication not worth implementation in most other current corpus tools -- especially corpus search engines, where it could significantly degrade performance.
+
+\section{Alignment consistency}\label{ch:intro:itbasics:consistency}
+
+If there are several alignments of one single text version and you try to merge together two text units, which are aligned to two different sentences in some other language version (i.e. they are part of two different segments in some other alignment), \IT will report a conflict and you are forced to verify the problem and fix it manually before proceeding. In such situation it is obvious, that one of the two decisions you have made is wrong: either the decision to merge the two text units into one, or the decision to align them to two separate sentences in another alignment. When trying to merge two text units into one in a text version synchronized with an \ITserver, the server is checked for possible conflicts with other alignments as well, if there is currently an internet connection available. If there is a conflict, the operation will be denied as well. If there is no connection to the server, you will be warned that the acceptability of the change by the server cannot be verified and 
+that the change may be denied later by the server.
+
+\section{Synchronization with \ITserver}\label{ch:intro:itbasics:synchronization}
+
+It is difficult enough to keep consistency across a single repository of texts and alignments, especially when accessed by several users. When texts are distributed across several isolated private computers and often even out of connection with the server, some limitations must arise to be able to keep things under control at all.
+
+The first limitation is the need to use the official synchronization process either to download an alignment (with the appropriate text versions) from an \ITserver to the local repository of an \ITeditor, or to upload a local alignment by the same way to the server.\footnote{If allowed in the server configuration, which is \emph{not} the default.} It is not possible to synchronize text and alignments just by manually copying or otherwise transferring the files between \ITserver and \ITeditor, nor by simply stating that some alignment existing on both places is identical and should be synchronized. In such cases the alignment and texts must be simply deleted on one side and synchronized from the other side, because \IT would have otherwise no idea how to solve possible conflicts and differences.
+
+The second limitation concerns the fact, that only the text contents and text structure can be synchronized in both directions. \IT cannot synchronize changes to the alignment itself made on both sides, nor would it actually have much meaning. The current state of alignment of two texts is always just uploaded from \ITeditor to \ITserver, where it replaces the previous one.
+
+That means that after the first step of synchronization (either download from a server or upload to the server), the alignment is locked on the server for further modifications, and it stays locked until explicitly released by the user of the \ITeditor.\footnote{Administrators may still change the alignment, but all the changes would be completely ignored and replaced by the newly uploaded alignment from the \ITeditor in the nearest process of synchronization.} The text versions taking part in the alignment can still be modified both on the server\footnote{For example if it takes part in another alignment with some other text version, which is \emph{not} going to be locked.} and in \ITeditor, and the system will synchronize the changes -- it will warn the user of the \ITeditor that changes have been made to the text on the server, and the local user must either accept those changes locally as well, or refuse them (which reverts them, by effect). After dealing with any changes on the 
+server, the local user is finally allowed to synchronize again, i.e. to submit his own changes back to the server.
+
+When the local user finishes his work on some alignment, he can explicitly release the alignment, which opens it for changes on the server again. However, since then synchronization is not possible any more, it is meaningful to delete the alignment from the local \ITeditor repository. To continue with the synchronization, the alignment must be completely downloaded from the server again, to obtain it with all changes that may have been done to it on the server in between.\footnote{Another possibility is to delete it on the server and upload again the version available in \ITeditor, if permitted by the server configuration.}
+
+That means that it is not possible to freely work on one and the same alignment both on the server and in \ITeditor, or to work on it in several different installations of \ITeditor at the same time. The work must at every moment be done on one particular place only and all participating sides must be aware of the fact who has currently the full control of the alignment. The current place of work can be changed, but only via the central server. The work must be explicitly released on one place to be continued on another one. It cannot be just ``open to any change'' at several places at once.
+
+Read more on management of remote alignments and the process of synchronization in chapter \ref{ch:detail:managing_remote}.
+
+\medskip
+\begin{bclogo}[couleur = blue!30, arrondi = 0.1, logo = \bcattention,
+ombre = true , epOmbre = 0.125, couleurOmbre = black!30, blur, epBord = 0.3, marge = 5]{Warning}\small
+In order to use synchronization, you need to have real time clock set correctly both on the server and your local machine. (All modern operating systems are by default being synchronized with exact time servers on internet.) Wrong time setting on either side will necessarily result into problems with synchronization and a possible data loss! Since InterText editor version 1.2 and InterText server version 2.1, the applications are able to synchronize across different time zones as well.
+\end{bclogo}
+\medskip
+\begin{bclogo}[couleur = blue!30, arrondi = 0.1, logo = \bcattention,
+ombre = true , epOmbre = 0.125, couleurOmbre = black!30, blur, epBord = 0.3, marge = 5]{Warning}\small
+Please, note that even though the synchronization has been designed to be quite robust, it is a very complex and sensitive process which has not been thoroughly or massively tested yet. In case you experience any unexpected behaviour or failure, contact the author immediately, report what happened and ask for assistance. Data loss or damage may occur. Anyway, backup all your data regularly.
+\end{bclogo}
+
+\chapter{Installation and updating of \IT}\label{ch:intro:installation}
+
+\section{Installation}
+
+Installation of \ITeditor is very easy. You just need to download the installer for your platform (MacOS X, Linux (64-bits) or MS Windows) from \url{http://wanthalf.saga.cz/intertext/} and run it to install all necessary components.\footnote{On Linux, you may need to set the executable flag for the downloaded installer manually in order to be able to run it. On command line, you may use the standard command ``chmod a+x InterTextInstaller.run''.} On \emph{MacOS X} and \emph{MS Windows} you can run \IT directly from you applications menu. On \emph{Linux} you have to run the application by the included \emph{InterText.sh} script.
+
+The installer is currently only optimized for single-user installation. In case of multi-user installation, you have to change the installation path in the installer (running with administrators privileges) and manually create shortcuts (links) into system menus (or set paths).
+
+The installer will also install a \emph{PackageManager}, which can be used to uninstall \IT or to update the installation (if updates or new components are available). \ITeditor is able to use the \emph{PackageManager} to automatically or manually check for updates and install them.
+
+\ITeditor is now distributed together with the \emph{hunalign} automatic aligner, which it can directly use.\footnote{See also section \ref{ch:detail:config:aligner} for details on aligner configuration. \emph{TCA2} cannot be used directly by \ITeditor, but its alignments can be imported as TEI XML stand-off alignments created (as one of its outputs) by \emph{TCA2}.} 
+
+\section{Uninstallation}
+
+You can run the installed \emph{PackageManager} to remove all components of \ITeditor. The text repository and configuration will not be removed, however.
+
+\section{Updating \ITeditor}
+
+The included \emph{PackageManager} can be used to check for updates and to install them. It can even install new components, if available. But \ITeditor will run it silently on each start to check for updates,\footnote{Unless you disable this feature. See chapter \ref{ch:detail:config:general}.} and if they are available, it will offer you running the \emph{PackageManager} to install them. After update, you will be offered to immediately restart \IT to use the new version. You may also anytime trigger the check for updates manually using the item \menu{Check for updates...} in the \menu{Help} menu.
+
+
+\chapter{Things you should probably \emph{not} do with \IT}\label{ch:intro:donts}
+
+Even though \IT is generally written with robustness in mind, the primary goal is its flexibility and configurability, which relies on the user, and therefore there are currently still some dangers you should be well aware of.
+
+\begin{itemize}
+	\item \textbf{Running multiple instances of \IT} at the same computer (as one and the same user) may be risky. You should definitely not edit two related alignments (i.e. alignments of different versions of the same text) at the same time. All alignments of a text are interdependent and they are loaded in the background, when you open an alignment, so that they may be modified when some structural change is made to the text. Other problems may arise from synchronization with a remote \ITserver. If you open several instances of \ITeditor and make changes in both, one may overwrite and damage the work done in the other one. To prevent starting several instances of \ITeditor by accident, it creates a temporary lock-file in its repository (since version 1.1) while it is running, so that you will get a warning if you start a new instance of \IT when another one is still running.\footnote{The warning also appears if \ITeditor exited unexpectedly (``crashed'') the last time. In such case you may run it again, but definitely report the problem to the author as soon as possible! A software bug may be even more dangerous to your data!}
+	\item \textbf{Automatically accepting all changes from a server} is an option of the dialog asking for confirmation of changes (updates) received from an \ITserver when synchronizing a text. It is highly improbable, but still possible in theory, that \IT could make a mistake in matching a received update of a block of text units with the local text units to be replaced. If you want to be absolutely sure that your text will not be damaged, please verify that each change will exactly replace the appropriate part of text and nothing more or less. This is especially important when receiving complex structural changes to the text, or when significant parts of the text units were removed or added. See chapter \ref{ch:detail:managing_remote:sync:download} for more details.
+	\item \textbf{Importing texts with wrong settings} may result in unusable alignments that must be deleted. A typical example is importing a text segmented into sentences and sending the text through a sentence-splitter again. This may result into a text with duplicate sentence mark-up, which will fail to open. Take care of whether you are importing a plain text or an XML document, and whether the text has already been segmented into sentences or not, and how the sentences are marked or delimited.
+\end{itemize}
+
+\medskip
+\begin{bclogo}[couleur = blue!30, arrondi = 0.1, logo = \bcattention,
+ombre = true , epOmbre = 0.125, couleurOmbre = black!30, blur, epBord = 0.3, marge = 5]{Warning}\small
+A common warning concerning all software also applies here: \textbf{\ITeditor is a new, but already relatively complex piece of software} made for very different situations and tasks, and it has \emph{not} been developed by a truly professional team of programmers. It has not been heavily tested under all circumstances and bugs may appear as it is exposed to various situations, types of texts, complex editing and especially synchronization with \ITserver. Such bugs may damage your data without notice. Please, backup your data regularly and inform the author if you notice some undesired or suspicious behaviour.
+\end{bclogo}
+
+
+\part{How to do basic things in \IT}\label{ch:howto}
+
+\chapter{Create or import an alignment}\label{ch:howto:newalignment}
+
+When you run \ITeditor for the first time, you probably do not really see very much. First you need to create or obtain some alignment to work on. Please, skip to the appropriate section depending on how you want to start. You can:
+\begin{itemize}
+	\item Create an alignment from two text files
+	\item Import an \IT compatible alignment from files you have obtained somewhere else (e.g. from TCA2 aligner).
+	\item Import an alignment from your project's \ITserver (if you already are running one).
+\end{itemize}
+
+\section{Create new alignment from two text files}\label{ch:howto:createfromtext}
+
+\ITeditor can import and process any plain text files or XML documents as source of text. If you have your texts in MS Word or Open/LibreOffice, you do not have plain text files nor any usable XML documents.\footnote{You may have heard that those editors also store documents in XML nowadays, but unless you are a computer wizard, forget about this possibility.} You need to export your texts into plain text files in the unicode UTF-8 encoding or in some usable HTML/XML format\footnote{The HTML export in most word processors (unfortunately including the latest LibreOffice versions) usually produces a lot of rubbish mark-up in the text, which makes it nearly unusable for practical text-processing.} (in case you want to keep some formatting features like emphasized text). However, this subject cannot be treated in detail here and you may need to consult you local IT guru, if you do not succeed with pure experiments.
+
+Once you have two parallel text files or XML documents in UTF-8 encoding, you can create a new alignment, e.g. through the menu \menu{Alignment} > \menu{New} (or from the \emph{Repository manager}). First, you will be asked to enter an arbitrary name (identifier) for the text (use e.g. the name of the book or story, do not worry about file names here!). Both texts will be treated under this common name, even though they are probably in different languages. You also have to enter the names for the two versions you are going to align. A good practice is to use the names or (even better) just the two-letter \emph{codes} of the two languages as the names of the versions.
+
+Next you have to select the file with the first text version. In the ``filter'' box, select whether you are going to open an XML file or just any plain text file and then select the file. (If you open XML, skip 3 paragraphs below.) Confirm, that the file is a plain text file (and not something else). In the next dialog you will have to say how your paragraphs are separated in the text file, whether it is already segmented into sentences, and confirm how the resulting XML document will look like. If you have no cue about XML, just keep the defaults. However, you need to know something about your source text. Usually, paragraphs are separated by a single \keys{Enter} (a ``line break''), which is the default setting. But sometimes the paragraphs may be separated by blank lines (or ``empty lines'' -- i.e. by two \keys{Enter}s) -- in that case you would select the appropriate option. You may also select the encoding of the file, if it is different from UTF-8: the contents will automatically be converted, so you should \emph{not} change the ``UTF-8'' string in the XML header header field.
+
+If your text file is not already segmented into sentences (e.g. one line = one sentence) by some tool or manually, you probably want to switch to the integrated automatic sentence splitter, which will usually be better than nothing as a starting point. You do not need to change any other settings (unless you know why you should).
+
+In the next dialog, you have to choose how your sentences will be numbered. The default is ``two level numbering'' which means, that each sentence will first bear the number of the paragraph it belongs to and then the number of sentence within that paragraph. ``Single level numbering'' means that sentences will just be numbered continuously through the whole document by a single number.
+
+Now, you have to repeat the same steps for the other text version to be aligned to: select text file, its type and set the appropriate parameters.
+
+If you have selected an XML document and not a plain text file, you will be greeted by another dialog window, where you have to enter whether the text is already segmented into the alignable text units (usually sentences) and what are the names of all the XML elements containing the alignable text units (all others will be considered metadata and ignored) or whether you want to apply the integrated sentence splitter to create the sentences -- in the latter case you have to enter the names of elements (containers) containing the text to be split into sentences (which usually means paragraphs). Take care: segmenting a text which already has been segmented into sentences (or contains XML elements with the same name of another reason) may result into unusable alignment which will fail to open.
+
+When both texts are set up, a fake 1:1 alignment of the texts is immediately created and opened in the window, and at the same moment you are automatically offered to run a real automatic aligner (see chapter \ref{ch:howto:autoalign}). If you have some aligner configured, you can just select the right aligner and profile and run it. By default it will (re)align the texts from the beginning to the end.
+
+For more details on importing text files see chapter \ref{ch:detail:managing_local:new}.
+
+\section{Import an \IT compatible alignment from files}\label{ch:howto:importfromxml}
+
+You can import an TEI XML alignment created by \IT or a compatible tool (e.g. TCA2). You need to have the two XML documents with the two text versions and a separate TEI XML file with a stand-off alignment (see appendix \ref{ch:technical:TEIalignment} for details). Then you can for example select \menu{Import} from the \menu{Alignment} menu and you will be asked to select the XML file with the stand-off alignment. This file should also contain the names of the two aligned XML documents (which should be accessible in the same directory as the alignment file), so that \IT can also automatically load the documents and add them to its repository.
+
+\section{Import an alignment from an \ITserver}\label{ch:howto:importfromserver}
+
+If you want to import an alignment from some \ITserver, you first need to configure the connection to your server. Open the menu \menu{Options} and select \menu{Settings}. The settings dialog will pop-up. Select tab \menu{Server}. Click the \menu{New} button and enter some arbitrary name for your server into the dialog that pops-up now.\footnote{You can use the name of your project, corpus or just name of the server or its location. The name will then appear in the sub-menu \menu{Alignment} > \menu{Remote server}.}
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/settings_server.png}
+\end{figure}
+
+The new server profile will be created and shown with empty values. You need to enter the URL you use to log-in to your \ITserver (just the basic directory, no particular PHP script -- e.g. \url{http://ourserver.org/intertext}) and the login and password you use on the server. The option \menu{automatically check for text updates on the server} means that every time you open an alignment or document (which originates from this server), \IT will try to connect to the server and check whether any changes have been done to the text in between, so that you always work with an up-to-date text. (See also chapter \ref{ch:detail:config:server}.)
+
+After closing the settings dialog, you can find your server as a new item in the sub-menu \menu{Alignment} > \menu{Remote server}. Selecting it will open a server dialog, which will show you all alignments accessible to you on the server. Using the \menu{Sync} button, you can download an alignment from the server into your local repository to work on it. The alignment will be locked for changes on the server until you release it with the \menu{Release} button. During that time, the texts can be any time synchronized between the server and your repository and their alignment can be uploaded from your \IT installation to the server (see chapter \ref{ch:intro:itbasics:synchronization} for details on synchronization principles and limitations).
+
+You can configure as many server connections as you want to. However, you cannot share alignments between servers. One alignment or document version can only be in synchronization with one server. It is not possible to have several documents or alignments with the same name in your repository. If your repository already contains an alignment with the same name as an alignment on the server, and it is not result of synchronization with this particular server, any synchronization of this alignment or its documents will be blocked.
+
+\chapter{The user interface: or what do you see}\label{ch:howto:interface}
+
+If you already have some alignment in your local repository, you can open it from the \emph{Repository manager} (open it e.g. from the menu \menu{Alignments}). The \emph{repository manager} is a small dialog showing a list of all alignments in your local repository. You can select one and open it using the button \menu{Open} or just by double-clicking the item. (For more details on the \emph{repository manager} see chapter \ref{ch:detail:managing_local}.)
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/mainwindow.png}
+\end{figure}
+
+
+The alignment will open in the main window in the form of a table similar to the scheme shown in the introductory chapter \ref{ch:intro:albasics:segments}. The two main columns contain the two aligned texts side-by-side. Column headers show the names of the versions. Each row in the table represents one segment.\footnote{See chapter \ref{ch:intro:albasics:segments} on explanation of what is a segment.} It has a number (on the left side) showing the position (or segment number) in the alignment. Even rows are slightly darker than odd rows for easier orientation (depending on the settings). Each segment contains zero, one or several text units (usually sentences) -- each starting with a blue triangle \includegraphics[height=1ex]{../images/arrow.png} or a double blue triangle \includegraphics[height=1ex]{../images/dblarrow.png}. The double blue triangle marks units (e.g. sentences) which take first place within their parent container (e.g. paragraph) -- so, it usually marks where new paragraphs start. Segments grouping a different amount of text units than 1:1 are by default highlighted with a yellow background (can be changed in the settings or just turned off in the menu \menu{Options}).
+
+Hovering the mouse cursor above any segment shows the list of IDs of all elements (units) in the segment in a tool-tip.
+
+The leftmost narrow column contains bookmarks. A white (empty) star \includegraphics[height=1.5ex]{../images/nomark.png} is a symbol for no bookmark. Clicking it toggles the bookmark \includegraphics[height=1.5ex]{../images/mark.png} on and off again. By default, bookmarked segments are highlighted with a red background (can be changed in the settings or just turned off in the menu \menu{Options}).
+
+The rightmost narrow column shows the status of each segment: \includegraphics[height=1.5ex]{../images/48/confirmed.png} for manually verified (confirmed) segments; \includegraphics[height=1.5ex]{../images/automatic.png} for segments created by an automatic aligner; \includegraphics[height=1.5ex]{../images/plain.png} for segments created in another way (e.g. by a fake 1:1 alignment), with unknown status or otherwise marked for further verification. Clicking the icon can toggle the status between ``confirmed'' and ``unknown''.
+
+Hovering the mouse cursor above a status icon shows its meaning in a tool-tip.
+
+Clicking any of the text cells makes it selected for any further operation. It is possible to use cursor keys to move around in the table, as well as page-up and page-down keys (the exact behaviour of paging is configurable in the settings).
+
+The status bar at the bottom of the window usually shows how many positions (segments) there are in the alignment altogether and how many of them have one of the possible states set (both as an absolute number and a percentage of the alignment size): number of confirmed (manually verified) segments, number of automatically aligned segments, number of segments with unknown status (see paragraph above), the number of the first non-confirmed segment in the text (i.e. with another status than ``confirmed'', if there is any).
+
+The status bar also shows context help when browsing the menu or state of a process running in background (e.g. synchronization).
+
+At the top of the window, between the menu and the alignment table, there is a toolbar with buttons. The buttons trigger the most frequently used actions also accessible from the main menu or from the context menu (or from the \emph{floating controls} - see below). Hovering the mouse cursor above a button shows its function in a tool-tip and a context help in the status bar at the bottom of the window. The buttons and their function is as follows:
+
+\begin{itemize}
+	\item \includegraphics[height=2ex]{../images/48/manager.png} opens the \emph{repository manager}
+	\item \includegraphics[height=2ex]{../images/48/document-save.png} saves the open alignment in its current state to the repository
+	\item \includegraphics[height=2ex]{../images/48/synchronize.png} starts synchronization with the server (if the currently open alignment is in synchronization with any \ITserver)
+	\item \includegraphics[height=2ex]{../images/48/arrow-up.png} shifts the first text unit (sentence) from the currently selected segment up into the previous segment (row); rest of the text remains on the same place
+	\item \includegraphics[height=2ex]{../images/48/arrow-up-double.png} moves the the whole text (in the same text version) one position (row) up -- i.e. the selected segment's text units are all shifted up to the previous segment (row) and all following segments are moved up by one position (row) up
+	\item \includegraphics[height=2ex]{../images/48/go-up.png} moves both texts up by one position (row) -- i.e. merges the whole current segment (row) with the previous one
+	\item \includegraphics[height=2ex]{../images/48/go-down.png} moves both texts down by one position -- i.e. inserts an empty segment before the current one (new row in the table)
+	\item \includegraphics[height=2ex]{../images/48/arrow-down-double.png} moves the whole text (in the same text version) one position (row) down
+	\item \includegraphics[height=2ex]{../images/48/arrow-down.png} pops the last text unit (sentence) from the currently selected segment down into the next segment (row); rest of the text remains on the same place
+	\item \includegraphics[height=2ex]{../images/48/edit-rename.png} opens the currently selected text unit for editing; if a segment with several text units is selected, it turns into a menu and a particular single text unit can be chosen for editing\footnote{Or another action: merging, inserting or removing a paragraph break, etc.} (the editing has to be triggered again on the selected unit)
+	\item \includegraphics[height=2ex]{merge.pdf} triggers merge of the selected text unit with the preceding unit; the two text units have to be grouped in one single segment; if a whole segment with multiple text units is currently selected, a menu is opened and the particular text unit must be chosen (trigger merge again when it is selected); if the first text unit in a segment is selected, it will merge with the \emph{following} text unit (since there is no preceding unit in that segment); if a segment is selected containing exactly two text units, they will be merged directly; a merge operation requires additional confirmation and for alignments synchronized with an \ITserver, the server is asked if the merge is not conflicting with some other alignment (if connection to the server is currently available)
+	\item \includegraphics[height=2ex]{../images/48/edit-undo.png} undo the last operation (all text and alignment editing can be undone, including automatic re-alignment; synchronization or text updates received from a server cannot be undone)
+	\item \includegraphics[height=2ex]{../images/48/edit-redo.png} redo the last operation undone
+	\item \includegraphics[height=2ex]{../images/48/go-previous-view.png}\includegraphics[height=2ex]{../images/48/mark.png}\includegraphics[height=2ex]{../images/48/go-next-view.png} the arrows skip to the closest preceding or following bookmarked segment; clicking the bookmark symbol itself skips always to the \emph{first} bookmark from the start of the alignment
+	\item \includegraphics[height=2ex]{../images/48/go-previous-view.png}\includegraphics[height=2ex]{non11.pdf}\includegraphics[height=2ex]{../images/48/go-next-view.png} the arrows skip to the closest preceding or following non-1:1 segment; clicking the symbol itself skips always to the \emph{first} non-1:1 segment from the start of the alignment
+	\item \includegraphics[height=2ex]{../images/48/go-previous-view.png}\includegraphics[height=2ex]{../images/48/unconfirmed.png}\includegraphics[height=2ex]{../images/48/go-next-view.png} the arrows skip to the closest preceding or following unconfirmed segment; clicking the symbol itself skips always to the \emph{first} unconfirmed segment from the start of the alignment
+	\item \includegraphics[height=2ex]{../images/48/search.png} opens the search bar (see chapter \ref{ch:detail:search_replace} for details)
+\end{itemize}
+
+When moving the mouse cursor above the table rows, the \emph{floating controls} appear in the middle of the table above each segment by default. They contain the most important of the buttons needed to change the alignment. The controls can be switched to appear only on mouse-click or they can be be turned off (hidden) completely in the \menu{Options} menu. Their size can be adjusted in the same menu as well.
+
+\chapter{Correcting alignment and text contents}\label{ch:howto:edit}
+
+\section{Editing alignment}\label{ch:howto:edit_alignment}
+
+By default, \IT expects you to read (and check) the alignment continuously from the beginning to the end. Once you make a correction to the alignment (not to the text contents!) at some position, it automatically marks all the preceding segments (positions) as confirmed -- it is supposed you have already checked them and found no problems there. If you want to work differently and turn off this feature, you have to uncheck the \menu{Auto update status} mode in the \menu{Options} menu.
+
+You can select the segment you want to change by a mouse click, or you can just move the cursor around with the cursor keys (arrows). At any position, you can either use the toolbar buttons, the \menu{Edit} menu, keyboard shortcuts (shown in the \menu{Edit} menu), context menu (triggered by right mouse-click) or the \emph{floating controls} to trigger an action at the currently selected position (context menu and floating controls concern always the segment under the mouse cursor, not the selected one, of course).
+
+\begin{itemize}
+ \item If you want to move the whole text column one position down, you can trigger the \menu{Move text down} action in the menu, or using the \includegraphics[height=2ex]{../images/48/arrow-down-double.png} button, or just by pressing \keys{Enter}.
+ \item If you want to move the whole text column one position up (i.e. to merge all the text units in the current segment with the preceding one and move the rest of the text upwards), trigger the \menu{Move text up} action, or click the \includegraphics[height=2ex]{../images/48/arrow-up-double.png} button, or just press the \keys{Backspace} key
+ \item If you just want to move a single sentence (the first one in the segment) to the previous segment, trigger the \menu{Shift first up} action, or click the corresponding \includegraphics[height=2ex]{../images/48/arrow-up.png} button, or press \keys{Ctrl/cmd + Arrow-Up} keys at the same time.
+ \item If you just want to move a single sentence (the last one in the segment, if there are several ones) to the following segment, trigger the \menu{Pop last down} action, or use the corresponding \includegraphics[height=2ex]{../images/48/arrow-down.png} button, or just press the \keys{Ctrl/cmd + Arrow-Down} keys
+\end{itemize}
+
+In addition, there are two more shortcut actions available:
+
+\begin{itemize}
+ \item If you need to insert a new empty segment (position or row in the table) on both sides (for example in order to split contents of one segment into two separate segments), you can either ``move down'' each version one by one, or you can trigger the action \menu{Insert segment (move both down)} in the menu, or by clicking the \includegraphics[height=2ex]{../images/48/go-down.png} button, or just by pressing the \keys{Ctrl/cmd + Enter} keys.
+ \item If you need to merge the contents of two segments (rows) into one single segment, you can either move both versions up separately, or you can as well trigger the \menu{Merge segments (move both up)} action, click the \includegraphics[height=2ex]{../images/48/go-up.png} button, or just press the \keys{Ctrl/cmd + Backspace} keys
+\end{itemize}
+
+\begin{bclogo}[couleur = blue!30, arrondi = 0.1, logo = \bcattention,
+ombre = true , epOmbre = 0.125, couleurOmbre = black!30, blur, epBord = 0.3, marge = 5]{Warning}\small
+Please, note the difference between ``merging'' text units (sentences) from different segments into one \textbf{segment}, and \emph{merging} two text units into one single \textbf{unit} (as described in the following subsection)! The first operation only changes \emph{grouping} of the sentences into segments within the \textbf{alignment}, not the sentence \emph{boundaries} within the \textbf{text} itself.
+\end{bclogo}
+
+If you need to move some text contents really far away (for example because of a missing chapter in a translation) and you want to avoid repeating the ``move down / up'' actions too many times, you can also use a special action called simply \menu{Move text} in the menu. Then you may enter the number of the position in the alignment you want to move the current segment's contents to. Of course, the whole following text of the selected text version will be moved along.
+
+You can toggle bookmarks either by clicking the bookmark symbol in the leftmost column of the table, or by triggering the action \menu{Toggle bookmark} in the \menu{Edit} menu, or just by pressing the \keys{M} key.
+
+You can also manually toggle status of the single segments (positions) between ``confirmed'' and ``unconfirmed'' either by clicking the status symbol in the last column, or by triggering the action \menu{Toggle status} in the menu, or by pressing the \keys{S} key. You cannot manually set the status to ``automatically aligned'', though.
+
+\section{Applying automatic aligner}\label{ch:howto:autoalign}
+
+Automatic aligner is usually being run when a new alignment is created (see chapter \ref{ch:detail:managing_local:new}). But sometimes you may need tu run the automatic aligner again just on a part of your alignment in order to save yourself a huge amount of manual corrections. This occurs frequently if one text version is missing a whole chapter or more. In such case you only need to align the start and end of a piece of text and run the automatic aligner on that piece only. Or, if there is a large gap in the middle of one text version, you can only align the start of the block where the two texts correspond again (e.g. using the \menu{Move text} operation, see \ref{ch:howto:edit_alignment}) and let the automatic aligner re-align the whole rest of the alignment.
+
+The automatic aligner can be run from the menu \menu{Edit} > \menu{Auto aligner}. A dialog window asks for more parameters for the alignment process.
+
+
+\begin{figure}[htbf]
+ \includegraphics[width=0.8\textwidth]{screenshots/autoaligner.png}
+\end{figure}
+
+You can select a configured automatic aligner and a particular profile (e.g. language specific configuration) to be used for the alignment. You can also determine the range of current positions (segments) to be re-aligned. By default the range is set from the currently selected position (or the first position if nothing is selected) to the last position in the alignment. After re-alignment, the position numbers will most probably change, of course.
+
+The option \menu{keep aligner log open} can be used to prevent the window showing the console output from the automatic aligner to close automatically when the process is finished. This feature can be used to debug the alignment process.
+
+For details on configuring an automatic aligner and its profiles see chapter \ref{ch:detail:config:aligner}.
+
+
+\section{Editing text contents}\label{ch:howto:edit_text}
+
+\IT is not meant as a replacement for a text editor and definitely not an XML editor. Its main purpose is to align two texts by corresponding text units (typically sentences). However, during this process one frequently discovers typos or other mistakes in the source text and wants to quickly fix them.
+
+Text contents can therefore be easily edited in \IT by triggering the \menu{Edit element} action in the \menu{Edit} menu, in the context menu (right mouse-click), or by clicking the \includegraphics[height=2ex]{../images/48/edit-rename.png} symbol in the toolbar, or by pressing the \keys{E} key when the desired text unit is selected, or just by double-clicking the segment. To select a single text unit within a segment with multiple units, you have to use \emph{Edit} twice: first to open the segment contents menu to select the desired text unit (sentence), and then finally to open that unit for editing. If there is only one text unit in the current segment, it will be opened for editing instantly on the first \emph{Edit} action.
+
+When you finish editing the contents of a text unit, you can save the new contents by pressing the \keys{F2} functional key,\footnote{The assignment of keys or keyboard shortcuts can be modified in the customization dialog. See chapter \ref{ch:detail:custom:shortcuts}.} or you can anytime just escape the editing mode by pressing the \keys{Esc} key to discard the changes made and return the contents to the previous state. Using the \keys{Tab} and \keys{Back-tab} keys, you can save the changes and automatically open the following or preceding element for editing. If you just leave the editor, \ITeditor will ask you whether you want to save or discard the changed contents. By checking the option ``Remember my choice and do not ask again.'' you can set the default behaviour and avoid being asked again. This choice may always be changed in the \menu{Settings} later, though (see chapter \ref{ch:detail:config:editor}).
+
+Advanced search and replace functionality is also available and will be described in chapter \ref{ch:detail:search_replace}.
+
+\medskip
+\begin{bclogo}[couleur = blue!30, arrondi = 0.1, logo = \bcattention,
+ombre = true , epOmbre = 0.125, couleurOmbre = black!30, blur, epBord = 0.3, marge = 5]{Warning}\small
+Please, remember, that editing is \emph{not} meant to be used to move text contents between different text units. While moving single words, phrases or clauses between the units linguistically defined as ``sentences'' is an effective method to ``cheat'' and make all segments look like 1:1, this is not only terribly incorrect and destroying the whole linguistic mark-up, but it is actually also much more laborious thing to do. In addition, it will completely break things up if there are several alignments of one and the same text version: all the other alignments will be broken, because they rely on the fact, that element contents do not change.
+\end{bclogo}
+
+\section{Changing text structure}\label{ch:howto:edit_struc}
+
+It is also possible to change the basic borders of linguistic units in the structure of the texts. Because \IT only cares about the elements containing alignable text units and their immediate parent elements (containers, i.e. usually the paragraphs), only the following four basic operations are available:
+
+\begin{itemize}
+ \item Elements (text units) can be split into several new elements of the same type in the following way: open the defective element for editing, point the mouse cursor above the place where you want to split the unit, and from the context menu (right mouse-click) select \menu{Split}. Alternatively, you may also manually insert empty line(s) (two \keys{Enter}s) into the text on the place(s) where you want to split the element. After saving the changed contents (by pressing \keys{F2}), the element will be split into as many new elements as desired, according to the empty lines in the new contents.
+ \item Elements can be merged by using the \menu{Merge (both) elements} action from the \menu{Edit} menu, from the context menu, or by clicking the \includegraphics[height=2ex]{merge.pdf} symbol in the toolbar, or by pressing the \keys{Alt + Backspace} keys simultaneously. Merge is only possible when both elements are currently grouped in one common segment. If there are more than two elements in the current segment, a submenu will be opened by triggering the action (same as for the \emph{Edit} action) and you have to select the element to be merged with its \emph{preceding} element and trigger the \menu{Merge} action one more time. Applying the action to the first element in a segment will have exactly the same effect as applying it to the second one: the first two elements will be merged.
+ \item Parent element (e.g. paragraph) breaks can be changed too: it means you can split or merge paragraphs as well. By selecting a sentence which opens a new paragraph (i.e. it starts with the \includegraphics[height=1ex]{../images/dblarrow.png} symbol), you can use the action \menu{Delete paragraph break}in the \menu{Edit} menu, in the context menu, or press \keys{Ctrl/cmd + B} to delete the paragraph break and merge the current paragraph with the previous one. If the elements are part of containers (parent elements) of different type or on different levels in the XML structure, the merger will be denied.\footnote{For example. when using different types of TEI containers for a prose ``paragraph'' containing sentences and a ``stanza'' containing verses, it will not be possible to merge a ``stanza'' with a ``paragraph''.} To select an element within a segment with several elements, use the \emph{Edit} action to open the submenu for selection of the single elements and then trigger this action on the selected element only. In case the action is triggered on the whole segment containing several elements, the action always affects only the first one.
+ \item By selecting a sentence which is just somewhere in the middle of a paragraph (i.e. it starts with the \includegraphics[height=1ex]{../images/arrow.png} symbol), you can insert a new paragraph break just before it by triggering the \menu{Insert paragraph break} action in the \menu{Edit} menu, the context menu, or by pressing \keys{Ctrl/cmd + B}. The current paragraph will then be split into two separate ones, the second one starting with the currently selected sentence. If the elements are enclosed in some other type of structural container (parent element) than a ``paragraph'' (e.g. ``verses'' in a ``stanza''), the new container will be of the same type as the old one, of course.
+\end{itemize}
+
+Merging two elements can be a dangerous action for consistency of other alignments of the same text (see chapter \ref{ch:intro:itbasics:consistency} for explanation), and therefore it will be refused if there is some other alignment of the text, where the two elements are part of two different segments. If the text is synchronized with an \ITserver and an internet connection to the server is available, the server will also be asked for acceptability of such a merger.\footnote{It cannot be expected that all existing alignments of the two texts are also available (downloaded) in the local repository and fully synchronized.} If the merger is not approved by the server, the server may completely deny any further synchronization of the text.
+
+\medskip
+\begin{bclogo}[couleur = blue!30, arrondi = 0.1, logo = \bcattention,
+ombre = true , epOmbre = 0.125, couleurOmbre = black!30, blur, epBord = 0.3, marge = 5]{Warning}\small
+Please, note that merging or splitting elements (sentences) is not ``another way'' of aligning the text contents. It is meant to correct a linguistically incorrect segmentation of the text structure. If a long sentence corresponds to two separate shorter sentences in the other text, you are probably expected to group it into one segment with the two target sentences, and not to split it according to the target text. If something is defined as one ``sentence'', it does not suddenly become two sentences just because it is being translated by two sentences in another language. Of course, the definition of a ``sentence'' (or another linguistic unit used as alignable element) may be more or less arbitrary and flexible for different projects or purposes.
+\end{bclogo}
+
+\part{Working with \IT in detail}\label{p:detail}
+
+\chapter{Managing alignments locally}\label{ch:detail:managing_local}
+
+\IT keeps all local alignments in its own repository to be able to keep their consistency. All operations on the alignments can be accessed from the \menu{Alignment} menu and/or from the \emph{Repository manager}, which can be opened by the appropriate command in the \menu{Alignment} menu, or by clicking the \includegraphics[height=2ex]{../images/48/manager.png} symbol in the toolbar, or by pressing the \keys{Ctrl/cmd + M} keys.
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/rep_manager.png}
+\end{figure}
+
+A simplified version of the manager with the single purpose to select an alignment to be opened for editing can be shown by the \menu{Open from repository} command in the menu.
+
+\emph{Repository manager} is a dialog window with a list of all alignments in the local repository and buttons for the most common operations: \emph{open} an alignment for editing, create a \emph{new} alignment, \emph{import} alignment from files, \emph{delete} an alignment and edit \emph{properties} of an alignment. A few additional actions are available through the \menu{Alignment} menu for the currently open alignment: \emph{save} current state of editing to repository, \emph{close} currently open alignment, \emph{export} alignment to files, \emph{export texts} and/or alignment in custom format, \emph{synchronize} alignment with a server.
+
+\section{Creating new alignment from texts}\label{ch:detail:managing_local:new}
+
+Basic instructions for creating new alignments have been presented in chapter \ref{ch:howto:createfromtext}. The details on importing parameters will be described here.
+
+\subsection{Selecting name for the text and its versions}\label{ch:detail:managing_local:new:names}
+
+The first dialog window presented requires filling in the common name of the document and the two names for the versions to be aligned. The names can either be entered manually or chosen from a list of already existing names in the repository.
+
+\begin{figure}[htbf]
+ \includegraphics[width=0.8\textwidth]{screenshots/new_alignment.png}
+\end{figure}
+
+Select boxes on the right hand side of the version names can be used to switch the source from a local file import to a remote server, in order to select a text version to be imported from a pre-configured \ITserver. If a server is selected, the text name and version name editor fields change into select boxes as well and only text and version names available at the server can be selected. Arbitrary names cannot be chosen of obvious reasons: the text (document) and version names are considered general and thus unique identifiers across all projects you may access.
+
+The source can be selected for both versions separately, so that texts from different sources can be aligned with each other:
+
+\begin{itemize}
+ \item one version may be imported from a server and aligned with another version imported from a local text file
+ \item both versions may be imported from the same server to create a new alignment between versions not yet aligned together on the server
+ \item alignment can also be created from two text versions originating from two different \IT servers, but only if there are any documents with a common name (identifier) on the two different servers -- the identity and uniqueness of text names as identifiers is automatically considered a necessary requirement
+\end{itemize}
+
+If you select a name of a text version already present in the repository, you will be forced to use that particular text or choose a different name to import a new text file. You cannot import a new text (either from a file or a server) using a name of some text version already existing in the repository.
+
+If you select two versions which are both already available in the repository and which are already (locally) aligned to a third, common version, \IT will offer you the possibility to automatically generate the alignment from the existing ones. See chapter \ref{ch:detail:managing_local:generate} for more details.
+
+\subsection{Selecting text file(s)}\label{ch:detail:managing_local:new:files}
+
+If you did not select a remote server as a source, you will have to select a file to import for one (or both) text versions. You can either select an XML document or just any plain text file (switch filter to \emph{All files}).\footnote{Plain text can also be a XML fragment or text containing some XML/HTML-style mark-up. \IT can also import so-called \emph{newline-aligned texts} -- see chapter \ref{ch:detail:managing_local:new:txt}.}
+
+\subsection{Importing an XML document}\label{ch:detail:managing_local:new:xml}
+
+If you select an XML document, you will be greeted by a new dialog asking for the relevant XML elements containing the text units to be aligned.
+
+\begin{figure}[htbf]
+ \includegraphics[width=0.8\textwidth]{screenshots/xml_import.png}
+\end{figure}
+
+If the XML document is already segmented into alignable text units, you can directly enter a list (comma separated) with names of all elements containing alignable text units. All other elements will be ignored. Any sub-elements within these text elements will be treated as text mark-up. In case of simple prose text, it will be probably segmented into ``s'' elements containing single sentences. If you use rich TEI mark-up, you may wish too align several different text units (elements), e.g. \emph{s, head, verse,} etc.
+
+If your text is not segmented into the desired text units yet, you may use the integrated configurable splitter. By default it is configured to split text into sentences based on simple regular expressions (which may need adaptation for your particular language). But it can be configured to split text on arbitrary places, which can be defined by a set of regular expressions and a list of exceptions (see chapter \ref{ch:detail:config:splitter} for details). To use the splitter, switch to the \menu{automatically segment text}. You have to enter the list of names of all current XML elements containing blocks of text to be segmented (e.g. elements ``p'' containing paragraphs), you have to select a pre-configured profile of the splitter (several independent sets of splitting rules may be defined for different languages or purposes), and you have to choose a name for the newly created XML sub-elements delimiting the desired text units (``s'' for sentences by default).
+
+\subsection{Importing plain text document}\label{ch:detail:managing_local:new:txt}
+
+When selecting a plain text file, you will have to select whether it is really just some ``plain text'' file or a text from a newline-aligned pair of texts.
+
+\begin{figure}[htbf]
+ \includegraphics[width=0.5\textwidth]{screenshots/text_import_type.png}
+\end{figure}
+
+Newline aligned text pairs are plain text files, where each line corresponds to a single segment in the alignment and may thus include several sentences, just one sentence or none at all. It is produced by some automatic aligners, such as \emph{hunalign} or \emph{TCA2}. A pair of lines with the same number thus contains a segment (group) of text units corresponding to each other in the two corresponding text files.
+
+\subsection{Converting plain text into simple XML document}\label{ch:detail:managing_local:new:txt2xml}
+
+The next dialog will ask for details on how to convert the plain text file into an XML document. First of all, you should select the encoding of your text if it is different from UTF-8. The text will automatically be converted into UTF-8 and then processed in the following steps.
+
+The text will be enclosed by an XML header and footer and its body will be parsed depending on the fact whether it is only segmented into text blocks (like paragraphs) or whether it is already segmented into the single alignable text units (e.g. sentences).
+
+\begin{figure}[htbf]
+ \includegraphics[width=0.9\textwidth]{screenshots/text_import.png}
+\end{figure}
+
+In this dialog, you can modify the XML header\footnote{Do not change the encoding in the XML header! Whatever you have selected as the encoding of the text file, it will be converted into UTF-8, so that the resulting XML will \emph{always} be an UTF-8 encoded document.} and footer to be pre-pended and appended to the body of the text. You can also define the names for XML elements containing paragraphs and sentences, which will be created,\footnote{Of course these text units do not necessarily need to be paragraphs and sentences, but just any arbitrary alignable text units you want to distinguish and their corresponding parent blocks or containers.} and select how these text units are delimited in the current source text file.
+
+For current delimitation of paragraphs and sentences only two choices are available at the moment: either plain \emph{line-breaks} or \emph{empty lines} (i.e. two line-breaks following each other immediately). In common cases, you will only have paragraphs separated by line breaks and the sentences will not be segmented (separated) yet. In that case you may switch to the option \menu{automatically segment text} and select a pre-configured profile for the integrated rule based sentence splitter (see chapter \ref{ch:detail:config:splitter} for details). The splitter will delimit sentences for you and enclose them into elements with the name configured in the next field.
+
+In case your text file contains some XML/HTML-style mark-up (emphasis by italics, bold type or underline, superscript or subscript, etc.), you should check the option \menu{keep HTML/XML markup in text}. Otherwise the elements from the source text will be converted into entities and handled as text characters and not as mark-up elements.
+
+\subsection{Choosing numbering scheme}\label{ch:detail:managing_local:new:numbering}
+
+Because \IT is able to change the structure of XML files (split or merge text elements / units), it must also be able to generate unique IDs of all the elements concerned.\footnote{See chapter \ref{ch:intro:albasics:alignable}} When importing XML documents, \IT tries to determine any existing numbering scheme used in the document. If no numbering scheme is detected or its structure is too complex for \IT to understand,\footnote{See chapter \ref{ch:detail:managing_local:properties} for closer description of acceptable numbering structures and how the scheme can be changed.} you will be asked which scheme you want to use. \IT is able to create two types of generated IDs:
+
+\begin{figure}[htbf]
+ \includegraphics[width=0.8\textwidth]{screenshots/numbering_dialog.png}
+\end{figure}
+
+\begin{enumerate}
+ \item single level numbering, where only the alignable elements are numbered and the ID is thus a simple number from a single sequence of numbers (e.g. sentences 1, 2, 3, 4, etc.) showing the order of the unit in the whole text, independent of its place in the document's structure
+ \item two level numbering, where the parent elements contain a simple number from a single sequence of numbers (e.g. paragraph 1, 2, 3, 4, etc.) and the alignable text-units (e.g. sentences) within contain both the number of the container (parent element / text block), a separator and a number showing the order of the unit within the current container (e.g. sentences in the paragraph 3 will be numbered as 3:1, 3:2, 3:3, etc.)
+\end{enumerate}
+
+When importing new texts, you have to decide which numbering scheme will be used. If you choose the two level numbering, the default separator will be ``:'' and there will be no additional prefix.
+
+\subsection{Creating automatic alignment}\label{ch:detail:managing_local:new:align}
+
+When both parallel text versions are imported, a simple 1:1 pseudo-alignment is created in the window. Because such ``alignment'' is laborious to correct manually, it is more practical to align it with an ordinary automatic aligner first. This action is normally available in the \menu{Edit} menu, but at this moment it will be offered to you automatically. See chapter \ref{ch:howto:autoalign} on more details on running automatic aligners.
+
+\section{Generating direct alignment from indirect one}\label{ch:detail:managing_local:generate}
+
+\IT is able to compute a direct alignment of two text versions which are already aligned ``indirectly'' - i.e. which are both already aligned to a third, common version. To create such an alignment, just start creating new alignment as described in chapter \ref{ch:howto:createfromtext} or \ref{ch:detail:managing_local:new} and select the existing text versions you want to align directly. If there is a third common version they are both aligned to, \IT will automatically offer you the possibility to generate the new alignment from the existing ones.
+
+However, do not forget that such alignment probably will not be perfect by far. In case of gaps in the intermediary text (the third, common version) \IT will have no clue how to align the text segments and will be forced to create 1:0 and 0:1 segments, even though the two texts might actually correspond to each other. Such misalignments should be reviewed and fixed manually. The search for empty segments (see chapter \ref{ch:detail:search_replace}) will easily help to find such places.
+
+In the resulting alignment, you might also want to check any segments with more than one element on both sides, if they cannot be split into smaller segments.
+
+\section{Importing alignments from files}\label{ch:detail:managing_local:import}
+
+Importing ready-made alignments from files is different from creating new alignments from text documents, because it expects you to have all three files -- both XML document versions and their TEI XML stand-off alignment -- already available in the correct format (e.g. as one of the formats generated by TCA2 or created by another \IT application).\footnote{See appendix \ref{ch:technical:TEIalignment} for details on the alignment file format.} You are only asked to select the file with the stand-off alignment and the text files are automatically imported according to their filenames presented in the alignment file. It is expected that they are available in the same directory as the alignment file.
+
+See also the following chapter for more information.
+
+\section{Exporting alignments into files}\label{ch:detail:managing_local:export}
+
+A pair of texts and their alignment can be exported in the form of three files, such as those which can be directly imported. The two text versions are exported as two independent XML files and their alignment is exported as a separate, third TEI XML alignment file.\footnote{Its structure is described in chapter \ref{ch:technical:TEIalignment}}
+
+You will be presented with three different file saving dialogs offering you to save the files with the default filenames. The alignment expects you to keep the filenames. Otherwise you need to fix the alignment manually.
+
+\section{Exporting texts and alignment in different formats}\label{ch:detail:managing_local:export_texts}
+
+The submenu \menu{Export texts as} offers different pre-configured formats to export the texts and/or their alignment to. By default, there are the following formats prepared:
+
+\begin{itemize}
+ \item \menu{Newline aligned (one file)} -- exports both text versions into a single plain text file containing the alignment in the form of a tab-separated table: each line represents a single segment and contains: all text units from the first text version, a TAB character as separator, and all text units from the second text version belonging to the same segment. This format is a common output of hunalign as well.
+ \item \menu{Newline aligned (separate files)} -- exports both text versions as two separate plain text files, where each line corresponds to a single segment and may contain one, several or no sentence, so that text units placed on lines with corresponding line numbers are members of the same segment (i.e. correspond to each other). This is the format which may also be imported as indicated in chapter \ref{ch:detail:managing_local:new:txt}.
+ \item \menu{ParaConc text (UTF-8)} -- exports both text versions as (seemingly) ordinary XML files, but with their contents partitioned by additional ``seg'' tags into the segments numbered sequentially by the position numbers like row numbers in \IT. These ``seg'' elements with corresponding numbers link the aligned contents of the two text files. However, ParaConc does not care about validity of XML structure and so is this export not a valid XML file either.\footnote{The ``seg'' elements completely ignore the rest of the XML structure and just overlap randomly with the structure of the contents.}
+ \item \menu{TMX (stripped markup)} -- exports a simple TMX file\footnote{\emph{Translation Memory eXchange} is an open XML standard for the exchange of translation memory data created by computer-aided translation and localization tools. (Wikipedia: \url{http://en.wikipedia.org/wiki/Translation_Memory_eXchange})} stripped of any mark-up and all segments where one or the other text version is missing any contents (translation). This file can be imported by different CAT tools\footnote{Computer Aided Translation}, e.g. to be used in translation memories. You will be asked to enter valid values for language identifiers used in the resulting files (by default filled by the names of the exported versions).
+\end{itemize}
+
+All text export formats are limited by the fact, that they only can export raw text contents, including any custom text unit and container unit delimiters. The rest of the XML structure and any possible metadata will be ignored. Text content mark-up can be preserved, of course.
+
+The formats may be modified\footnote{For example, you may desire to change the default ParaConc export encoding to some legacy 8-bit encoding, because ParaConc does not fully support Unicode.} or extended according to any needs (with the limitation mentioned above) and new formats may be defined, because they are just different individual configurations for a flexible text contents exporting method. See chapter \ref{ch:detail:config:export} for details on configuration of text export.
+
+\section{Editing alignment properties}\label{ch:detail:managing_local:properties}
+
+\IT keeps some metadata connected to each alignment. These are especially crucial for synchronization with a remote \ITserver. When a text is synchronized with a server, it is also not recommended to change these settings unless you know well what you are doing. Changing settings for a synced alignment or some of its text versions may result in irrecoverable inability to synchronize with the server.
+
+\begin{figure}[htbf]
+ \includegraphics[width=0.9\textwidth]{screenshots/properties.png}
+\end{figure}
+
+The dialog shows properties connected to an alignment. The name of the text and the names of the versions may be changed here. The field \menu{Source} is crucial for text versions or whole alignments synchronized with a remote server, because they contain the URL of the server. Otherwise the contents of this field is arbitrary and irrelevant for \IT.
+
+If only some text version contains an URL in the source field, it is only this version which is being synchronized. If the whole alignment is synchronized, the URL will be filled as the \emph{source} of the alignment as well. The URL must correspond to some server configuration in the settings. If you change URL of your \ITserver, you will not only have to change your \ITeditor settings, but also manually fix the URL of all synchronized alignments and text versions!
+
+The alignment and each text version also contain information about the last successful synchronization and the last local change. Editing a text only affects the time of change of the particular text version. Changing structure of a text version affects both the text version and the time of last change of the alignment. A change in the alignment only affects time of last change of the alignment itself.
+
+Permissions can also be set for editing and changing structure of each text version separately. However, if you override permissions of texts imported from a server, you will be able to change the text locally, but you will not be able to submit the changes to the server, because it will deny them. Synchronization will then be impossible unless the administrator or your supervisor allows you to make such changes on the server as well.
+
+You can also change the parameters of the numbering scheme for each document. The ``prefix'' is a general string pre-pended to each ID. The separator is only relevant for two level IDs (see chapter \ref{ch:detail:managing_local:new:numbering} for more details). The combination of a general prefix and either a single level numbering or a two level numbering with a defined separator are the only numbering principles understandable for \ITeditor. These are also the numbering schemes it is able to automatically detect on import of external alignments.
+
+\chapter{Managing remote alignments (on \ITserver)}\label{ch:detail:managing_remote}
+
+\ITeditor may also be used as an off-line editor for alignments available on one or several remote \IT servers. Because it has additional features,\footnote{Such as \emph{search and replace} capability or ability to automatically re-align just an arbitrary part of an alignment.} it may also be used for more complex operations not available by the \ITserver. However, it is also missing some features of the \ITserver.\footnote{E.g. the history of changes.}
+
+The principles and limitations of the synchronization between an \ITeditor and an \ITserver have already been extensively described in chapter \ref{ch:intro:itbasics:synchronization} and it is important to understand them well before using this functionality. The configuration of a server connection and the basics of synchronization have also been described in chapter \ref{ch:howto:importfromserver}.
+
+\section{Remote alignments manager}\label{ch:detail:managing_remote:manager}
+
+The menu \menu{Alignment} contains a submenu \menu{Remote server} presenting a list of all configured remote \IT servers. Choosing one of them opens a remote alignment manager for that particular server.
+
+\begin{figure}[htbf]
+ \includegraphics[width=0.9\textwidth]{screenshots/remote_manager.png}
+\end{figure}
+
+The dialog will download a list of all alignments accessible to the configured user on the remote \ITserver, mixed with a list of local alignments available in the repository. Different icons and colours indicate the current state of each alignment:
+
+\begin{itemize}
+ \item \includegraphics[height=1.5ex]{../images/local.png} marks alignments only existing in the local repository
+ \item \includegraphics[height=1.5ex]{../images/nonlocal.png} marks alignments only available at the remote server
+ \item \includegraphics[height=1.5ex]{../images/conflicting.png} marks alignments that cannot be synchronized because of a conflict (either the alignment or some of its text versions is available under the same name both on the server and in the local repository, but they are not marked for synchronization; this also applies to previously synchronized alignments which have been \emph{released} but not removed locally)
+ \item \includegraphics[height=1.5ex]{../images/update-required.png} marks synchronized alignments which need to be updated, because some of the text versions has been modified on the server
+ \item \includegraphics[height=1.5ex]{../images/locally-modified.png} marks synchronized alignments containing local changes which have not yet been submitted to the server
+ \item \includegraphics[height=1.5ex]{../images/48/confirmed.png} marks fully synchronized alignments (their state on the server is the same as in the local repository)
+\end{itemize}
+
+The background colour marks the remote state of the alignment:
+
+\begin{itemize}
+ \item \emph{blue colour} marks remote alignments marked on the server as being edited remotely by an \ITeditor and therefore locked for changes in the web editor. All synchronized alignments should be marked by this colour.
+ \item \emph{red-violet colour} marks alignments marked as being edited by an \ITeditor, but another user
+ \item \emph{green colour} marks alignments marked as ``finished'' on the server
+ \item \emph{orange-red colour} marks alignments marked as ``blocked''
+ \item \emph{white background} marks remote alignments marked as ``open'' (and also all local alignments)
+\end{itemize}
+
+Buttons on the right hand side may be used to: start \emph{sync}hronization (see chapter \ref{ch:detail:managing_remote:sync}), \emph{release} a synchronized alignment (see chapter \ref{ch:intro:itbasics:synchronization}), edit local \emph{properties} of the alignment (see chapter \ref{ch:detail:managing_local:properties}) and edit \emph{remote properties} (see below).
+
+\subsection{Changing remote alignment properties}\label{ch:detail:managing_remote:remote_properties}
+
+Using the \emph{remote properties} dialog, you can change the same server properties which you would be able to change through the web interface of the \ITserver (i.e. depending on your role and permissions).
+
+\begin{figure}[htbf]
+ \includegraphics[width=0.5\textwidth]{screenshots/remote_props1.png}
+ \includegraphics[width=0.5\textwidth]{screenshots/remote_props2.png}
+\end{figure}
+
+You can set the editor, the responsible supervisor, set permissions to edit (change) text (of both text versions) and the additional permission to change structure in the text version which is configured as ``central'' (or pivot) in your project (if any of the two versions is concerned at all). You can also change the status of the alignment on the server and possibly change the user assigned as ``remote editor'' if the alignment is blocked for remote editing in \ITeditor.
+
+For more details read documentation for the \ITserver.
+
+\subsection{Synchronization with the remote server}\label{ch:detail:managing_remote:sync}
+
+Synchronization can be started for synchronized alignments any time when the computer is connected to the network and can access the configured \ITserver. It can either be run from the menu \menu{Alignment} > \menu{Synchronize with server}, using the \includegraphics[height=2ex]{../images/48/synchronize.png} button on the toolbar or from the \emph{remote alignments manager}.
+
+In the \emph{remote alignments manager} the \menu{Sync} button can also be used on remote alignments which are not synchronized yet to download them into the local repository and set their state on the server to ``remote editor'' with reservation for the current user.\footnote{See chapter \ref{ch:howto:importfromserver} as well.} It can also be used on local alignments to upload them to the server (if the server is configured to accept new uploads from the user).
+
+The process of synchronization has the following three phases:
+
+\subsubsection{Download of changes from the server}\label{ch:detail:managing_remote:sync:download}
+
+If a text version has been modified on the server, you will be presented with a special dialog asking you to accept every single change from the server. Refusing some of the changes will keep your current local state of the concerned text unit(s) and in the next phase it will be submitted back to the server together with other local changes you may have made in the text, and in that way revert the change made on the server.
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/change.png}
+\end{figure}
+
+The dialog shows changes in blocks of connected text units, which may be part of a single change. The left pane shows the current local state of the text units concerned, and the right pane shows the current state of the same units on the server. Accepting the suggested modification will change the local text according to the state on the server (the left hand side contents will be replaced with the right hand side contents).
+
+Below the panes there is a \menu{Mark changes} checkbox on the left side. When checked, all positions containing any accepted changes will also be marked by a bookmark for later revision of both the text and possible changes applicable to the alignment as consequence to changed text structure. On the right side, there is an indicator showing how many changes there are in the queue and which one is the current one (it may be a block of several partial changes).
+
+The button \menu{Yes} accepts the change(s), the button \menu{No} denies the changes (and they will be reverted on the server in the next phase). The button \menu{Abort} aborts the whole synchronization process and the whole local alignment will revert to the exactly same state as before the start of the synchronization.
+
+The role of the other buttons is described in the following warning:
+
+\medskip
+\begin{bclogo}[couleur = blue!30, arrondi = 0.1, logo = \bcattention,
+ombre = true , epOmbre = 0.125, couleurOmbre = black!30, blur, epBord = 0.3, marge = 5]{Warning}\small
+\ITeditor tries automatically to match the downloaded changes with the corresponding block of local text units to be changed. However, in case of particularly complex structural changes and some types of texts (e.g. with repetitive text sequences) it may fail to match the text units correctly, so that accepting the change would result in irrecoverable damage of the text. Even though such situation is very improbable under normal circumstances, it is strongly advised \emph{not} to use the button \menu{Yes to All} blindly to automatically accept all changes, but to manually check each (block of) change(s) and confirm them one by one. If the blocks do not match, the buttons \menu{+} and \menu{-} can be used to add or remove additional text units from the block of units which are going to be replaced by the received modified text, and in this way match the contents manually.
+\end{bclogo}
+
+\subsubsection{Submission of local text changes}\label{ch:detail:managing_remote:sync:upload}
+
+When both text versions have been confronted with all changes made on the server, \ITeditor starts submitting any local changes back to the server, again for each of the text versions if both are synchronized. The changes are submitted one by one in the same way as if the user did the changes manually though the editing interface of the \ITserver. Therefore they are also logged into the changelog of the concerned text units on the server. The status bar shows the progress of the process. If the server denies some of the updates (e.g. because of some permission conflict or conflict with another alignment), the process will be interrupted and the only solution is to fix the particular conflict on the server and then start synchronization again.
+
+It is not important how many times a text unit has been changed locally. Only its current (final) state is submitted. If you split a sentence, merge it again and then synchronize with the server, the change will only appear as a possible change of text unit contents, because the structure is the same again, but \IT cannot be sure the contents were not changed during the splitting operation.\footnote{Remember that splitting is done through editing the contents!} \IT does not check whether the actual text contents have really changed or not. (These principles also apply to changes downloaded from the server in the previous phase.)
+
+\subsubsection{Upload of the alignment}\label{ch:detail:managing_remote:sync:alupload}
+
+When both texts have been fully synchronized and \IT can be sure that their structure (and contents) is identical both on the server and in the local repository, the alignment itself is submitted to the server, where it fully replaces the current alignment.
+
+There is no real synchronization or updating of single changes: the original alignment on the server is just deleted and replaced with the newly uploaded one. Therefore the alignment on the server must be locked for changes, because they would be lost during the next synchronization. And therefore the synchronization cannot be easily restored after it has been ``released'' once: any changes possibly made on the server after unlocking the alignment must be downloaded again as a complete download of the alignment. Tracking single changes in alignment is only an optional feature of the \ITserver and it is not implemented by \ITeditor at all.
+
+\chapter{Search and replace text contents}\label{ch:detail:search_replace}
+
+The menu \menu{Search} and the toolbar offer access to the 9 basic searches for previous, first and next bookmark, non-1:1 segment and unconfirmed segment. Additional searches are provided by the \emph{search and replace toolbar} which appears at the bottom of the window when the button \includegraphics[height=2ex]{../images/48/search.png} is clicked on the toolbar or when triggering the menu \menu{Search} > \menu{Find} (or pressing \keys{Ctrl/cmd + F}\footnote{The shortcuts may differ in different operating systems. Please check the menu for your system's shortcut.}) or \menu{Replace} (or pressing \keys{Ctrl/cmd + R}). Unless the last option is used, the search bar only appears in its reduced form for searching only. The bar can be expanded to the full \emph{search and replace bar} by clicking the symbol \includegraphics[height=2ex]{../images/48/arrow-up-double.png} on the right hand side, and again reduced by clicking the symbol \includegraphics[height=2ex]{../images/48/arrow-down-double.png}. It can be closed by clicking the symbol \includegraphics[height=2ex]{../images/close.png} on the left.
+
+\medskip
+\begin{bclogo}[couleur = blue!30, arrondi = 0.1, logo = \bcattention,
+ombre = true , epOmbre = 0.125, couleurOmbre = black!30, blur, epBord = 0.3, marge = 5]{Warning}\small
+The \emph{replace} functions can only work when the \emph{HTML view} mode is turned off. The possibility of custom visual transformations (since version 1.3) is one directional and changes to the visual representation could never be truly safely applied back to the raw text source. Therefore the replacement function requires direct access to the raw source.
+\end{bclogo}
+\medskip
+
+The select box on the left side of the search text field offers the following types of searching:
+
+\begin{itemize}
+ \item \textbf{Substring (a=A)} -- case insensitive search for a substring
+ \item \textbf{Substring (a<>A)} -- case sensitive search for a substring
+ \item \textbf{Regular exp. (a=A)} -- case insensitive search for a regular expression\footnote{See chapter \ref{ch:technical:strings} for details on supported regular expressions.}
+ \item \textbf{Regular exp. (a<>A)} -- case sensitive search for a regular expression
+ \item \textbf{Element ID (reg.exp.)} -- search for a particular alignable element by its ID (using regular expressions)
+ \item \textbf{Empty segment} -- search for a segments containing no text units (on one or both sides -- see below)
+ \item \textbf{Segment <> 1} -- search for a segments containing a different amount of units than one -- i.e. no unit or more than just one (on one or both sides -- see below)
+\end{itemize}
+
+The select box on the right side of the text field allows you to to search either in the \emph{left} side text version only, the \emph{right} side text version only or in \emph{both} versions at the same time.
+
+Found occurrences of strings are highlighted by orange colour, replaced occurrences by green colour.\footnote{These colours may be configured in the settings. See chapter \ref{ch:detail:config:editor}.}
+
+The other buttons have the following functions:
+
+\begin{itemize}
+ \item \textbf{Next} -- skips to the next (following) occurrence from the currently selected position (or from the beginning of the text, if nothing is selected); is equivalent to the menu item \menu{Search} > \menu{Find next} (or pressing \keys{F3}\footnote{The shortcuts may differ in different operating systems. Please check the menu for your system's shortcut.})
+ \item \textbf{Previous} -- skips to the preceding occurrence found; is equivalent to the menu item \menu{Search} > \menu{Find previous} (or pressing \keys{Shift + F3})
+ \item \textbf{Find all} -- highlights all found occurrences of the search string; highlighting is removed after another search is started (search conditions are changed) or by closing the search bar
+ \item \textbf{Find \& replace} -- replaces the currently found occurrence (if any) and skips to the next (following) one
+ \item \textbf{Replace} -- replaces the currently found occurrence (if any), but does not search any further
+ \item \textbf{Replace all} -- replaces all occurrences at once (they will all be highlighted and the number of successful replacements will be reported)
+\end{itemize}
+
+This function can also be used to automatically \emph{find and split} wrongly segmented elements (since version 1.1) -- see appendix \ref{ch:technical:strings}. No \emph{find and merge} function is available, though. You are suggested to check the segmentation of your texts before importing them into \IT.
+
+\chapter{Configuring and extending \IT}\label{ch:detail:config}
+
+\section{Options}\label{ch:detail:config:options}
+
+Some basic options may be changed quickly through the menu \menu{Options}. These are:
+
+\begin{itemize}
+ \item \textbf{Auto update status} -- automatically set alignment status to \emph{confirmed} for the currently changed position and all preceding positions (see chapter \ref{ch:howto:edit_alignment})
+ \item \textbf{HTML view} -- toggles between the plain text view and HTML view of the text element contents; in HTML mode all XML/HTML elements are hidden and the markup elements conforming to HTML standards behave in the same way as in a HTML browser (e.g. <b> for bold font, <i> for italics, etc.); custom markup cannot be interpreted (rendered) by \IT; in plain-text mode everything is fully visible, including any HTML/XML tags
+ \item \textbf{Highlight non-1:1} -- toggles highlighting positions with another ratio of aligned text units than 1:1 (the colour can be configured in settings, see \ref{ch:detail:config:editor})
+ \item \textbf{Highlight marked} -- toggles highlighting (book)marked positions with a red background colour (the colour can be configured in settings, see \ref{ch:detail:config:editor}); if not highlighted, the (book)marked positions are only indicated by the red star in the first column
+ \item \textbf{Toolbar} -- submenu where the size of the toolbar can be changed (or the toolbar can be completely \emph{hidden})
+ \item \textbf{Controls} -- submenu where the size and behaviour of the \emph{floating controls} can be changed (whether they appear \emph{on mouse move}, \emph{on mouse click} or whether they should stay completely \emph{hidden}) -- see chapter \ref{ch:howto:interface}
+ \item \textbf{Customize} -- opens the customization dialog; see chapter \ref{ch:detail:custom}
+ \item \textbf{Settings} -- opens the settings dialog for further configuration; see following sections for details
+\end{itemize}
+
+\section{Configuring behaviour of \ITeditor}\label{ch:detail:config:general}
+
+The \menu{General} pane of the settings dialog allows you to customize the behaviour of \ITeditor:
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/settings_general.png}
+\end{figure}
+
+\begin{itemize}
+ \item \emph{keep page margin when skipping} -- sets the number of positions used as overlap when moving up and down the table using the \keys{PageUp} and \keys{PageDown} keys; when you page down or up, there will always be this number of positions shown from the previous page, so that you can be sure you do not overlook anything
+ \item \emph{auto save interval} -- sets the interval in minutes when \IT automatically saves you current state of work to the repository (so that you won't lose your work e.g. in case of sudden power outage or software crash); setting the value to 0 turns the auto-save function off
+ \item \emph{auto save edited contents} -- sets the behaviour when leaving an open text editor without pressing one of the keys \keys{Esc} or \keys{F2}: the changed contents can automatically be \emph{saved}, \emph{discarded} or the user should be \emph{asked} each time (see chapter \ref{ch:howto:edit_text})
+ \item \emph{auto hide controls} -- sets the time interval (in milliseconds) after that the \emph{floating controls} (see chapter \ref{ch:howto:interface}) become hidden again when the mouse cursor stops moving (only applied when they are set to appear on mouse move -- see previous section)
+ \item \emph{check for updates on start} -- sets whether \ITeditor should automatically try to use the \emph{PackageManager} to check for availability of updates on each program start; if updates are available, the user will be offered to install them and restart \ITeditor; the check can be as well triggered manually by the menu item \menu{Check for updates...} in the \menu{Help} menu or by running the \emph{PackageManager}
+\end{itemize}
+
+\section{Configuring the text view}\label{ch:detail:config:editor}
+
+\subsection{Rendering of text contents}
+
+The \menu{View} pane of the settings dialog allows you to customize the visualization of the text data. You can select the default font used to render the text contents here, configure custom rules for transformation of your custom data markup into regular HTML markup, which can be natively displayed in the editor, and possibly add your own CSS stylesheet for proper rendering of your data.
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/settings_view.png}
+\end{figure}
+
+The rules for transformation can only have simple form of find-replace rules. This should be enough for basic conversion of custom markup into standard HTML markup. It can also transform complex text structure -- such as tagged text -- into some more visually friendly form. Regular expressions (including backreferences) are supported.
+
+\subsection{Configuring colours}
+
+In the \menu{Highlight} pane you may also modify the colours used for highlighting in the alignment table.
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/settings_highlight.png}
+\end{figure}
+
+The selected colour combinations are shown on samples in the middle of the dialog. The colours can be set for:
+
+\begin{itemize}
+ \item \emph{Default text colour}
+ \item \emph{Default background colour} -- default if no other colours apply
+ \item \emph{Non 1:1} -- background colour for segments aligning text units in a ration other than 1:1
+ \item \emph{Marked} -- background colour for (book)marked segments
+ \item \emph{Even rows} -- modification of the shade of the background colour for even rows: 0 = no change, positive number = darker; negative number = lighter
+ \item \emph{Cursor hue} -- the basic hue for the cursor in the table
+ \item \emph{Cursor opacity} -- the opacity of the cursor colour (i.e. how much the \emph{cursor hue} gets blended with the original background colour)
+ \item \emph{Found text} -- background colour for found occurrences of searched strings (when using \emph{search \& replace})
+ \item \emph{Replaced text} -- background colour for replaced strings (when using \emph{search \& replace})
+\end{itemize}
+
+\newpage
+\section{Configuring automatic aligner}\label{ch:detail:config:aligner}
+
+The \menu{Aligner} pane of the settings dialog allows you to configure external automatic aligners. However, \IT needs to know how to import and interpret the results of an automatic aligner, which cannot be easily configured. At the moment, the only implemented method for importing and interpreting results is the \emph{hunalign ladder parser}.
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/settings_aligner.png}
+\end{figure}
+
+The \menu{Aligner} select box selects the aligner configuration to be edited in the form below. A new aligner can be added by pressing the \menu{New} button (you will be prompted for its name). Current aligner configuration can be \emph{renamed} or \emph{deleted} using the corresponding buttons.
+
+The field \menu{Execute} shows the path to the aligner executable. It can be just entered into the filed or selected from a file selector dialog by using the button \menu{Select} on the right side. In the same way the temporary working directory can be configured. This directory will be used to export the data, process them by the aligner and to import the resulting output from.
+
+\emph{Export parameters} can be configured for the aligner. \IT expects that the aligner needs the plain text contents of all the alignable elements. You can define the element separator, parent element separator (e.g. paragraph break, if the aligner can use it for better alignment efficiency), a header and footer (if required by the aligner).
+
+The method used to interpret the result of the aligner must be selected. At the moment, the only implemented option is the \emph{Hunalign ladder parser} which imports the ``ladder'' output from \emph{hunalign}. The option \emph{Plain 1:1 aligner} selects the fake internal ``aligner'' creating a basic linear 1:1 alignment. It does not run any external tool and ignores all other settings.
+
+Below, you may configure different profiles -- e.g. different configurations for the aligner when run with different specific language combinations (e.g. to force it to use some dictionary, lemmatizer, etc.). When running an automatic aligner, you may always manually select which profile (configuration) to use.\footnote{See chapter \ref{ch:howto:autoalign}.} New profiles can be \emph{added} or \emph{removed} from the list.
+
+The profile may be edited in a separate dialog window:
+
+\begin{figure}[htbf]
+ \includegraphics[width=0.8\textwidth]{screenshots/settings_aligner_profile.png}
+\end{figure}
+
+There are just two text fields in the profile form: the profile \emph{name} and specific command line \emph{parameters} to run the aligner with when the profile is selected. In the parameters, one can use special placeholders which will be replaced with current values: \texttt{\{TXT1\}} and \texttt{\{TXT2\}} will be replaced with the names of the files containing the text contents exported from the first and second text version (according to the aligner's export settings in the main form); \texttt{\{EXEPATH\}}/ can be used to insert the path to the aligner executable if you want to locate some additional files placed in the same directory.
+
+\section{Configuring sentence splitter}\label{ch:detail:config:splitter}
+
+The \menu{Splitter} pane of the settings dialog allows you to configure different profiles for the integrated rule-based sentence splitter, which can be applied to the imported texts when creating new alignments.\footnote{Of course it is not limited to splitting sentences only -- the text can be split into any custom text units which can be defined by clear formal rules using regular expressions.}
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/settings_splitter.png}
+\end{figure}
+
+At the top you may choose the profile to be shown and edited in the rest of the form, add a \emph{new} profile or \emph{rename} or delete the current one. The form then consist of two lists: the list of regular expression rules and the list of exceptions (``Abbreviations'' is the title, because that is the most common use for exceptions when segmenting into sentences). The method will then apply all the replacement rules from the first table on the whole text (in the same order as listed in the table), and then revert all segmentation breaks following any of the exceptions in the list of ``Abbreviations''.
+
+Using the \menu{New} button creates a new profile using the rules (but not ``abbreviations'') from the currently selected one, so that you can easily create modified copies of the existing profiles (e.g. using same rules but different sets of abbreviations for different languages).
+
+In the table of \emph{Replacement rules}, each rule is defined by the ``find'' and ``replace'' parameters. The rule may contain the string ``\#!\#'' which is used as a marker for where to put the text unit boundary. All regular expressions supported by the \emph{Qt} toolkit may be used, including back-references (see chapter \ref{ch:technical:strings} for details). You can add \emph{new} rules, \emph{edit} or \emph{delete} the selected ones, or change the order of the rules using the buttons \menu{Up} and \menu{Down}.
+
+Regular expressions can also be used in the table of exceptions (``Abbreviations''), but no sophisticated rules for replacement can be applied here (those have to come directly into the table of rules).\footnote{As to the question why a separate table of exceptions or abbreviations is necessary at all: it is not, but it is there for convenience. It has to be expected that most linguists will not be able to write their own rules for segmentation or modify the default ones, and hopefully they often will not need to, but nearly always they will want to add or remove exceptions (e.g. abbreviations), which is quite easy using this differentiation.} It is expected that the given exception just immediately precedes the break inappropriately created by the rules. Therefore the order is not important here. You can only add \emph{new} items to the list, or \emph{edit} or \emph{delete} the selected ones.
+
+The abbreviations may also contain regular expressions (e.g. character classes), but the dot sign is always interpreted literally here (i.e. it is automatically escaped). In case of need of the RE's dot symbol, a standard rule should be written instead.
+
+\section{Configuring \ITserver connection}\label{ch:detail:config:server}
+
+The \menu{Server} pane of the settings dialog allows you to configure the connection to your \ITserver. The configuration is simple and it has already been fully described in chapter \ref{ch:howto:importfromserver}.
+
+You may add several \emph{new} servers you want to connect to, or \emph{rename} or \emph{delete} the selected configuration. All configured servers will appear as items in the submenu \menu{Alignment} > \menu{Remote server}.
+
+\section{Configuring text export formats}\label{ch:detail:config:export}
+
+The \menu{Export} pane of the settings dialog allows you to configure profiles for exporting text contents of your alignments into custom formats. All configured profiles appear as items in the submenu \menu{Alignment} > \menu{Export texts as}. This method only allows you to export the text contents of the alignable text elements, their boundaries (e.g. sentence boundaries) and parent element boundaries (e.g. paragraph breaks) and possibly also the alignment grouping into segments (segment boundaries), but nothing more from the XML structure or metadata your text may possibly contain.\footnote{For that purpose you would need a custom XSLT template applied to the standard export from \IT. But such processing is beyond the ambitions of \IT.}
+
+The \menu{Profile} selectbox is used to switch the profile currently shown (and accessible for editing) in the rest of the form. You can create \emph{new} profiles, or \emph{rename} or \emph{delete} the currently selected one. With the \menu{New} button you can create a new profile using the values from the currently selected one, so that you can easily create modified copies of the existing profiles.
+
+The form is too long to fit into the window, so that it has to be rolled through using the mouse.
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/settings_export.png}
+\end{figure}
+
+First you have to define general settings for the \emph{file}: a \emph{header} and \emph{footer} enclosing the whole contents, the default \emph{file extension} and encoding you want to use for export (``UTF-8'' is the most common Unicode encoding, at least for western languages, but obsolete software such as ParaConc may require you to use some legacy language specific 8-bit encoding).
+
+Next, you have to declare how to treat \emph{segments}: first of all choose whether to \emph{keep segments} at all or just ignore the alignment and only care about the text contents. If you want to keep the segments, you may either enter the strings you want to be inserted at the \emph{start} and \emph{end} of each segment\footnote{Such as the starting <seg> and ending </seg> tags for ParaConc.} or alternatively just a segment \emph{separator} \footnote{Such as the \emph{new-line} character for the \emph{new-line} aligned format}. You can also turn on the options to \emph{skip empty segments} in case you want to avoid exporting segments missing text (units) in any of the two versions, or \emph{skip unconfirmed segments} to only export confirmed segments. The \emph{empty segment filler} is a text string which will be inserted into otherwise empty segments (segments not containing any text units).
+
+Then you can configure how to mark \emph{element} (sentence) boundaries in the output. Again, you can either define text strings to be placed at the \emph{start} and \emph{end} of each element, or you can just define an element \emph{separator} string.
+
+Next, you can choose how to treat parent elements (\emph{containers}, e.g. paragraphs) of the alignable text elements. You can choose whether to \emph{keep} their breaks at all and then possibly which particular string sequence to use as container \emph{separator}.
+
+You can also define how to treat the two \emph{text versions}: select whether you want to \emph{export both text versions into single file} (e.g. for TMX) or export them separately in two files (e.g. for ParaConc). If you export both versions into a single file, the contents from both versions will be exported segment by segment, all text units from both versions in a single segment, but separated by the \emph{separator} defined here.
+
+In addition, you may define a set of \emph{text replacement rules} which will be applied to the text contents of each text unit before it is exported.\footnote{The form is here based on the same principles as the rules defined in the configuration of sentence splitter in chapter \ref{ch:detail:config:splitter}.}
+
+In all text fields you may use regular expressions and standard C-style symbols for special characters (see appendix \ref{ch:technical:strings}). You may as well use the following placeholders to be replaced with actual values from the exported texts:
+
+\begin{itemize}
+ \item \texttt{\%t\%} -- text name
+ \item \texttt{\%v\%} -- current version name
+ \item \texttt{\%v1\%} -- left side version name
+ \item \texttt{\%v2\%} -- right side version name
+ \item \texttt{\%s\%} -- segment number (continuously incremented)
+ \item \texttt{\%p\%} -- parent element/container (paragraph) number (continuously incremented)
+ \item \texttt{\%e\%} -- element (sentence) number (continuously incremented)
+ \item \texttt{\%pe\%} -- element (sentence) number within the current container (paragraph)
+\end{itemize}
+
+Not all placeholders make sense in all fields, of course.
+
+You may define your own additional placeholders, or \emph{custom variables}, at the bottom of the form. You will always be asked to enter custom values for these variables before each export. The table shows the list of the custom variables in three columns: \emph{symbol} is the string used as the placeholder (i.e. the string to be replaced with the actual value), \emph{description} is the description shown in the prompt dialog when asking you to enter the custom value and \emph{default value} is the value which will be pre-entered by default in the dialog.
+
+
+\chapter{Customizing \IT user interface}\label{ch:detail:custom}
+
+The toolbar buttons, context menu actions and keyboard-shortcuts can be customized by the user. Open the customization dialog through the menu \menu{Options} > \menu{Customize}.
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/customize_toolbar.png}
+\end{figure}
+
+\section{Toolbar}\label{ch:detail:custom:toolbar}
+
+The first tab of the customization dialog shows the configuration of the toolbar buttons. The left column shows the buttons and separators in the order as they are located on the toolbar (from left to right). You can change the order of the buttons and separators by dragging them around with the mouse (press the mouse button on the item you want to move and keep it pressed, move the item to the new desired location and then release the mouse button).
+The right column shows all available actions. You can add new action buttons (or separators) to the toolbar by selecting them in the right column and then pressing the button ``<<'' between the columns. They will be added to the bottom of the list, but you can move them around, as explained above. You can also remove buttons and separators from the toolbar by selecting them in the left column and pressing the button ``>>'' between the columns.
+
+\section{Context menu}\label{ch:detail:custom:contextmenu}
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/customize_contextmenu.png}
+\end{figure}
+
+The second tab of the customization dialog shows the configuration of the context menu (triggered by right mouse button in the alignment table). The configuration is exactly the same as the configuration of the toolbar described in the previous section: actions (and separators) can be added to or removed from the context menu and their order can be changed.
+
+\section{Keyboard shortcuts}\label{ch:detail:custom:shortcuts}
+
+\begin{figure}[htbf]
+ \includegraphics[width=\textwidth]{screenshots/customize_shortcuts.png}
+\end{figure}
+
+The third tab of the customization dialog shows the configuration of the keyboard shortcuts for all available actions of the \ITeditor (including the keys used to close the text contents editor). The table lists the name of the actions in the left column and currently configured keyboard shortcuts in the right column.
+
+Any shortcut can be changed either by double-clicking the cell with the current shortcut or by selecting the item \menu{Set new shortcut} from the context menu (right mouse click) in the appropriate table row. The current shortcut indicator will be replaced with the request \textit{Press desired keys...}. Now press the combination of keys you want to use for this action and it will be recorded into the table.
+
+Any shortcut may also be deleted by selecting the item \menu{Delete shortcut} from the context menu above the corresponding table row.
+
+\appendix
+\part{Appendix}\label{ch:technical}
+
+\chapter{Regular expressions and special characters}\label{ch:technical:strings}
+
+When entering strings in \IT (search, configuration forms, etc.), you may use standard C symbols for any special characters, such as:
+
+\begin{itemize}
+ \item \texttt{\textbackslash n} for unix new-line break
+ \item \texttt{\textbackslash r} for \emph{carriage-return} (used in MS DOS/Windows line break combination \texttt{\textbackslash r\textbackslash n})
+ \item \texttt{\textbackslash t} to insert a TAB character
+\end{itemize}
+
+Since version 1.3.1 (using \emph{Qt 5.5}), \ITeditor supports Perl-Compatible Regular Expressions (PCRE) for matching, including Unicode Character classes. For details see \emph{Perl's regular expression tutorial}\footnote{\url{http://perldoc.perl.org/perlretut.html}} or \emph{Perl's regular expression documentation}.\footnote{\url{http://perldoc.perl.org/perlre.html}} Unicode Character classes are also automatically used instead of traditional character classes: e.g. the symbol \texttt{\textbackslash W} for non-word characters will \emph{not} match common latin letters with diacritics (as it usually does). This applies also to the traditional POSIX character classes (e.g. \texttt{[[:upper:]]} will match all uppercase letters in all languages, \emph{not} just \texttt{[A-Z]}). Unicode Character classes can be used directly using Perl's shortcuts described in the Perl-Unicode manual,\footnote{\url{http://perldoc.perl.org/perlunicode.html\#Unicode-Character-Properties}} subsection \emph{General\_Category} (e.g. \texttt{\textbackslash p\{Lu\}} to match uppercase letters in any language).
+
+\medskip
+\begin{bclogo}[couleur = blue!30, arrondi = 0.1, logo = \bcattention,
+ombre = true , epOmbre = 0.125, couleurOmbre = black!30, blur, epBord = 0.3, marge = 5]{Warning}\small
+A special treatment concerns the list of ``abbreviations'' in the configuration of the splitter, where regular expressions can generally be used with the exception of the dot sign, which is treated literally (i.e. automatically escaped). See ch. \ref{ch:detail:config:splitter}.
+\end{bclogo}
+\medskip
+
+Back-references can be used in replacement strings as well, using the sequence \texttt{\textbackslash \#}, where \texttt{\#} is the ordinal number of the text captured by the (search) regular expression's grouping parentheses (i.e. \emph{\#}-th opening parenthesis from the left). The replacement string may also contain the line-break sequence \texttt{\textbackslash n}. With the double line-break sequence (\texttt{\textbackslash n\textbackslash n}), you can also use the search  and replace to split existing elements!
+
+\chapter{TEI XML alignment file structure}\label{ch:technical:TEIalignment}
+
+While the text documents used by \IT can be just any arbitrary (valid) XML files, the format of the alignment is fixed. \IT uses a slightly extended TEI XML format for stand-off alignment as TCA2. The structure is as follows:
+
+The file must contain one single root element called \texttt{linkGrp} with two attributes: \texttt{toDoc} and \texttt{fromDoc}. Their values must be the filenames of the two separate documents. The \texttt{fromDoc} attribute refers to the left side document, the \texttt{toDoc} attribute to the right side document.
+
+The \texttt{linkGrp} element contains \texttt{link} elements, each corresponding to one single position (segment) in the alignment, with the following attributes:
+\begin{itemize}
+ \item \texttt{xtargets} is a space and semicolon separated list of ID-values of elements which are grouped into the same segment; first there is a space-separated list of element IDs from the \texttt{toDoc} document, then follows the semicolon and after that a space-separated list of element IDs from the \texttt{fromDoc} document\footnote{Do not get confused by the fact that the blocks of IDs have the opposite order than on the screen: first (i.e. on the left side of the semicolon) come the \emph{right} side IDs and then (right of the semicolon) the \emph{left} side IDs.} 
+ \item \texttt{status} is an optional attribute indicating the status of the link -- known values are:
+ \begin{itemize}
+  \item \texttt{man} for manually confirmed link
+  \item \texttt{auto} for automatically aligned segments
+  \item \texttt{plain} for unaligned / unconfirmed / unknown status
+ \end{itemize}
+ \item \texttt{mark} is used internally to preserve user bookmarks from the editor, only values \texttt{0} and \texttt{1} are known at the moment, but for the value \texttt{0} no attribute is generated by \IT at all
+ \item \texttt{type} is only generated on export for convenience, it gives a dash separated count of elements grouped together by the link (e.g. "1-2"); it is ignored on import
+\end{itemize}
+
+
+\end{document}

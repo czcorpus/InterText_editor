@@ -1,0 +1,238 @@
+1.3.3
+
+Fixes:
+
+- ignore IDs with namespace
+- fix broken substring search and replace
+
+1.3.2
+
+Fixes:
+
+- extra large sizes of toolbar not recovered after program start
+
+1.3.1
+
+Improvements:
+
+- update to Qt 5.5
+- all regular expression functions now support full range of Perl-Compatible Regular Expressions (PCRE), including unicode classes (e.g. now it is possible to use "\p{Lu}" to match any uppercase letter in any language, instead of the previous explicit lists such as "[A-ZĚŠČŘŽÝÁÍÉÓÚŮĎŤŇÅØÆÞÐÄÖÜ]")
+
+Fixes:
+
+- file names treatment at export fixed; respecting the selected directory
+- behaviour of the "Enter" key in the search bar finally(?) tamed
+- highlighting of multiple replacements fixed
+- replacement in text with markup did not work at all and in combination with custom transformations it actually can never work safely under all circumstances; therefore replacements now require the HTML view mode to be temporarily turned off (replacement is only possible in "visible" raw mode, in order to avoid any confusion, both of the software and of the user)
+- update of the documentation (Guide) reflecting changes in version 1.3
+
+1.3
+
+Improvements:
+
+- custom transformations of text views (e.g. your_markup > HTML view)
+- custom CSS style-sheet for text view
+
+Fixes:
+
+- fixed search/replace and highlight within markup (only applies when HTML-view is turned off)
+- issues with undoing status changes around (half-)empty segments
+- correct focus after undo of pop/shift
+- regression: "Enter" in search bar triggering sometimes two search actions
+
+1.2.3
+
+Fixes:
+
+- Regression: cannot scroll away from the cursor position
+
+1.2.2
+
+Fixes:
+
+- Broken synchronization after interruption: update synctime after each successful update comitted to server
+  and update changetime after unfinished series of commits
+- "Enter" not working in search bar anymore - instead still active in alignment
+- Keep minimal ("skip"-)margin under all circumstances
+- Correctly restore status after undone moveUp action
+- Clear search/replace marks on any dataChange
+- Resize rows correctly after shift/pop
+
+1.2.1
+
+Improvements:
+
+- More sizes for toolbar icons and resizing for controls
+- New icons for "merge" and non-1:1 search
+- Updated user guide
+
+Fixes:
+
+- Crash on abort of change download from server
+- Sorted user selectors in remote (server) alignment properties dialog
+- Minor fixes
+
+
+1.2
+
+Improvements:
+
+- ported to Qt5
+- new server communication module for faster check for changes and merges (initial rewrite) - needs InterText server 2.1 or higher!
+- support timezones in communication with the server
+- customize also keyboard shortcuts within the editor
+- editor shortcut to skip between elements when editing
+- check for updates (auto/manual) using the external Qt Installation Framework
+- new tab in settings dialog to make it smaller (to fit small screens)
+- relative path to the aligner (hunalign can now be installed in the same directory as InterText)
+
+Fixes:
+- block auto-saving while text updates are being imported from a server
+- various minor fixes and improvements
+
+Installer:
+- new installer distributing all components including hunalign, documentation, Qt libraries and a PackageManager for updates and uninstallation
+- on Windows limited to single-user install - with sufficient priviledges it can install anywhere in the system, but it will only create start-menu links for the current user!
+- on Linux it will not create any start-menu links at all!
+
+Update information:
+- on Linux, the location of the repository has changed; you need to move your old repository manually, e.g. on the command line: "mv ~/.local/share/data/InterText ~/.local/share/InterText"
+- on Mac and Linux: you do not need to have Qt-toolkit separately installed anymore - now you may uninstall it (if no other applications use it on your computer)
+- if you want to start using the bundled hunalign (which is strongly suggested), edit your "Aligner" settings and remove any path to the hunalign executable you have set before - just leave the plain string "hunalign" in the field labeled as "Execute:" and nothing else - now you can remove your old installation of hunalign
+- on Linux: the installation does not need Qt-libraries anymore, but it still needs some "basic" system libraries which may be missing if you have an extremely minimalistic or very old distribution (it needs e.g. FreeType, FontConfig, XCB, glib, PCRE aso.); all those components should be hopefully automatically installed in all modern user-friendly Linux distributions (please, report any problems or issues to the author if your distribution is not cooperating well!)
+
+1.1.1
+
+Improvements:
+
+- user customizable toolbar, context menu and keyboard shortcuts
+
+1.1
+
+Improvements:
+
+- floating mouse controls/buttons to edit alignment (configurable to show on mouse move or mouse click or never)
+- editing operations available also through context menu (right click)
+- let the user choose what happens when leaving/closing an editor
+- split element using context menu (in an open editor)
+- choose encoding when importing text files (and convert them to UTF-8)
+- new command to "confirm all (preceding) segments up to the current one"
+- automatically fix broken XML tags on split and text change/update (beware of search&replace!)
+- automatic sentence splitter can now also handle texts with markup crossing sentences and paragraphs
+- improved editor sizing (though still not ideal by far)
+- search&replace is now able to split sentences as well
+- automatically trimm sentences on update and split
+- use lockfile to prevent multiple instances running
+
+Fixes:
+- correct import of non-UTF-8 XML documents (converted to UTF-8 automatically)
+- automatically undo failed update or split commands
+
+
+1.0.1
+
+Improvements:
+
+- continuous scrolling of the alignment table
+
+1.0
+
+Improvements:
+
+- comprehensive guide
+
+Fixes:
+
+- propagation of status and bookmarks among related alignments
+- failure on importing changes from server because of local user's restricted permissions
+- progress bar not removed if sync fails
+- potential crash on sync (downloading change at the end of a text)
+- minor improvements in the search & replace behaviour
+- minor usability improvements
+
+
+1.0 rc9
+
+Improvements:
+
+- more color customization (text color, cursor hue & opacity, background color for marking found & replaced text)
+- generate direct "cross"-alignment of two versions aligned already indirectly through another common version (EXPERIMENTAL)
+- show number of bookmarks in the status bar
+
+Fixes:
+
+- crash on deleting alignment which just failed to open
+- minor fixes
+
+1.0 rc8
+
+Features:
+
+- automatic saving (configurable time interval)
+- additional custom variables can be configured for extraction/export of text contents
+
+Fixes:
+
+- fixed TMX export configuration
+- another crash on "close" alignment
+- alignment manager still not refreshing well
+- impossible to import XML after importing plain text when creating new alignment
+
+1.0 rc7
+
+Features:
+
+- fully configurable capability to extract and export text contents (without XML metadata/structure)
+- experimental configuration for export of newline-aligned texts, ParaConc and TMX files
+
+Fixes:
+
+- various minor fixes
+
+1.0 rc6
+
+Fixes:
+
+- newly synced (downloaded) alignment sometimes does not show up in the repository manager (before app restart)
+- crash on release of unsaved and unsynced alignment
+- search-bar related crashes after closing alignment
+- hide the rest of "search" actions if there is no alignment open
+- enforce table row size refresh after realign, font change, HTML view
+- font selection dialog sets italics as pre-selected: do not allow italics to be set as default at all
+- remove alignment title from window title when closed
+
+1.0 rc5
+
+Improvements:
+
+- added plain 1:1 aligner
+- added function to move text up/down to an arbitrary position
+
+1.0 rc4
+
+Improvements:
+
+- better behaviour of PageUp/PageDown keys in the view: ensure that no rows are skipped/overlooked while paging down/up, paging is now relative to current view, not to current position of the cursor!
+- paging/skipping margin (overlap) - can be changed in settings
+- dynamic table resizing when idle => no more waiting after opening an alignment
+- status bar showing basic statistics about the alignment
+- clearer (hopefully?) descriptions and warnings for paragraph merge and split
+- merge can now be triggered also at the level of segments (if meaningful) - action title changes dynamically
+- added possibility to close alignment (run automatically when current alignment is deleted from repository)
+- after releasing a remote alignment, offer deleting it from the local repository
+- added (resizable) toolbar
+- added progress-bar to the remote server dialog (however, most time it shows just an indeterminate busy state)
+- added progress-bar to the status-bar in the main window (same purpose as in server dialog: synchronization)
+
+Fixes:
+
+- fix assymetry in MoveBothDown and MoveBothUp (and a possible crash)
+- fix wrong cursor placement after undoing Move(Both)Up and MoveBothDown
+- cursor should not really follow status and bookmark changes to their columns... ;-)
+- restoring cursor position after opening last document did ignore first row and bookmark column
+- fix some bugs in searching
+- confusing treating of timestamps while downloading remote alignments
+- incomplete refresh of alignment list after remote alignment download
+- missing status messages while syncing from the main window
+- confusion of segment status during complex changes with undo/redo (any more problems?)
+
