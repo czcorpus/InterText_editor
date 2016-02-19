@@ -4,6 +4,8 @@ InterText is an editor for aligned parallel texts. It has been developed for the
 
 _InterText Editor_ is a younger brother of the _InterText Server_, a server application with web-based interface aimed at large, collaborative projects. InterText Editor is a desktop application for personal use, but it can also be used as an off-line editor for InterText Servers. Unlike InterText Server, it should be very easy to install and use even for common users.
 
+See the [InterText project homepage](http://wanthalf.saga.cz/intertext) for more details.
+
 ## Compilation
 
 InterText Editor is implemented using the current version of [Qt toolkit](http://www.qt.io/) to ease platform independency. The project can be easilly compiled using the standard _QtCreator_ development environment or the _qmake_ tool from the Qt distribution. The compilation from the source code has no special dependencies beyond the standard Qt toolkit libraries (and possibly (Open)SSL library in order to support HTTPS communication with InterText Server, if required; SSL support for Qt is commonly available in Linux and MacOS X, but may require additional installation or compilation on Microsoft Windows). 
