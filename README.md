@@ -10,9 +10,9 @@ See the [InterText project homepage](http://wanthalf.saga.cz/intertext) for more
 
 InterText Editor is implemented using the current version of [Qt toolkit](http://www.qt.io/) to ease platform independency. The project can be easilly compiled using the standard _QtCreator_ development environment or the _qmake_ tool from the Qt distribution. The compilation from the source code has no special dependencies beyond the standard Qt toolkit libraries (and possibly (Open)SSL library in order to support HTTPS communication with InterText Server, if required; SSL support for Qt is commonly available in Linux and MacOS X, but may require additional installation or compilation on Microsoft Windows). 
 
-## Precompiled binary packages and more information on InterText
+## Precompiled binary packages
 
-See the [InterText project homepage](http://wanthalf.saga.cz/intertext) for more details and for binary distribution packages precompiled for Linux, MacOS X and Microsoft Windows.
+See the [InterText project homepage](http://wanthalf.saga.cz/intertext) for binary distribution packages precompiled for Linux, MacOS X and Microsoft Windows.
 
 ## Disclaimer
 
