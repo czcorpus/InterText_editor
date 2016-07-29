@@ -63,7 +63,7 @@ void ItAbstractDelegate::paint ( QPainter * painter, const QStyleOptionViewItem 
   painter->save();
 
 
-  QStyleOptionViewItemV4 opt = option;
+  QStyleOptionViewItem opt = option;
   initStyleOption(&opt, index);
 
   //QBrush brush = qvariant_cast<QBrush>(index.data(Qt::BackgroundRole));
@@ -123,7 +123,7 @@ QSize ItAbstractDelegate::sizeHint ( const QStyleOptionViewItem & option, const 
       return size;
     } else {*/
       //colWidth[c] = option.rect.width();
-      QStyleOptionViewItemV4 opt = option;
+      QStyleOptionViewItem opt = option;
       initStyleOption(&opt, index);
 
       QTextDocument *doc = new QTextDocument;

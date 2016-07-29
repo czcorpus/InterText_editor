@@ -23,9 +23,9 @@
 #include "ItWindow.h"
 
 ItSearchBar::ItSearchBar(ItWindow *parent) : QWidget(parent),
-    searchTypeSel(new QComboBox(this)),
     findEdit(new QComboBox(this)),
     replEdit(new QComboBox(this)),
+    searchTypeSel(new QComboBox(this)),
     searchSideSel(new QComboBox(this)),
     toggleButton(new QToolButton(this))
 {
