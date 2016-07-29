@@ -153,7 +153,7 @@ void ItAbstractDelegate::createContents(QTextDocument * doc, const QStyleOptionV
   complete = QString("<body><p>%1</p></body>").arg(complete.replace("\n","</p><p>"));
   complete.replace(QChar(0x25BA),"<img src=\":/images/16/dblarrow.png\"/>");
   complete.replace(QChar(0x25A0),"<img src=\":/images/16/arrow.png\"/>");
-  QString css = QString("p{margin:0px;padding:0px;color:%1;} #controls{display:none;} ").arg(option.palette.color(QPalette::Text).name());
+  QString css = QString("p{margin:0px;padding:0px;color:%1;} #controls{display:none;} ").arg(model->getColors().fgdefault.name());
   css.append(model->getCSS());
   doc->setDefaultStyleSheet(css);
   // span.match{background-color:#f96;} span.repl{background-color:#6f6;}");
