@@ -164,6 +164,7 @@ void ItSegmentView::mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::En
     //if (hint==QAbstractItemDelegate::SubmitModelCache)
     //    hint = QAbstractItemDelegate::NoHint;
     ItPlainTextEdit * texted = static_cast<ItPlainTextEdit*>(editor);
+    bool commited = false;
     //qDebug()<<(alView->getAutoSaveElement() == AutoAsk)<<(texted->haveAsked==AutoAsk)<<texted->hasBeenChanged();
     if (alView->getAutoSaveElement() == AutoAsk && texted->haveAsked==AutoAsk && texted->hasBeenChanged()) {//qDebug()<<"!!!";
         ItQuestionDialog * qd = new ItQuestionDialog(this);
@@ -173,6 +174,7 @@ void ItSegmentView::mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::En
                 alView->setAutoSaveElement(AutoYes);
             texted->haveAsked = AutoYes;
             QListView::commitData(editor);
+            commited = true;
         } else if (qd->getRememberChoice()) {
             alView->setAutoSaveElement(AutoNo);
             texted->haveAsked = AutoNo;
@@ -181,6 +183,15 @@ void ItSegmentView::mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::En
         }
     } else if (alView->getAutoSaveElement() == AutoYes || texted->haveAsked==AutoYes) {//qDebug()<<"saving";
         QListView::commitData(editor);
+        commited = true;
+    }
+    if (alView->insertingElement) {
+        ItAlignmentModel * m = static_cast<ItAlignmentModel*>(model());
+        m->undoStack->endMacro();
+        alView->insertingElement = false;
+        if (!commited)
+            emit editingCancelled();
+        //    m->undoStack->undo();
     }
     int row = texted->index.row();
     myeditor = 0;
@@ -212,7 +223,7 @@ void ItSegmentView::handleCloseHint(QAbstractItemDelegate::EndEditHint hint)
         QModelIndex index = moveCursor(MoveNext, Qt::NoModifier);
         if (index.isValid()) {
             QPersistentModelIndex persistent(index);
-            setCurrentIndex(persistent);
+            selectionModel()->setCurrentIndex(persistent, QItemSelectionModel::ClearAndSelect);
             //d->selectionModel->setCurrentIndex(persistent, flags);
             // currentChanged signal would have already started editing
             if (index.flags() & Qt::ItemIsEditable
@@ -223,7 +234,7 @@ void ItSegmentView::handleCloseHint(QAbstractItemDelegate::EndEditHint hint)
         QModelIndex index = moveCursor(MovePrevious, Qt::NoModifier);
         if (index.isValid()) {
             QPersistentModelIndex persistent(index);
-            setCurrentIndex(persistent);
+            selectionModel()->setCurrentIndex(persistent, QItemSelectionModel::ClearAndSelect);
             //d->selectionModel->setCurrentIndex(persistent, flags);
             // currentChanged signal would have already started editing
             if (index.flags() & Qt::ItemIsEditable

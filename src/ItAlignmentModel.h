@@ -99,7 +99,9 @@ public:
 	void toggleStat(const QModelIndex &idx);
     void confirmAll(const QModelIndex &idx, QList<ItAlignment::statRec> * slist);
   bool updateContents(const QModelIndex &index, const QString &text);
-	void undoStatusChanges(QList<ItAlignment::statRec> &slist);
+    void undoStatusChanges(QList<ItAlignment::statRec> &slist);
+    bool insert(QModelIndex &index);
+    //void closeInsert();
 	bool merge(QModelIndex index, int count = 1);
     bool split(QModelIndex &index, QStringList &stringlist, bool clear_history = true);
 	bool remove(QModelIndex index, int count = 1);
@@ -150,6 +152,7 @@ public slots:
   void externalDataChange();
   void refocusOnIndex(QModelIndex idx);
   void setHtmlViewMode(bool set);
+  void undo();
 signals:
   void lastMatchChanged(QModelIndex idx);
   void updateFailure(QModelIndex idx);

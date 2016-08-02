@@ -523,6 +523,37 @@ bool ItAlignmentModel::merge(QModelIndex index, int count) {
 	return true;
 }
 
+bool ItAlignmentModel::insert(QModelIndex &index) {
+    if (!index.isValid())
+      return false;
+    if (index.parent().isValid()) // only main table indexes (alignment positions) accepted
+      return false;
+    int back = 0;
+    QModelIndex last = index;
+    while(last.isValid() && !this->rowCount(last)) {
+        back++;
+        last = this->index(last.row()-1, last.column());
+    }
+    if (!last.isValid())
+      return false;
+    QModelIndex lastchild = this->index(this->rowCount(last)-1, 0, last);
+    QStringList templist;
+    templist.append(this->data(lastchild, Qt::EditRole).toString());
+    templist.append("");
+    //undoStack->beginMacro("Insert element"); // higher instance should merge with text editing
+    SplitCommand * split = new SplitCommand(this, lastchild, templist);
+    undoStack->push(split);
+    while (back) {
+        PopCommand * pop = new PopCommand(this, last);
+        undoStack->push(pop);
+        last = this->index(last.row()+1, last.column());
+        back--;
+    }
+    //undoStack->endMacro();
+    emit layoutChanged();
+    return true;
+}
+
 bool ItAlignmentModel::split(QModelIndex &index, QStringList &stringlist, bool clear_history) {
   if (!index.isValid())
     return false;
@@ -884,4 +915,9 @@ int ItAlignmentModel::getPrevNonemptyRow(QModelIndex idx)
         return idx.row();
     else
         return 0;
+}
+
+void ItAlignmentModel::undo()
+{
+    undoStack->undo();
 }

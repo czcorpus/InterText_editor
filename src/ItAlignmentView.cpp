@@ -49,6 +49,7 @@ ItAlignmentView::ItAlignmentView(QWidget * parent) : QTableView(parent) {
   skipMargin = 1;
   timer.start(250);
   nexthint = QAbstractItemDelegate::NoHint;
+  insertingElement = false;
 
   floatControl = new ItFloatControls(this);
   floatControl->hide();
@@ -134,6 +135,7 @@ void ItAlignmentView::setModel(QAbstractItemModel * model) {
   connect(itmodel, SIGNAL(focusOnChange(QModelIndex)), this, SLOT(setCurrentIndex(QModelIndex)));
   connect(&timer, SIGNAL(timeout()), this, SLOT(resizeRows()));
   connect(itmodel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(dataChanged(QModelIndex,QModelIndex)));
+  connect(this, SIGNAL(editingCancelled()), itmodel, SLOT(undo()), Qt::QueuedConnection);
   //setShowGrid(false);
   //cacheAllSizeHints();
   show();
@@ -328,6 +330,26 @@ void ItAlignmentView::pop(int row, int doc) {
   m->undoStack->push(new PopCommand(m, myidx));
 }
 
+void ItAlignmentView::insertElement() {
+    if (model()==0) return;
+    if (segview!=0) closeEditor(segview, QAbstractItemDelegate::NoHint);
+    if (txteditor!=0) closeEditor(txteditor, QAbstractItemDelegate::NoHint);
+    ItAlignmentModel * m;
+    m = static_cast<ItAlignmentModel*>(model());
+    QModelIndex idx = this->currentIndex();
+    m->undoStack->beginMacro("Insert element");
+    insertingElement = true;
+    m->insert(idx);
+    setCurrentIndex(idx);
+    this->resizeRowToContents(idx.row());
+    //this->setCurrentIndex(m->index(0, m->rowCount(idx)-1, idx));
+    openEditor();
+    if (segview) {
+        segview->setCurrentIndex(m->index(m->rowCount(idx)-1, 0, idx));
+        segview->edit(segview->currentIndex());
+    }
+}
+
 void ItAlignmentView::toggleMark() {
   if (model()==0) return;
   ItAlignmentModel * m;
@@ -350,12 +372,12 @@ void ItAlignmentView::confirmAll() {
 }
 
 bool ItAlignmentView::openEditor() {
-	if (segview!=0) {
+    if (segview!=0) {
 		segview->edit(segview->currentIndex());
 		return true;
-	} else {
-		if (currentIndex().isValid() && (currentIndex().column()==1 || currentIndex().column()==2)) {
-			edit(currentIndex());
+    } else {
+        if (currentIndex().isValid() && (currentIndex().column()==1 || currentIndex().column()==2)) {
+            edit(currentIndex());
 			return true;
 		} else {
 			return false;
@@ -683,6 +705,7 @@ void ItAlignmentView::commitData ( QWidget * editor, QAbstractItemDelegate::EndE
 void ItAlignmentView::mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::EndEditHint hint )
 {
     int row = 0;
+    bool commited = false;
     if (QString(editor->metaObject()->className())=="ItPlainTextEdit") {
         ItPlainTextEdit * texted = static_cast<ItPlainTextEdit*>(editor);
         row = texted->index.row();
@@ -694,6 +717,7 @@ void ItAlignmentView::mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::
                     autoSaveElement = AutoYes;
                 texted->haveAsked = AutoYes;
                 QTableView::commitData(editor);
+                commited = true;
                 QTableView::closeEditor(editor, QAbstractItemDelegate::NoHint);
                 dataChanged(texted->index, texted->index);
             } else if (qd->getRememberChoice()) {
@@ -706,14 +730,13 @@ void ItAlignmentView::mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::
             }
         } else if (autoSaveElement == AutoYes || texted->haveAsked==AutoYes) {
             QTableView::commitData(editor);
+            commited = true;
             QTableView::closeEditor(editor, QAbstractItemDelegate::NoHint);
             dataChanged(texted->index, texted->index);
         } else {
             QTableView::closeEditor(editor, QAbstractItemDelegate::NoHint);
         }
         setEditor(0);
-        handleCloseHint(hint);
-        resizeRowToContents(row);
     } else {
         if (segview) {
             segview->closeAnyEditor();
@@ -721,9 +744,17 @@ void ItAlignmentView::mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::
         }
       QTableView::closeEditor(editor, QAbstractItemDelegate::NoHint);
       setSegView(0);
-      handleCloseHint(hint);
-      resizeRowToContents(row);
     }
+    if (insertingElement) {
+        ItAlignmentModel * m = static_cast<ItAlignmentModel*>(model());
+        m->undoStack->endMacro();
+        insertingElement = false;
+        if (!commited)
+            emit editingCancelled();
+            //m->undoStack->undo();
+    }
+    handleCloseHint(hint);
+    resizeRowToContents(row);
 }
 
 void ItAlignmentView::handleCloseHint(QAbstractItemDelegate::EndEditHint hint)

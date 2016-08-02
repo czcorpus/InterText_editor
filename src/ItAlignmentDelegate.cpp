@@ -36,6 +36,7 @@ QWidget *ItAlignmentDelegate::createEditor(QWidget *parent, const QStyleOptionVi
   //ItAlignmentView * alview = static_cast<ItAlignmentView*>(parent->parentWidget());
   if (index.model()->rowCount(index)==1) {
     //alview->setRowHeight(index.row(), alview->rowHeight(index.row())+16);
+      alview->nexthint = QAbstractItemDelegate::NoHint;
       ItPlainTextEdit * editor = new ItPlainTextEdit(parent, alview->getEditorKeys());
     //editor->setFocusPolicy(Qt::StrongFocus); // opening within segview does not work
     editor->index = index;
@@ -80,8 +81,10 @@ QWidget *ItAlignmentDelegate::createEditor(QWidget *parent, const QStyleOptionVi
     connect(view, SIGNAL(sizeHintChanged(int)), alview, SLOT(resizeRowToContents(int)));
     connect(view, SIGNAL(wantBeClosed(QWidget*,QAbstractItemDelegate::EndEditHint)),
             this, SLOT(editorCloseRequested(QWidget*,QAbstractItemDelegate::EndEditHint)));
+    connect(view, SIGNAL(editingCancelled()), model, SLOT(undo()), Qt::QueuedConnection);
     if (alview->nexthint != QAbstractItemDelegate::NoHint)
         view->autoOpenEditor(alview->nexthint);
+    alview->nexthint = QAbstractItemDelegate::NoHint;
     return view;
   }
 }

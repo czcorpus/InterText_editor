@@ -128,5 +128,10 @@
         <file>images/svg/synchronize.svgz</file>
         <file>images/svg/unconfirmed.svgz</file>
         <file>images/svg/update-required.svgz</file>
+        <file>images/16/insert.png</file>
+        <file>images/22/insert.png</file>
+        <file>images/32/insert.png</file>
+        <file>images/svg/insert.svgz</file>
+        <file>images/48/insert.png</file>
     </qresource>
 </RCC>

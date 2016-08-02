@@ -74,6 +74,7 @@ public:
   QAbstractItemDelegate::EndEditHint nexthint;
   ItSegmentView * segview;
   ItPlainTextEdit * txteditor;
+  bool insertingElement;
 public slots:
   void resizeRowToContents ( int row );
   void moveUp(int row = INVALID_ROW, int doc = 0);
@@ -86,9 +87,10 @@ public slots:
   void toggleStat();
   void toggleMark();
   void confirmAll();
-	bool openEditor();
-	void splitParent();
-	void mergeParent();
+  bool openEditor();
+  void insertElement();
+  void splitParent();
+  void mergeParent();
   void edit(const QModelIndex &index);
   void closeEditor(QWidget* editor,QAbstractItemDelegate::EndEditHint hint);
   void updateRowSize();
@@ -101,6 +103,7 @@ public slots:
 signals:
   void editingStarted();
   void editingFinished();
+  void editingCancelled();
   void cursorChanged();
 	void segViewChanged(ItSegmentView * cursegview);
   void focusChanged();

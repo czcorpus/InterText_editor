@@ -38,7 +38,7 @@ QWidget *ItSegmentDelegate::createEditor(QWidget *parent, const QStyleOptionView
   segview->setEditor(editor);
   editor->setFocusPolicy(Qt::StrongFocus);
   connect(editor, SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this,
-          SLOT(editorCloseRequested(QWidget*,QAbstractItemDelegate::EndEditHint)));
+          SLOT(editorCloseRequested(QWidget*,QAbstractItemDelegate::EndEditHint)), Qt::QueuedConnection);
   connect(editor, SIGNAL(sizeHintChanged(int)), segview, SLOT(resizeRowToContents(int)));
   return editor;
 }

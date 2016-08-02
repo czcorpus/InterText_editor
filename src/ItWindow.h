@@ -155,6 +155,7 @@ public:
   QAction *toggleMarkAct;
   QAction *toggleStatusAct;
   QAction *editAct;
+  QAction *insertAct;
   QAction *splitParentAct;
   QAction *mergeParentAct;
   QAction *undoAct, *redoAct;

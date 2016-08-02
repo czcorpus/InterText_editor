@@ -929,7 +929,7 @@ void ItWindow::createActions()
     openAct = new QAction(tr("Open from repository"), this);
 	openAct->setShortcuts(QKeySequence::Open);
   openAct->setStatusTip(tr("Open alignment from the local repository"));
-	connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
+    connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
     openAct->setData(QVariant("open"));
     allActions.append(openAct);
     toolBarActions.append(openAct);
@@ -995,7 +995,7 @@ void ItWindow::createActions()
   toolBarActions.append(alPropAct);
 
   undoAct = new QAction(tr("Undo"), this);
-	undoAct->setShortcuts(QKeySequence::Undo);
+    undoAct->setShortcuts(QKeySequence::Undo);
 	undoAct->setStatusTip(tr("Undo last change"));
     undoAct->setIcon(composeIcon("edit-undo.png"));
 	undoAct->setEnabled(false);
@@ -1159,6 +1159,17 @@ void ItWindow::createActions()
   toolBarActions.append(editAct);
   ctxmenuActions.append(editAct);
 
+  insertAct = new QAction(tr("Insert element"), this);
+  insertAct->setShortcut(Qt::Key_I);
+  insertAct->setStatusTip(tr("Insert new element and edit it"));
+  insertAct->setIcon(composeIcon("insert.png"));
+  connect(insertAct, SIGNAL(triggered()), view, SLOT(insertElement()));
+  insertAct->setEnabled(false);
+  insertAct->setData(QVariant("insert"));
+  allActions.append(insertAct);
+  toolBarActions.append(insertAct);
+  ctxmenuActions.append(insertAct);
+
   editXmlAct = new QAction(tr("Edit XML tree"), this);
   //editAct->setShortcut(Qt::Key_E);
   editXmlAct->setStatusTip(tr("Edit document's XML tree"));
@@ -1173,29 +1184,29 @@ void ItWindow::createActions()
     splitParentAct = new QAction(tr("Insert paragraph break"), this);
   splitParentAct->setShortcut(Qt::CTRL|Qt::Key_B);
     splitParentAct->setStatusTip(tr("Insert new parent (paragraph) break, i.e. split paragraph"));
-	connect(splitParentAct, SIGNAL(triggered()), view, SLOT(splitParent()));
-	splitParentAct->setEnabled(false);
+    connect(splitParentAct, SIGNAL(triggered()), view, SLOT(splitParent()));
+    splitParentAct->setEnabled(false);
     splitParentAct->setData(QVariant("split_parent"));
     allActions.append(splitParentAct);
     toolBarActions.append(splitParentAct);
     ctxmenuActions.append(splitParentAct);
 
     mergeParentAct = new QAction(tr("Delete paragraph break"), this);
-	mergeParentAct->setShortcut(Qt::CTRL|Qt::Key_D);
+    mergeParentAct->setShortcut(Qt::CTRL|Qt::Key_D);
     mergeParentAct->setStatusTip(tr("Delete parent (paragraph) break, i.e. merge with the previous paragraph"));
-	connect(mergeParentAct, SIGNAL(triggered()), view, SLOT(mergeParent()));
-	mergeParentAct->setEnabled(false);
+    connect(mergeParentAct, SIGNAL(triggered()), view, SLOT(mergeParent()));
+    mergeParentAct->setEnabled(false);
     mergeParentAct->setData(QVariant("merge_parent"));
     allActions.append(mergeParentAct);
     toolBarActions.append(mergeParentAct);
     ctxmenuActions.append(mergeParentAct);
 
     mergeAct = new QAction(tr("Merge with preceding element"), this);
-	mergeAct->setShortcut(Qt::ALT|Qt::Key_Backspace);
+    mergeAct->setShortcut(Qt::ALT|Qt::Key_Backspace);
     mergeAct->setStatusTip(tr("Merge element with the preceding one"));
     mergeAct->setIcon(composeIcon("merge.png"));
   connect(mergeAct, SIGNAL(triggered()), this, SLOT(merge()));
-	mergeAct->setEnabled(false);
+    mergeAct->setEnabled(false);
     mergeAct->setData(QVariant("merge"));
     allActions.append(mergeAct);
     toolBarActions.append(mergeAct);
@@ -1209,10 +1220,10 @@ void ItWindow::createActions()
   toolBarActions.append(autoAlignAct);
 
   updateStatAct = new QAction(tr("Auto update status"), this);
-	updateStatAct->setStatusTip(tr("Automatically update status of all segments preceding any change to 'confirmed'"));
-	connect(updateStatAct, SIGNAL(triggered()), this, SLOT(toggleAutoUpdateStatus()));
-	updateStatAct->setCheckable(true);
-	updateStatAct->setChecked(true);
+    updateStatAct->setStatusTip(tr("Automatically update status of all segments preceding any change to 'confirmed'"));
+    connect(updateStatAct, SIGNAL(triggered()), this, SLOT(toggleAutoUpdateStatus()));
+    updateStatAct->setCheckable(true);
+    updateStatAct->setChecked(true);
   htmlViewAct = new QAction(tr("HTML view"), this);
   htmlViewAct->setStatusTip(tr("Show text rendered as HTML"));
   connect(htmlViewAct, SIGNAL(triggered()), this, SLOT(toggleHtmlView()));
@@ -1439,7 +1450,7 @@ void ItWindow::createMenus()
   fileMenu->addSeparator();
   fileMenu->addAction(alPropAct);
   fileMenu->addAction(syncAct);
-	fileMenu->addSeparator();
+    fileMenu->addSeparator();
 	fileMenu->addAction(exitAct);
 
     editMenu = menuBar()->addMenu(tr("&Edit"));
@@ -1459,10 +1470,11 @@ void ItWindow::createMenus()
   editMenu->addAction(confirmAct);
   editMenu->addSeparator();
   editMenu->addAction(editAct);
+  editMenu->addAction(insertAct);
   //editMenu->addAction(editXmlAct);
   editMenu->addSeparator();
 	editMenu->addAction(mergeAct);
-	editMenu->addAction(splitParentAct);
+    editMenu->addAction(splitParentAct);
   editMenu->addAction(mergeParentAct);
   editMenu->addSeparator();
   editMenu->addAction(autoAlignAct);
@@ -1508,7 +1520,7 @@ void ItWindow::createMenus()
     helpMenu->addAction(checkUpdatesAct);
     helpMenu->addSeparator();
 	helpMenu->addAction(aboutAct);
-	helpMenu->addAction(aboutQtAct);
+    helpMenu->addAction(aboutQtAct);
 }
 
 void ItWindow::updateServerMenu()
@@ -2340,6 +2352,7 @@ void ItWindow::updateActions() {
     toggleStatusAct->setEnabled(false);
     confirmAct->setEnabled(false);
     enableEditAct(false);
+    insertAct->setEnabled(false);
     return;
   }
   if (segview==0) {
@@ -2358,6 +2371,11 @@ void ItWindow::updateActions() {
             mergeAct->setText(tr("Merge is not possible"));
             mergeAct->setToolTip(tr("Merge is not possible"));
             mergeAct->setEnabled(false);
+        }
+        if (cur.isValid() && (cur.column()==1 || cur.column()==2)) {
+            insertAct->setEnabled(true);
+        } else {
+            insertAct->setEnabled(false);
         }
     if (cur.isValid() && (cur.column()==1 || cur.column()==2) && !model->data(cur, Qt::DisplayRole).toString().isEmpty()) {
 			if (cur.row()!=0)
@@ -2417,6 +2435,7 @@ void ItWindow::updateActions() {
     moveBDownAct->setEnabled(false);
     moveTextAct->setEnabled(false);
     moveUpAct->setEnabled(false);
+    insertAct->setEnabled(true);
 		moveDownAct->setEnabled(false);
 		if (cur.row()==0 && cur.parent().row()!=0)
 			shiftAct->setEnabled(true);
