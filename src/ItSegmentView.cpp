@@ -200,12 +200,15 @@ void ItSegmentView::mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::En
         QListView::closeEditor(editor, QAbstractItemDelegate::NoHint);
         if (rootIndex().row()==model()->rowCount()-1)
             hint = QAbstractItemDelegate::NoHint;
-        emit wantBeClosed(this, hint);
+        emit wantBeClosed(this, hint, texted->insertNext);
     } else {
         //QListView::closeEditor(editor, hint);
         QListView::closeEditor(editor, QAbstractItemDelegate::NoHint);
         adjustGeometry();
-        handleCloseHint(hint);
+        if (texted->insertNext)
+            emit wantBeClosed(this, hint, texted->insertNext);
+        else
+            handleCloseHint(hint);
     }
     adjustGeometry();
 }

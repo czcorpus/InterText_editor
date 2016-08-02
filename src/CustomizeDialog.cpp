@@ -103,7 +103,7 @@ CustomizeDialog::CustomizeDialog(ItWindow *parent) :
     QStringList labels;
     labels << tr("Action") << tr("Keyboard shortcut");
     ui->shortcutsTable->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->shortcutsTable->setRowCount(parent->allActions.size()+4);
+    ui->shortcutsTable->setRowCount(parent->allActions.size()+5);
     ui->shortcutsTable->setColumnCount(2);
     ui->shortcutsTable->setHorizontalHeaderLabels(labels);
     ui->shortcutsTable->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -147,6 +147,13 @@ CustomizeDialog::CustomizeDialog(ItWindow *parent) :
     ti->setFlags(ti->flags() & ~Qt::ItemIsEditable);
     ui->shortcutsTable->setItem(r, 0, ti);
     ti = new QTableWidgetItem(window->editorKeys.savePrev.toString());
+    ti->setFlags(ti->flags() & ~Qt::ItemIsEditable);
+    ui->shortcutsTable->setItem(r, 1, ti);
+    r++;
+    ti = new QTableWidgetItem(tr("Editor: save and insert next"));
+    ti->setFlags(ti->flags() & ~Qt::ItemIsEditable);
+    ui->shortcutsTable->setItem(r, 0, ti);
+    ti = new QTableWidgetItem(window->editorKeys.saveInsertNext.toString());
     ti->setFlags(ti->flags() & ~Qt::ItemIsEditable);
     ui->shortcutsTable->setItem(r, 1, ti);
     r++;
@@ -261,6 +268,7 @@ void CustomizeDialog::reconfigureShortcuts()
     window->editorKeys.discardExit = QKeySequence::fromString(ui->shortcutsTable->item(i, 1)->text()); i++;
     window->editorKeys.saveNext = QKeySequence::fromString(ui->shortcutsTable->item(i, 1)->text()); i++;
     window->editorKeys.savePrev = QKeySequence::fromString(ui->shortcutsTable->item(i, 1)->text()); i++;
+    window->editorKeys.saveInsertNext = QKeySequence::fromString(ui->shortcutsTable->item(i, 1)->text()); i++;
     window->view->setEditorKeys(window->editorKeys);
 }
 

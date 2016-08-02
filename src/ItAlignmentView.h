@@ -120,13 +120,14 @@ protected:
   bool edit(const QModelIndex &index, EditTrigger trigger, QEvent *event);
   QIcon composeIcon(QString fname);
   QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers);
-  void handleCloseHint(QAbstractItemDelegate::EndEditHint hint);
+  void handleCloseHint(QAbstractItemDelegate::EndEditHint hint, bool insertNext = false);
 protected slots:
 	void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
     void commitData (QWidget * editor);
   void commitData ( QWidget * editor, QAbstractItemDelegate::EndEditHint hint );
   void mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint );
   //void currentChanged (const QModelIndex & current, const QModelIndex & previous);
+  void insertNextRequested();
 private:
   ItWindow * window;
   ItAlignmentDelegate * delegate;

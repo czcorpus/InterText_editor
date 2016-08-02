@@ -79,8 +79,8 @@ QWidget *ItAlignmentDelegate::createEditor(QWidget *parent, const QStyleOptionVi
     alview->setSegView(view);
     //alview->resizeRowToContents(index.row());
     connect(view, SIGNAL(sizeHintChanged(int)), alview, SLOT(resizeRowToContents(int)));
-    connect(view, SIGNAL(wantBeClosed(QWidget*,QAbstractItemDelegate::EndEditHint)),
-            this, SLOT(editorCloseRequested(QWidget*,QAbstractItemDelegate::EndEditHint)));
+    connect(view, SIGNAL(wantBeClosed(QWidget*,QAbstractItemDelegate::EndEditHint, bool)),
+            this, SLOT(editorCloseRequested(QWidget*,QAbstractItemDelegate::EndEditHint, bool)));
     connect(view, SIGNAL(editingCancelled()), model, SLOT(undo()), Qt::QueuedConnection);
     if (alview->nexthint != QAbstractItemDelegate::NoHint)
         view->autoOpenEditor(alview->nexthint);
@@ -173,6 +173,14 @@ bool ItAlignmentDelegate::eventFilter(QObject *obj, QEvent *ev) {
               texted->haveAsked = AutoYes;
             }
             emit commitData(editor, QAbstractItemDelegate::EditPreviousItem);
+            return true;
+        } else if (keycode == alview->getEditorKeys().saveInsertNext) { //: //Ctrl+Tab:
+            if (QString(editor->metaObject()->className()) == "ItPlainTextEdit") {
+              ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
+              texted->haveAsked = AutoYes;
+              texted->insertNext = true;
+            }
+            emit commitData(editor, QAbstractItemDelegate::EditNextItem);
             return true;
         } else {
             return false;

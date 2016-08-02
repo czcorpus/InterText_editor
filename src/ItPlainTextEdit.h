@@ -32,6 +32,7 @@ class ItPlainTextEdit : public QPlainTextEdit
 
 public:
   AutoState haveAsked;
+  bool insertNext;
   QModelIndex index;
   ItPlainTextEdit(QWidget *parent, EditorKeys keys);
   ~ItPlainTextEdit();

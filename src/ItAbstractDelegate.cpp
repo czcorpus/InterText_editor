@@ -236,7 +236,9 @@ AutoState ItAbstractDelegate::getAutoSaveElement() {
     //closeEditor(editor, hint);
 }*/
 
-void ItAbstractDelegate::editorCloseRequested(QWidget * editor, QAbstractItemDelegate::EndEditHint hint)
+void ItAbstractDelegate::editorCloseRequested(QWidget * editor, QAbstractItemDelegate::EndEditHint hint, bool insertNext)
 {
     emit closeEditor(editor, hint);
+    if (insertNext)
+        emit insertNextRequested();
 }

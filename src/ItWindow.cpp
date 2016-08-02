@@ -88,6 +88,7 @@ ItWindow::ItWindow() : QMainWindow()
   editorKeys.discardExit = QKeySequence(DEFAULT_EDITOR_DISCARDEXIT);
   editorKeys.saveNext = QKeySequence(DEFAULT_EDITOR_SAVENEXT);
   editorKeys.savePrev = QKeySequence(DEFAULT_EDITOR_SAVEPREV);
+  editorKeys.saveInsertNext = QKeySequence(DEFAULT_EDITOR_SAVEINSERTNEXT);
   syncMarkChanges = true;
   cssStyle = "";
   setUnifiedTitleAndToolBarOnMac(true);
@@ -1723,6 +1724,7 @@ void ItWindow::readSettings()
     editorKeys.discardExit = QKeySequence::fromString(settings->value("discard_exit", editorKeys.discardExit.toString()).toString());
     editorKeys.saveNext = QKeySequence::fromString(settings->value("save_next", editorKeys.saveNext.toString()).toString());
     editorKeys.savePrev = QKeySequence::fromString(settings->value("save_prev", editorKeys.savePrev.toString()).toString());
+    editorKeys.saveInsertNext = QKeySequence::fromString(settings->value("save_insert_next", editorKeys.saveInsertNext.toString()).toString());
     settings->endGroup();
 
     int alsize = settings->beginReadArray("aligners");
@@ -2139,6 +2141,7 @@ void ItWindow::writeSettings()
     settings->setValue("discard_exit", editorKeys.discardExit.toString());
     settings->setValue("save_next", editorKeys.saveNext.toString());
     settings->setValue("save_prev", editorKeys.savePrev.toString());
+    settings->setValue("save_insert_next", editorKeys.saveInsertNext.toString());
     settings->endGroup();
 
 

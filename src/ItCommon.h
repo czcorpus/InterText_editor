@@ -50,6 +50,7 @@ struct EditorKeys
     QKeySequence discardExit;
     QKeySequence saveNext;
     QKeySequence savePrev;
+    QKeySequence saveInsertNext;
 };
 
 struct Replacement

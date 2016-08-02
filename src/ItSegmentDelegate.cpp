@@ -130,6 +130,11 @@ bool ItSegmentDelegate::eventFilter(QObject *obj, QEvent *ev) {
             texted->haveAsked = AutoYes;
             emit commitData(editor, QAbstractItemDelegate::EditPreviousItem);
             return true;
+        } else if (keycode == alview->getEditorKeys().saveInsertNext) {
+            texted->haveAsked = AutoYes;
+            texted->insertNext = true;
+            emit commitData(editor, QAbstractItemDelegate::EditNextItem);
+            return true;
         } else {
             return false;
 		}

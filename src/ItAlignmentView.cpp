@@ -29,6 +29,7 @@ ItAlignmentView::ItAlignmentView(QWidget * parent) : QTableView(parent) {
   setItemDelegate(delegate);
   disconnect(delegate, SIGNAL(commitData(QWidget*)), this, SLOT(commitData(QWidget*)));
   connect(delegate, SIGNAL(commitData(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(commitData(QWidget*,QAbstractItemDelegate::EndEditHint)));
+  connect(delegate, SIGNAL(insertNextRequested()), this, SLOT(insertNextRequested()), Qt::QueuedConnection);
   setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
   setMouseTracking(true);
   showControls = OnMove;
@@ -706,8 +707,9 @@ void ItAlignmentView::mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::
 {
     int row = 0;
     bool commited = false;
+    ItPlainTextEdit * texted = 0;
     if (QString(editor->metaObject()->className())=="ItPlainTextEdit") {
-        ItPlainTextEdit * texted = static_cast<ItPlainTextEdit*>(editor);
+        texted = static_cast<ItPlainTextEdit*>(editor);
         row = texted->index.row();
         if (autoSaveElement == AutoAsk && texted->haveAsked==AutoAsk && texted->hasBeenChanged()) {
             ItQuestionDialog * qd = new ItQuestionDialog(this);
@@ -753,11 +755,14 @@ void ItAlignmentView::mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::
             emit editingCancelled();
             //m->undoStack->undo();
     }
-    handleCloseHint(hint);
+    if (texted)
+        handleCloseHint(hint, texted->insertNext);
+    else
+        handleCloseHint(hint);
     resizeRowToContents(row);
 }
 
-void ItAlignmentView::handleCloseHint(QAbstractItemDelegate::EndEditHint hint)
+void ItAlignmentView::handleCloseHint(QAbstractItemDelegate::EndEditHint hint, bool insertNext)
 {
     editorOpen = false;
     emit editingFinished();
@@ -767,15 +772,18 @@ void ItAlignmentView::handleCloseHint(QAbstractItemDelegate::EndEditHint hint)
     // The EndEditHint part
     //QItemSelectionModel::SelectionFlags flags = QItemSelectionModel::ClearAndSelect
     //                                            | d->selectionBehaviorFlags();
+    QModelIndex index;
     switch (hint) {
     case QAbstractItemDelegate::EditNextItem: {
-        QModelIndex index = moveCursor(MoveNext, Qt::NoModifier);
+        index = moveCursor(MoveNext, Qt::NoModifier);
         if (index.isValid()) {
             QPersistentModelIndex persistent(index);
             setCurrentIndex(persistent);
             //d->selectionModel->setCurrentIndex(persistent, flags);
             // currentChanged signal would have already started editing
-            if (index.flags() & Qt::ItemIsEditable
+            if (insertNext) {
+                insertElement();
+            } else if (index.flags() & Qt::ItemIsEditable
                 && (!(editTriggers() & QAbstractItemView::CurrentChanged))) {
                 nexthint = hint;
                 edit(persistent);
@@ -810,6 +818,12 @@ void ItAlignmentView::handleCloseHint(QAbstractItemDelegate::EndEditHint hint)
         break;
     }
 }
+
+void ItAlignmentView::insertNextRequested()
+{
+    insertElement();
+}
+
 
 bool ItAlignmentView::isEditing() {
   return editorOpen;

@@ -57,7 +57,7 @@ signals:
 	void cursorChanged();
   void focusChanged();
   void sizeHintChanged(int row);
-  void wantBeClosed(QWidget * widget, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint);
+  void wantBeClosed(QWidget * widget, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint, bool insertNext = false);
 protected:
 	void keyPressEvent (QKeyEvent * event);
   void focusOutEvent( QFocusEvent * event );

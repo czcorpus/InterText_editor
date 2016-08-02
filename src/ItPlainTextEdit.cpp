@@ -25,6 +25,7 @@
 ItPlainTextEdit::ItPlainTextEdit(QWidget *parent, EditorKeys keys) : QPlainTextEdit(parent) {
   this->fitting_height = 0;
   haveAsked = AutoAsk;
+  insertNext = false;
   index = QModelIndex();
   QSizePolicy sp;
   sp.setHeightForWidth(true);

@@ -47,9 +47,10 @@ public:
   //static AutoState getAutoSaveElement();
 signals:
     void commitData(QWidget *editor, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint);
+    void insertNextRequested();
 public slots:
   //void onClose ( QWidget * editor, QAbstractItemDelegate::EndEditHint hint = NoHint );
-  void editorCloseRequested(QWidget * editor, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint);
+  void editorCloseRequested(QWidget * editor, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint, bool insertNext = false);
 protected:
   QWidget * myparent;
   //bool eventFilter(QObject *obj, QEvent *ev);

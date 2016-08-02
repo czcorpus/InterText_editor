@@ -40,6 +40,7 @@
 #define DEFAULT_EDITOR_DISCARDEXIT Qt::Key_Escape
 #define DEFAULT_EDITOR_SAVENEXT Qt::Key_Tab
 #define DEFAULT_EDITOR_SAVEPREV Qt::SHIFT+Qt::Key_Backtab
+#define DEFAULT_EDITOR_SAVEINSERTNEXT Qt::CTRL+Qt::Key_Tab
 
 namespace Ui {
     class SettingsDialog;
