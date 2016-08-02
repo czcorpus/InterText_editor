@@ -50,7 +50,6 @@ ItAlignmentView::ItAlignmentView(QWidget * parent) : QTableView(parent) {
   skipMargin = 1;
   timer.start(250);
   nexthint = QAbstractItemDelegate::NoHint;
-  insertingElement = false;
 
   floatControl = new ItFloatControls(this);
   floatControl->hide();
@@ -136,7 +135,6 @@ void ItAlignmentView::setModel(QAbstractItemModel * model) {
   connect(itmodel, SIGNAL(focusOnChange(QModelIndex)), this, SLOT(setCurrentIndex(QModelIndex)));
   connect(&timer, SIGNAL(timeout()), this, SLOT(resizeRows()));
   connect(itmodel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(dataChanged(QModelIndex,QModelIndex)));
-  connect(this, SIGNAL(editingCancelled()), itmodel, SLOT(undo()), Qt::QueuedConnection);
   //setShowGrid(false);
   //cacheAllSizeHints();
   show();
@@ -338,9 +336,10 @@ void ItAlignmentView::insertElement() {
     ItAlignmentModel * m;
     m = static_cast<ItAlignmentModel*>(model());
     QModelIndex idx = this->currentIndex();
-    m->undoStack->beginMacro("Insert element");
-    insertingElement = true;
-    m->insert(idx);
+    if (!m->insert(idx)) {
+        QMessageBox::critical(this, tr("Insert element"), tr("No preceding element to split. Please, create some manually."));
+        return;
+    }
     setCurrentIndex(idx);
     this->resizeRowToContents(idx.row());
     //this->setCurrentIndex(m->index(0, m->rowCount(idx)-1, idx));
@@ -747,14 +746,11 @@ void ItAlignmentView::mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::
       QTableView::closeEditor(editor, QAbstractItemDelegate::NoHint);
       setSegView(0);
     }
-    if (insertingElement) {
-        ItAlignmentModel * m = static_cast<ItAlignmentModel*>(model());
-        m->undoStack->endMacro();
-        insertingElement = false;
-        if (!commited)
-            emit editingCancelled();
-            //m->undoStack->undo();
-    }
+    ItAlignmentModel * m = static_cast<ItAlignmentModel*>(model());
+    if (commited)
+        m->commitInsert();
+    else
+        m->cancelInsert();
     if (texted)
         handleCloseHint(hint, texted->insertNext);
     else

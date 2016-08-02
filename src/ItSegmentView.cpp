@@ -185,14 +185,11 @@ void ItSegmentView::mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::En
         QListView::commitData(editor);
         commited = true;
     }
-    if (alView->insertingElement) {
-        ItAlignmentModel * m = static_cast<ItAlignmentModel*>(model());
-        m->undoStack->endMacro();
-        alView->insertingElement = false;
-        if (!commited)
-            emit editingCancelled();
-        //    m->undoStack->undo();
-    }
+    ItAlignmentModel * m = static_cast<ItAlignmentModel*>(model());
+    if (commited)
+        m->commitInsert();
+    else
+        m->cancelInsert();
     int row = texted->index.row();
     myeditor = 0;
     if ((hint==QAbstractItemDelegate::EditNextItem && row==model()->rowCount(rootIndex())-1) ||

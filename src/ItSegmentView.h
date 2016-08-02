@@ -52,8 +52,7 @@ public slots:
   void autoOpenEditor(QAbstractItemDelegate::EndEditHint hint);
 signals:
 	void editingStarted();
-	void editingFinished();
-    void editingCancelled();
+    void editingFinished();
 	void cursorChanged();
   void focusChanged();
   void sizeHintChanged(int row);

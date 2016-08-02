@@ -40,6 +40,7 @@ ItAlignmentModel::ItAlignmentModel(ItAlignment *a, QObject *parent) : QAbstractT
   hNon11 = true;
   hMarked = true;
   htmlViewMode = true;
+  insertingElement = false;
 }
 
 ItAlignmentModel::~ItAlignmentModel() {
@@ -540,7 +541,8 @@ bool ItAlignmentModel::insert(QModelIndex &index) {
     QStringList templist;
     templist.append(this->data(lastchild, Qt::EditRole).toString());
     templist.append("");
-    //undoStack->beginMacro("Insert element"); // higher instance should merge with text editing
+    undoStack->beginMacro("Insert element");
+    insertingElement = true;
     SplitCommand * split = new SplitCommand(this, lastchild, templist);
     undoStack->push(split);
     while (back) {
@@ -552,6 +554,22 @@ bool ItAlignmentModel::insert(QModelIndex &index) {
     //undoStack->endMacro();
     emit layoutChanged();
     return true;
+}
+
+void ItAlignmentModel::commitInsert()
+{
+    if (insertingElement) {
+        undoStack->endMacro();
+        insertingElement = false;
+    }
+}
+
+void ItAlignmentModel::cancelInsert()
+{
+    if (insertingElement) {
+        commitInsert();
+        undoStack->undo();
+    }
 }
 
 bool ItAlignmentModel::split(QModelIndex &index, QStringList &stringlist, bool clear_history) {

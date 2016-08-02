@@ -103,7 +103,6 @@ public slots:
 signals:
   void editingStarted();
   void editingFinished();
-  void editingCancelled();
   void cursorChanged();
 	void segViewChanged(ItSegmentView * cursegview);
   void focusChanged();

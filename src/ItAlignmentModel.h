@@ -153,6 +153,8 @@ public slots:
   void refocusOnIndex(QModelIndex idx);
   void setHtmlViewMode(bool set);
   void undo();
+  void commitInsert();
+  void cancelInsert();
 signals:
   void lastMatchChanged(QModelIndex idx);
   void updateFailure(QModelIndex idx);
@@ -169,6 +171,7 @@ private:
   bool autoUpdateStatus;
   bool stopButtonPressed;
   bool htmlViewMode;
+  bool insertingElement;
 };
 
 #endif

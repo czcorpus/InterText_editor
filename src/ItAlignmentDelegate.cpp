@@ -81,7 +81,6 @@ QWidget *ItAlignmentDelegate::createEditor(QWidget *parent, const QStyleOptionVi
     connect(view, SIGNAL(sizeHintChanged(int)), alview, SLOT(resizeRowToContents(int)));
     connect(view, SIGNAL(wantBeClosed(QWidget*,QAbstractItemDelegate::EndEditHint, bool)),
             this, SLOT(editorCloseRequested(QWidget*,QAbstractItemDelegate::EndEditHint, bool)));
-    connect(view, SIGNAL(editingCancelled()), model, SLOT(undo()), Qt::QueuedConnection);
     if (alview->nexthint != QAbstractItemDelegate::NoHint)
         view->autoOpenEditor(alview->nexthint);
     alview->nexthint = QAbstractItemDelegate::NoHint;
