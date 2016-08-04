@@ -241,6 +241,7 @@ private:
   QString workDir;
   bool splitSet, importKeepMarkup;
   QString importXmlHeader, importXmlFooter;
+  QString emptyDocTemplate;
   QString importTxtEncoding;
   QString importParSeparator;
   QString importSentenceSeparator;

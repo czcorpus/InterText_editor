@@ -43,23 +43,26 @@ NewAlignmentDialog::NewAlignmentDialog(ItWindow *parent, ItAlignment * a, QStrin
     ui->ver2nameEdit->addItems(m_versions);
     ui->selSource1->addItem(tr("local file"), "");
     ui->selSource2->addItem(tr("local file"), "");
+    ui->selSource1->addItem(tr("empty document"), "0");
+    ui->selSource2->addItem(tr("empty document"), "0");
     connect(ui->selSource1, SIGNAL(currentIndexChanged(int)), this, SLOT(src1Changed(int)));
     connect(ui->selSource2, SIGNAL(currentIndexChanged(int)), this, SLOT(src2Changed(int)));
 
     QMapIterator<QString, ItServer> it(window->servers);
-    QString name;
+    QString name, url;
     int n = 0;
     while (it.hasNext()) {
         it.next();
         name = it.value().name;
-        ui->selSource1->addItem(name, name);
-        ui->selSource2->addItem(name, name);
-        if (a->info.ver[0].source==it.value().name) {
+        url = it.value().url;
+        ui->selSource1->addItem(name, url);
+        ui->selSource2->addItem(name, url);
+        if (a->info.ver[0].source==url) {
             ui->selSource1->setCurrentIndex(n);
             ui->docNameEdit->setCurrentIndex(ui->docNameEdit->findText(a->info.docId));
             ui->ver1nameEdit->setCurrentIndex(ui->ver1nameEdit->findText(a->info.ver[0].name));
         }
-        if (a->info.ver[1].source==it.value().name) {
+        if (a->info.ver[1].source==url) {
             ui->selSource2->setCurrentIndex(n);
             ui->docNameEdit->setCurrentIndex(ui->docNameEdit->findText(a->info.docId));
             ui->ver1nameEdit->setCurrentIndex(ui->ver1nameEdit->findText(a->info.ver[1].name));
@@ -91,9 +94,9 @@ void NewAlignmentDialog::accept() {
   alignment->info.ver[0].name = ui->ver1nameEdit->currentText();
   alignment->info.ver[1].name = ui->ver2nameEdit->currentText();
   if (ui->selSource1->currentIndex()>0)
-      alignment->info.ver[0].source = ui->selSource1->currentText();
+      alignment->info.ver[0].source = ui->selSource1->currentData().toString();
   if (ui->selSource2->currentIndex()>0)
-    alignment->info.ver[1].source = ui->selSource2->currentText();
+      alignment->info.ver[1].source = ui->selSource2->currentData().toString();
   if (alignment->info.ver[0].source.startsWith("http") && alignment->info.ver[1].source==alignment->info.ver[0].source) {
       ItServer s = window->servers.value(ui->selSource2->currentText());
       ServerDialog * sd = new ServerDialog(window, window->storagePath, s.url, s.username, s.passwd, true);
@@ -111,7 +114,7 @@ void NewAlignmentDialog::accept() {
   }
   //QString t1 = sd->alTitleFormat.arg(alignment->info.docId, alignment->info.ver[0].name, alignment->info.ver[1].name);
   //QString t2 = sd->alTitleFormat.arg(alignment->info.docId, alignment->info.ver[1].name, alignment->info.ver[0].name);
-  if (alignment->info.ver[0].source=="" && alignment->info.ver[1].source!="") {
+  if (alignment->info.ver[0].source=="" && alignment->info.ver[1].source.startsWith("http")) {
     ItServer s = window->servers.value(alignment->info.ver[1].source);
     ServerDialog * sd = new ServerDialog(window, window->storagePath, s.url, s.username, s.passwd, true);
     sd->connectToServer();
@@ -126,7 +129,7 @@ void NewAlignmentDialog::accept() {
     }
     delete sd;
   }
-  if (alignment->info.ver[1].source=="" && alignment->info.ver[0].source!="") {
+  if (alignment->info.ver[1].source=="" && alignment->info.ver[0].source.startsWith("http")) {
     ItServer s = window->servers.value(alignment->info.ver[0].source);
     ServerDialog * sd = new ServerDialog(window, window->storagePath, s.url, s.username, s.passwd, true);
     sd->connectToServer();
@@ -162,11 +165,11 @@ void NewAlignmentDialog::enableOnly(int ver) {
 
 void NewAlignmentDialog::textNameChanged(QString val)
 {
-    if (ui->selSource1->currentIndex()!=0) {
+    if (ui->selSource1->currentIndex()>1) {
        ui->ver1nameEdit->clear();
        ui->ver1nameEdit->addItems(filterDocs(0, val));
     }
-    if (ui->selSource2->currentIndex()!=0) {
+    if (ui->selSource2->currentIndex()>1) {
        ui->ver2nameEdit->clear();
        ui->ver2nameEdit->addItems(filterDocs(1, val));
     }
@@ -174,14 +177,16 @@ void NewAlignmentDialog::textNameChanged(QString val)
 
 void NewAlignmentDialog::src1Changed(int val)
 {
-    ui->ver1nameEdit->clear();
-    if (val==0) {
+    //ui->ver1nameEdit->clear();
+    if (val<2) {
         ui->ver1nameEdit->addItem(alignment->info.ver[0].name);
         ui->ver1nameEdit->addItems(m_versions);
         ui->ver1nameEdit->setEditable(true);
-        if (ui->selSource2->currentIndex()==0) {
+        if (ui->selSource2->currentIndex()<2) {
             disconnect(ui->docNameEdit, SIGNAL(currentIndexChanged(QString)), this, SLOT(textNameChanged(QString)));
-            ui->docNameEdit->clear();
+            if (ui->docNameEdit->currentText().isEmpty()) {
+                ui->docNameEdit->clear();
+            }
             ui->docNameEdit->addItems(m_texts);
             ui->docNameEdit->setEditable(true);
         } else {
@@ -195,7 +200,7 @@ void NewAlignmentDialog::src1Changed(int val)
         ui->ver1nameEdit->setEditable(false);
         ui->docNameEdit->setEditable(false);
         remoteDocs[0] = getRemoteDocs(ui->selSource1->currentText());
-        if (ui->selSource2->currentIndex()==0) {
+        if (ui->selSource2->currentIndex()<2) {
             ui->docNameEdit->clear();
             connect(ui->docNameEdit, SIGNAL(currentIndexChanged(QString)), this, SLOT(textNameChanged(QString)));
             for (int i=0; i<remoteDocs[0].size(); i++) {
@@ -213,14 +218,16 @@ void NewAlignmentDialog::src1Changed(int val)
 
 void NewAlignmentDialog::src2Changed(int val)
 {
-    ui->ver2nameEdit->clear();
-    if (val==0) {
+    //ui->ver2nameEdit->clear();
+    if (val<2) {
         ui->ver2nameEdit->addItem(alignment->info.ver[1].name);
         ui->ver2nameEdit->addItems(m_versions);
         ui->ver2nameEdit->setEditable(true);
-        if (ui->selSource1->currentIndex()==0) {
+        if (ui->selSource1->currentIndex()<2) {
             disconnect(ui->docNameEdit, SIGNAL(currentIndexChanged(QString)), this, SLOT(textNameChanged(QString)));
-            ui->docNameEdit->clear();
+            if (ui->docNameEdit->currentText().isEmpty()) {
+                ui->docNameEdit->clear();
+            }
             ui->docNameEdit->addItems(m_texts);
             ui->docNameEdit->setEditable(true);
         } else {
@@ -234,7 +241,7 @@ void NewAlignmentDialog::src2Changed(int val)
         ui->ver2nameEdit->setEditable(false);
         ui->docNameEdit->setEditable(false);
         remoteDocs[1] = getRemoteDocs(ui->selSource2->currentText());
-        if (ui->selSource1->currentIndex()==0) {
+        if (ui->selSource1->currentIndex()<2) {
             ui->docNameEdit->clear();
             connect(ui->docNameEdit, SIGNAL(currentIndexChanged(QString)), this, SLOT(textNameChanged(QString)));
             for (int i=0; i<remoteDocs[1].size(); i++) {

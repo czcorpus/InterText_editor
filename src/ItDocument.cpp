@@ -247,12 +247,12 @@ void ItDocument::detectIdSystem(QStringList alignedIds) {
       }
     }
   }
-  /* check for one common parent */
-  if (numbering_levels==2 && first_parent_id==parent_id) {
+  /* check for one common parent - revised: why not?? */
+  /*if (numbering_levels==2 && first_parent_id==parent_id) {
     //qDebug() << "There is only one common parent! (1-level)";
     numbering_levels = 1;
     numbering_prefix = parent_id;
-  }
+  }*/
 }
 
 void ItDocument::setUnknownNumbering() {

@@ -69,8 +69,9 @@ ItWindow::ItWindow() : QMainWindow()
   splitSet = false;
   importKeepMarkup = false;
   importTxtEncoding = "UTF-8";
-  importXmlHeader = "<?xml version='1.0' encoding='utf-8'?>\n<text>\n";
+  importXmlHeader = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<text>\n";
   importXmlFooter = "</text>\n";
+  emptyDocTemplate = importXmlHeader + "<p id=\"1\">\n<s id=\"1:1\">Empty document template.</s>\n</p>\n" + importXmlFooter;
   importParSeparator = "\n\n";
   importSentenceSeparator = "\n";
   importFormat = 0;
@@ -475,10 +476,20 @@ void ItWindow::createNewAlignment() {
   }
 
   int format = 0;
+  bool noalign = false;
   for (int d=0; d<=1; d++) {
       if (a->info.ver[d].source.startsWith("http")) {
-          ItServer s = servers.value(a->info.ver[d].source);
-          a->info.ver[d].source = s.url;
+          ItServer s;
+          QMapIterator<QString, ItServer> it(servers);
+          while (it.hasNext()) {
+              it.next();
+              if (a->info.ver[d].source == it.value().url) {
+                  s = it.value();
+                  break;
+              }
+          }
+          //ItServer s = servers.value(a->info.ver[d].source);
+          //a->info.ver[d].source = s.url;
           ServerDialog * sd = new ServerDialog(this, storagePath, s.url, s.username, s.passwd, true);
           connect(sd, SIGNAL(alDeletedInRepo(QString)), this, SLOT(alignmentDeletedInRepo(QString)));
           connect(sd, SIGNAL(alRepoChanged()), alManager, SLOT(externalChange()));
@@ -492,54 +503,83 @@ void ItWindow::createNewAlignment() {
           if (!checkNumbering(a, d, false))
             a->renumber(d);
           a->syncDepsPermissions();
-    } else if (a->loadDoc(d)) {
-      ImportXmlDialog * xmld = new ImportXmlDialog(this);
-      xmld->setAlignableOnlyMode();
-      xmld->setAlElements(alignableElements);
-      xmld->exec();
-      alignableElements = xmld->getAlElements();
-      a->createLinks(d, alignableElements);
-      a->detectIdSystem(d);
-      if (!checkNumbering(a, d, false))
-        a->renumber(d);
-      a->syncDepsPermissions();
-      delete xmld;
-    } else {
-      QFileDialog fd(this);
-      fd.setDirectory(workDir);
-      fd.setNameFilters(filters);
-      if (!importFileDialogState.isEmpty())
-        fd.restoreState(importFileDialogState);
-      fd.setFileMode(QFileDialog::ExistingFile);
-      fd.setWindowTitle(title[d]);
-      //QGridLayout *layout = (QGridLayout*)fd.layout();
-      //QComboBox * sel_format = new QComboBox(&fd);
-      //sel_format->addItems(filters);
-      //layout->addWidget(sel_format,1,5);
-      fd.exec();
-      //int format = sel_format->currentIndex();
-      //delete sel_format;
-      importFileDialogState = fd.saveState();
-      workDir = fd.directory().absolutePath();
-      format = 0;
-      if (filters.indexOf(fd.selectedNameFilter())!=0) {
-        QStringList list;
-        list << "Plain text" << "Newline aligned XML fragment";
-        QString selname = QInputDialog::getItem(this, tr("Import"), tr("Select type:"), list, importFormat, false);
-        importFormat = list.indexOf(selname);
-        format = importFormat+1;
+      } else if (a->loadDoc(d)) { // open existing text document from repository
+          ImportXmlDialog * xmld = new ImportXmlDialog(this);
+          xmld->setAlignableOnlyMode();
+          xmld->setAlElements(alignableElements);
+          xmld->exec();
+          alignableElements = xmld->getAlElements();
+          a->createLinks(d, alignableElements);
+          a->detectIdSystem(d);
+          if (!checkNumbering(a, d, false))
+              a->renumber(d);
+          a->syncDepsPermissions();
+          delete xmld;
+      } else if (a->info.ver[d].source == "0") { // create new empty XML document
+          a->info.ver[d].source = "";
+          noalign = true;
+          QString text;
+          bool ok;
+          while (true) {
+              text = QInputDialog::getMultiLineText(this, tr("New empty document"), tr("Document template"), emptyDocTemplate, &ok);
+              if (ok && !text.isEmpty()) {
+                  emptyDocTemplate = text;
+                  if (!a->setDocXml(d, emptyDocTemplate)) {
+                      QMessageBox::critical(this, tr("New empty document"), tr("Error: ").append(a->errorMessage));
+                  } else
+                      break;
+              } else {
+                  delete a;
+                  return;
+              }
+          }
+          ImportXmlDialog * xmld = new ImportXmlDialog(this);
+          xmld->setAlignableOnlyMode();
+          xmld->setAlElements(alignableElements);
+          xmld->exec();
+          alignableElements = xmld->getAlElements();
+          a->createLinks(d, alignableElements);
+          a->detectIdSystem(d);
+          if (!checkNumbering(a, d, false))
+              a->renumber(d);
+          a->syncDepsPermissions();
+          delete xmld;
+      } else { // import from file
+          QFileDialog fd(this);
+          fd.setDirectory(workDir);
+          fd.setNameFilters(filters);
+          if (!importFileDialogState.isEmpty())
+              fd.restoreState(importFileDialogState);
+          fd.setFileMode(QFileDialog::ExistingFile);
+          fd.setWindowTitle(title[d]);
+          //QGridLayout *layout = (QGridLayout*)fd.layout();
+          //QComboBox * sel_format = new QComboBox(&fd);
+          //sel_format->addItems(filters);
+          //layout->addWidget(sel_format,1,5);
+          fd.exec();
+          //int format = sel_format->currentIndex();
+          //delete sel_format;
+          importFileDialogState = fd.saveState();
+          workDir = fd.directory().absolutePath();
+          format = 0;
+          if (filters.indexOf(fd.selectedNameFilter())!=0) {
+              QStringList list;
+              list << "Plain text" << "Newline aligned XML fragment";
+              QString selname = QInputDialog::getItem(this, tr("Import"), tr("Select type:"), list, importFormat, false);
+              importFormat = list.indexOf(selname);
+              format = importFormat+1;
+          }
+          if (!(fd.result()==QDialog::Accepted) || !processImportFile(a, d, fd.selectedFiles().at(0), format)) {
+              delete a;
+              return;
+          }
       }
-      if (!(fd.result()==QDialog::Accepted) || !processImportFile(a, d, fd.selectedFiles().at(0), format)) {
-        delete a;
-        return;
-      }
-    }
   }
 
   setNewAlignment(a);
   syncAct->setEnabled(false);
   save();
-  if (format!=2)
+  if (format!=2 && !noalign)
     autoAlign();
 }
 
@@ -1802,6 +1842,7 @@ void ItWindow::readSettings()
     importTxtEncoding = settings->value("txt_import_encoding", importTxtEncoding).toString();
     importXmlHeader = strunescape(settings->value("xml_header", importXmlHeader).toString());
     importXmlFooter = strunescape(settings->value("xml_footer", importXmlFooter).toString());
+    emptyDocTemplate = strunescape(settings->value("empty_doc_template", emptyDocTemplate).toString());
     importParSeparator = strunescape(settings->value("par_separator", importParSeparator).toString());
     importSentenceSeparator = strunescape(settings->value("sentence_separator", importSentenceSeparator).toString());
     importKeepMarkup = settings->value("keep_markup", importKeepMarkup).toBool();
@@ -2188,6 +2229,7 @@ void ItWindow::writeSettings()
     settings->setValue("txt_import_encoding", importTxtEncoding);
     settings->setValue("xml_header", strescape(importXmlHeader));
     settings->setValue("xml_footer", strescape(importXmlFooter));
+    settings->setValue("empty_doc_template", strescape(emptyDocTemplate));
     settings->setValue("par_separator", strescape(importParSeparator));
     settings->setValue("sentence_separator", strescape(importSentenceSeparator));
     settings->setValue("keep_markup", QVariant(importKeepMarkup).toString());
