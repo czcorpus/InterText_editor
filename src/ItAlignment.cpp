@@ -25,6 +25,8 @@
 ItAlignment::ItAlignment(QString path, QString name, QString namespaceURI)
 {
   mode = DEFAULT_MODE;
+  alignableElementsOrder[0] = 0;
+  alignableElementsOrder[1] = 0;
   storagePath = path;
   info.name = name;
   idNamespaceURI = namespaceURI;
@@ -56,6 +58,8 @@ ItAlignment::ItAlignment(QString path, QString name, QString namespaceURI)
 }
 
 ItAlignment::~ItAlignment() {
+    destroyAlignableElementsOrder(0);
+    destroyAlignableElementsOrder(1);
 	QList<Link*> * i;
 	Link * l;
   for (int d=0; d<=1; d++) {
@@ -86,6 +90,15 @@ ItAlignment::~ItAlignment() {
 	depAlignments[1].clear();
   delete doc[0];
   delete doc[1];
+}
+
+void ItAlignment::destroyAlignableElementsOrder(aligned_doc d)
+{
+    if (alignableElementsOrder[d]) {
+        alignableElementsOrder[d]->clear();
+        delete alignableElementsOrder[d];
+    }
+    alignableElementsOrder[d] = 0;
 }
 
 QString ItAlignment::infoFileName() {
@@ -569,6 +582,13 @@ QVariant ItAlignment::getContents(aligned_doc doc, int pos, bool prepend, bool i
         text = list.at(i)->element->getContents(prepend);
         if (transformations && ignoreMarkup)
             text = transformText(text, ignoreMarkup, *transformations);
+        if (breaksOrder(doc, pos, i)) {
+            if (text.startsWith(QChar(0x25BA)))
+                text.replace(0,1,QChar(0x25BB));
+            else if (text.startsWith(QChar(0x25A0)))
+                text.replace(0,1,QChar(0x25A1));
+
+        }
         strList << text;
 	}
 	return strList;
@@ -607,10 +627,12 @@ bool ItAlignment::canMerge(aligned_doc doc, int pos, int el, int count) {
     return false;
     if (!canChStruct(doc))
     return false;
-  for (int i=1; i <= count; i++) {
-		if (isFirst(doc, pos, el+i) && !canMergeParent(doc, pos, el+i))
-      return false;
-  }
+    for (int i=1; i <= count; i++) {
+        if (isFirst(doc, pos, el+i) && !canMergeParent(doc, pos, el+i))
+            return false;
+        if (breaksOrder(doc, pos, el+i))
+            return false;
+    }
 	return true;
 }
 
@@ -682,7 +704,7 @@ bool ItAlignment::merge(aligned_doc doc, int pos, int el, int count) {
     Link * link = links[doc].at(pos)->at(el);
     link->element->setRepl(repl);
   }
-  removeAfter(doc, pos, el, count); // does renumber as well
+  removeAfter(doc, pos, el, count); // does rebuild of alignableElementsOrder and renumbering
 	return true;
 }
 
@@ -737,6 +759,7 @@ bool ItAlignment::split(aligned_doc doc, int pos, int el, QStringList newstrings
 	while (!newstrings.isEmpty())
 		if (!duplicate(doc, pos, el++, newstrings.takeFirst()))
 			return false;
+    destroyAlignableElementsOrder(doc);
 	renumber(doc);
 	return true;
 }
@@ -910,8 +933,9 @@ bool ItAlignment::removeAfter(aligned_doc doc, int pos, int el, int count) {
 			}
 			parel.parentNode().removeChild(parel);
 		}
-	}
-	renumber(doc);
+    }
+    destroyAlignableElementsOrder(doc);
+    renumber(doc);
 	return true;
 }
 
@@ -1329,12 +1353,12 @@ void ItAlignment::setNumbering(int document, int levels, QString &prefix, QStrin
 void ItAlignment::renumber(int document, bool updateCTime) {
   int cnt = 0;
   int parCnt = 0;
-  QDomElement lastParent;
+  QDomNode lastParent;
   QString lastParentId;
-  QList< Link* > segment;
-  Link link;
+  //QList< Link* > segment;
+  //Link link;
   clearIndex(document);
-  for (int i = 0; i < links[document].size(); i++) {
+  /*for (int i = 0; i < links[document].size(); i++) {
     segment = *links[document].at(i);
     for (int j = 0; j < segment.size(); j++) {
       link = *segment.at(j);
@@ -1351,6 +1375,38 @@ void ItAlignment::renumber(int document, bool updateCTime) {
         link.element->setID(QString("%1%2%3").arg(lastParentId, info.ver[document].numPrefix, QString::number(cnt)), idNamespaceURI);
       }
     }
+
+  }*/
+  // new method usable for cross-order alignments
+  QDomElement e;
+  QString id;
+  if (!alignableElementsOrder[document])
+      createAlignableElementsOrder(document);
+  for (int i = 0; i < alignableElementsOrder[document]->size(); i++) {
+      e = alignableElementsOrder[document]->at(i);
+      cnt++;
+      if (info.ver[document].numLevels==1) {
+          id = QString("%1%2").arg(info.ver[document].numPrefix, QString::number(cnt));
+          if (idNamespaceURI.isEmpty())
+              e.setAttribute("id", id);
+          else
+              e.setAttributeNS(idNamespaceURI, "id", id);
+      } else {
+          if (e.parentNode() != lastParent) {
+              parCnt++; cnt = 1;
+              lastParent = e.parentNode();
+              lastParentId = QString("%1%2").arg(info.ver[document].numParentPrefix, QString::number(parCnt));
+              if (idNamespaceURI.isEmpty())
+                  e.parentNode().toElement().setAttribute("id", id);
+              else
+                  e.parentNode().toElement().setAttributeNS(idNamespaceURI, "id", id);
+          }
+          id = QString("%1%2%3").arg(lastParentId, info.ver[document].numPrefix, QString::number(cnt));
+          if (idNamespaceURI.isEmpty())
+              e.setAttribute("id", id);
+          else
+              e.setAttributeNS(idNamespaceURI, "id", id);
+      }
   }
 
   if (updateCTime) {
@@ -1530,16 +1586,20 @@ bool ItAlignment::loadDepAlignment(QString filename, ushort docNum, ushort share
             }
 			/* base IDs - add to the shared links */
             for (int c=0; c<baseIds.size(); c++) {
-                if (!(pos<links[docNum].size()))
-                    break;
-                while (el == links[docNum].at(pos)->size()) {
+                while (pos<links[docNum].size() && el == links[docNum].at(pos)->size()) {
                     el = 0; pos++;
                 }
+                if (!(pos<links[docNum].size()))
+                    break;
                 l = links[docNum].value(pos)->value(el);
                 if (baseIds.at(c)!=l->element->getID(idNamespaceURI)) {
-                    errorMessage = QObject::tr("Inconsistent dependent alignment '%1' at link #%2: expected ID '%3', but found '%4'.").arg(fileinfo.fileName(), QString::number(depPos+1), baseIds.at(c), l->element->getID(idNamespaceURI));
-                    return false;
-                }
+                    // fallback for cross-order alignments
+                    l = getLinkByElId(docNum, baseIds.at(c), &pos, &el);
+                    if (!l) { // does it really matter? could we not just ignore it and just fix the gap somehow?
+                        errorMessage = QObject::tr("Element ID '%1' aligned by a dependent alignment '%2' not found in the current alignment.").arg(baseIds.at(c), fileinfo.fileName());
+                        return false;
+                    }
+                }//qDebug()<<"=== Deplink"<<baseIds.at(c)<<"at depPos"<<depPos<<"added to link at pos"<<pos<<"el"<<el;
                 dl = new dependentLink;
                 dl->id = baseIds.at(c);
                 dl->pos = depPos;
@@ -1550,7 +1610,7 @@ bool ItAlignment::loadDepAlignment(QString filename, ushort docNum, ushort share
             }
             /* dependent IDs - add to the prepared 'idlist' */
             //for (int c=0; c<depIds.size(); c++) {
-            dl = new dependentLink;
+            dl = new dependentLink;//qDebug()<<">>> Deplink ids"<<depIds.join(sep)<<"at depPos"<<depPos<<"appended to idlist.";
             dl->id = depIds.join(sep);//depIds.at(c);
             dl->pos = depPos;
             dl->mark = mark.toInt();
@@ -1593,8 +1653,8 @@ bool ItAlignment::saveDepAlignment(alignmentInfo * myinfo, int idx, ushort docNu
   //qDebug() << "File opened:" << filename;
 
   QTextStream out(&file);
-  out << "<?xml version='1.0' encoding='utf-8'?>\n";
-  out << "<linkGrp toDoc='" << myinfo->ver[1].filename << "' fromDoc='" << myinfo->ver[0].filename << "'>\n";
+  out << "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+  out << "<linkGrp toDoc=\"" << myinfo->ver[1].filename << "\" fromDoc=\"" << myinfo->ver[0].filename << "\">\n";
 
   //ushort depNum;
   dependentLink * dl = 0;
@@ -1612,17 +1672,25 @@ bool ItAlignment::saveDepAlignment(alignmentInfo * myinfo, int idx, ushort docNu
     }
   }
   if (depLinks[docNum].at(idx)->size()>max) max = depLinks[docNum].at(idx)->size()-1;
-  l = nextLink(docNum, basePos, baseEl);
   for (ushort i=0; i<=max; ++i) {
     lcount =0; rcount = 0;
     s = 0; m = 0;
     // get IDs from the base document
     docIdList.clear();
     //if (l!=0) qDebug() << "pos" << i << "next link has" <<  l->depLinks.at(idx)->pos << "at index" << basePos << baseEl; else qDebug()<<"End reached";
-    while (l!=0 && i == l->depLinks.at(idx)->pos) {
+    /*while (l!=0 && i == l->depLinks.at(idx)->pos) {
       //qDebug() << i << l->element->getID();
       docIdList.append(l->element->getID(idNamespaceURI));
       l = nextLink(docNum, basePos, baseEl);
+    }*/
+    // every time rescan completely for cross-order alignments
+    basePos = 0; baseEl = 0;
+    l = nextLink(docNum, basePos, baseEl);
+    while (l!=0) {
+        if (i == l->depLinks.at(idx)->pos) {
+            docIdList.append(l->element->getID(idNamespaceURI));
+        }
+        l = nextLink(docNum, basePos, baseEl);
     }
     docIds = docIdList.join(sep);
     //get1Stat(docNum, i, &s); // NO!!!!!! propagation of status/mark from a different alignment!
@@ -1646,10 +1714,10 @@ bool ItAlignment::saveDepAlignment(alignmentInfo * myinfo, int idx, ushort docNu
     }
     if (lids!="") lcount = lids.split(sep).size();
     if (rids!="") rcount = rids.split(sep).size();
-    if (m>0) mark = QString(" mark='%1'").arg(m);
+    if (m>0) mark = QString(" mark=\"%1\"").arg(m);
     else mark = QString();
     stat = linkStatName(s);
-    out << "<link type='" << rcount << "-" << lcount << "' xtargets='" << rids << ";" << lids << "' status='" << stat << "'" << mark << "/>\n";
+    out << "<link type=\"" << rcount << "-" << lcount << "\" xtargets=\"" << rids << ";" << lids << "\" status=\"" << stat << "\"" << mark << "/>\n";
   }
   out << "</linkGrp>\n";
   file.close();
@@ -1733,8 +1801,8 @@ bool ItAlignment::saveCrossAlignment(alignmentInfo * myinfo, aligned_doc baseDoc
   dependentLink * lastMedDepLink, * dl;
   QString sep(" ");
 
-  out << "<?xml version='1.0' encoding='utf-8'?>\n";
-  out << "<linkGrp toDoc='" << myinfo->ver[1].filename << "' fromDoc='" << myinfo->ver[0].filename << "'>\n";
+  out << "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+  out << "<linkGrp toDoc=\"" << myinfo->ver[1].filename << "\" fromDoc=\"" << myinfo->ver[0].filename << "\">\n";
 
   // anything in the remote document preceding the base alignment?
   if (!links[medDoc].at(basePos)->isEmpty() && links[medDoc].at(basePos)->first()->depLinks.at(depAl)->pos>0) {
@@ -1753,7 +1821,7 @@ bool ItAlignment::saveCrossAlignment(alignmentInfo * myinfo, aligned_doc baseDoc
       lcount = 0; rcount = 0;
       if (lids!="") lcount = lids.split(sep).size();
       if (rids!="") rcount = rids.split(sep).size();
-      out << "<link type='" << rcount << "-" << lcount << "' xtargets='" << rids << ";" << lids << "' status='" << stat << "'" << mark << "/>\n";
+      out << "<link type=\"" << rcount << "-" << lcount << "\" xtargets=\"" << rids << ";" << lids << "\" status=\"" << stat << "\"" << mark << "/>\n";
       remIDs.clear();
   }
 
@@ -1771,7 +1839,7 @@ bool ItAlignment::saveCrossAlignment(alignmentInfo * myinfo, aligned_doc baseDoc
           lastMedDepLink = lastMedLink->depLinks.at(depAl);
           stopRemPos = lastMedDepLink->pos;
       } else {
-          mark = QString(" mark='%1'").arg(1);
+          mark = QString(" mark=\"%1\"").arg(1);
       }
 
       while (remPos<=stopRemPos) {
@@ -1810,7 +1878,7 @@ bool ItAlignment::saveCrossAlignment(alignmentInfo * myinfo, aligned_doc baseDoc
           if (rids!="") rcount = rids.split(sep).size();
           //if (m>0) mark = QString(" mark='%1'").arg(m); else mark = QString();
           //stat = linkStatName(s);
-          out << "<link type='" << rcount << "-" << lcount << "' xtargets='" << rids << ";" << lids << "' status='" << stat << "'" << mark << "/>\n";
+          out << "<link type=\"" << rcount << "-" << lcount << "\" xtargets=\"" << rids << ";" << lids << "\" status=\"" << stat << "\"" << mark << "/>\n";
           baseIDs.clear();
           remIDs.clear();
           mark = QString();
@@ -1832,7 +1900,7 @@ bool ItAlignment::saveCrossAlignment(alignmentInfo * myinfo, aligned_doc baseDoc
               lcount = 0; rcount = 0;
               if (lids!="") lcount = lids.split(sep).size();
               if (rids!="") rcount = rids.split(sep).size();
-              out << "<link type='" << rcount << "-" << lcount << "' xtargets='" << rids << ";" << lids << "' status='" << stat << "'" << mark << "/>\n";
+              out << "<link type=\"" << rcount << "-" << lcount << "\" xtargets=\"" << rids << ";" << lids << "\" status=\"" << stat << "\"" << mark << "/>\n";
               remIDs.clear();
           }
       }
@@ -1854,7 +1922,7 @@ bool ItAlignment::saveCrossAlignment(alignmentInfo * myinfo, aligned_doc baseDoc
       lcount = 0; rcount = 0;
       if (lids!="") lcount = lids.split(sep).size();
       if (rids!="") rcount = rids.split(sep).size();
-      out << "<link type='" << rcount << "-" << lcount << "' xtargets='" << rids << ";" << lids << "' status='" << stat << "'" << mark << "/>\n";
+      out << "<link type=\"" << rcount << "-" << lcount << "\" xtargets=\"" << rids << ";" << lids << "\" status=\"" << stat << "\"" << mark << "/>\n";
       remIDs.clear();
   }
 
@@ -2497,4 +2565,85 @@ void ItAlignment::setIdNamespaceURI(QString &uri) {
     idNamespaceURI = uri;
     doc[0]->setIdNamespaceURI(idNamespaceURI);
     doc[1]->setIdNamespaceURI(idNamespaceURI);
+}
+
+void ItAlignment::createAlignableElementsOrder(aligned_doc d)
+{
+    if (alignableElementsOrder[d]) {
+        return;
+    }
+    alignableElementsOrder[d] = new QList<QDomElement>;
+    QStringList elnames = getAlignableElementnames(d);
+    QList<ItElement*> itelements;
+    doc[d]->collectElements(&itelements, elnames);
+    ItElement * e;
+    while (itelements.size()) {
+        e = itelements.takeFirst();
+        alignableElementsOrder[d]->append(e->element);
+        delete e;
+    }
+}
+
+int ItAlignment::getAlElementOrder(aligned_doc d, QDomElement el)
+{
+    if (!alignableElementsOrder[d])
+        createAlignableElementsOrder(d);
+    return alignableElementsOrder[d]->indexOf(el);
+}
+
+bool ItAlignment::breaksOrder(aligned_doc d, int pos, int el)
+{
+    ItElement * e = links[d].at(pos)->at(el)->element;
+    int order = getAlElementOrder(d, e->element);
+    int prev = order - 1;
+    e = getPrecedingAlignedElement(d, pos, el);
+    if (e) {
+        prev = getAlElementOrder(d, e->element);
+    }
+    if (order == prev + 1)
+        return false;
+    else {
+        //qDebug()<<"Order broken by doc"<<d+1<<"pos"<<pos+1<<"el"<<el+1<<"order is"<<order<<"prev is"<<prev;
+        return true;
+    }
+}
+
+ItElement * ItAlignment::getPrecedingAlignedElement(aligned_doc d, int pos, int el)
+{
+    if (pos<links[d].size()) {
+        while (pos>=0) {
+            if (el>0) {
+                el--;
+                return links[d].at(pos)->at(el)->element;
+            } else {
+                pos--;
+                if (pos>=0)
+                    el = links[d].at(pos)->size();
+            }
+        }
+    }
+    return 0;
+}
+
+ItAlignment::Link * ItAlignment::getLinkByElId(aligned_doc d, QString id, int * fpos, int * fel)
+{
+    Link * l = 0;
+    int pos = 0;
+    int el = 0;
+    while (pos < links[d].size()) {
+        while (el < links[d].at(pos)->size()) {
+            l = links[d].at(pos)->at(el);
+            if (l->element->getID(idNamespaceURI) == id) {
+                if (fpos)
+                    *fpos = pos;
+                if (fel)
+                    *fel = el;
+                return l;
+            }
+            el++;
+        }
+        pos++;
+        el = 0;
+    }
+    return 0;
 }

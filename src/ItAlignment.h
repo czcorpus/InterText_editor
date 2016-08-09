@@ -237,6 +237,8 @@ public:
 
   ItElement * getElement(aligned_doc doc, int pos, int el);
 
+  int getAlElementOrder(aligned_doc d, QDomElement el);
+  bool breaksOrder(aligned_doc d, int pos, int el);
 private:
 	QList< QList<Link*>* > links [DOCUMENTS];
 	QList< QList<dependentLink*>* > depLinks [DOCUMENTS];
@@ -259,6 +261,11 @@ private:
   bool search_segment(aligned_doc doc, int pos, bool forward, ItSearchBar::searchType stype, QString &str, bool ignoreMarkup, QList<Replacement> &transform);
   void clearIndex(aligned_doc d);
   QString transformText(QString text, bool ignoreMarkup, const QList<Replacement> &transform);
+  QList<QDomElement> * alignableElementsOrder[2];
+  void createAlignableElementsOrder(aligned_doc d);
+  ItElement * getPrecedingAlignedElement(aligned_doc d, int pos, int el);
+  Link * getLinkByElId(aligned_doc d, QString id, int *fpos=0, int *fel=0);
+  void destroyAlignableElementsOrder(aligned_doc d);
 };
 
 
