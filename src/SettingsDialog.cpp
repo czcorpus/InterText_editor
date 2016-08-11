@@ -80,7 +80,8 @@ SettingsDialog::SettingsDialog(ItWindow *parent) :
     ui->editSkipMargin->setValue(window->view->skipMargin);
     ui->editAutoSaveInterval->setValue(window->getAutoSaveInterval());
     ui->editAutoHide->setValue(window->view->controlsHideTimeOut);
-    ui->genPSettingsBox->hide(); /* not implemented well into ItDocument/ItElement */
+    ui->labelIdNameSpace->hide(); /* not implemented well into ItDocument/ItElement */
+    ui->editIdNameSpace->hide(); /* not implemented well into ItDocument/ItElement */
     ui->editIdNameSpace->setText(window->defaultIdNamespaceURI);
     showColors();
     ui->cssEdit->setText(window->getCss());
@@ -112,6 +113,7 @@ SettingsDialog::SettingsDialog(ItWindow *parent) :
     ui->expProfEncodingSel->insertItems(0, encodings);
 
     ui->autoCheckForUpdates->setChecked(window->autoCheckUpdates);
+    ui->crossorderEnableCheckBox->setChecked(window->enableCrossOrderAlignment);
     updateServerList();
     updateExpProfList();
 
@@ -280,6 +282,7 @@ void SettingsDialog::apply()
   window->view->setAutoSaveElement((AutoState)ui->changeAutoSaveElement->currentIndex());
   window->view->controlsHideTimeOut = ui->editAutoHide->value();
   window->autoCheckUpdates = ui->autoCheckForUpdates->isChecked();
+  window->enableCrossOrderAlignment = ui->crossorderEnableCheckBox->isChecked();
   Colors c;
   c.fgdefault = cfDefault;
   c.bgdefault = cDefault;

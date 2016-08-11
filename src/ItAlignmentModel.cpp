@@ -939,3 +939,22 @@ void ItAlignmentModel::undo()
 {
     undoStack->undo();
 }
+
+bool ItAlignmentModel::swapWithPrevPosition(const QModelIndex &idx, QList<ItAlignment::statRec> * slist, bool nofocus)
+{
+    bool res;
+    QModelIndex next = index(idx.row()+1, LAST_COLUMN, idx.parent());
+    emit layoutAboutToBeChanged();
+    if (autoUpdateStatus) alignment->scanStat(idx.row(), slist);
+    res = alignment->swapWithPrevPosition(idx.column()-1, idx.row());
+    if (autoUpdateStatus) alignment->updateStat(idx.row());
+    QModelIndex cur = index(idx.row(), FIRST_COLUMN, idx.parent());
+    if (res) {
+        replaceHistoryClear();
+        emit dataChanged(cur, next);
+    }
+    emit layoutChanged();
+    if (!nofocus)
+        emit focusOnChange(idx.sibling(idx.row()-1, idx.column()));
+    return res;
+}

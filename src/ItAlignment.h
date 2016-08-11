@@ -200,6 +200,7 @@ public:
   void syncDepsPermissions();
 	bool canDepsChtext(ushort doc);
 	bool canDepsChstruct(ushort doc);
+    bool crossOrderAlignmentAllowed();
 
   bool realign(int fromPos, int toPos, QList<QStringList> alignedIds [2], ushort status, QList<statRec> * slist = 0);
   void applySentenceSplitter(aligned_doc d, ItSentenceSplitter * splitter, QStringList textElements, QString &elName);
@@ -237,6 +238,7 @@ public:
 
   ItElement * getElement(aligned_doc doc, int pos, int el);
 
+  bool swapWithPrevPosition(aligned_doc d, int pos);
   int getAlElementOrder(aligned_doc d, QDomElement el);
   bool breaksOrder(aligned_doc d, int pos, int el);
 private:

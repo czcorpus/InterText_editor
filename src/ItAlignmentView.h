@@ -84,6 +84,7 @@ public slots:
   void moveText();
   void shift(int row = INVALID_ROW, int doc = 0);
   void pop(int row = INVALID_ROW, int doc = 0);
+  void swapSegments(int row = INVALID_ROW, int doc = 0);
   void toggleStat();
   void toggleMark();
   void confirmAll();

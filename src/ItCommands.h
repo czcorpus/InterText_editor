@@ -81,6 +81,19 @@ private:
   QDateTime m_lastctime;
 };
 
+class SwapCommand : public QUndoCommand
+{
+public:
+  explicit SwapCommand(ItAlignmentModel * m, const QModelIndex &index);
+    virtual void redo();
+    virtual void undo();
+private:
+  ItAlignmentModel * m_model;
+  QModelIndex m_index;
+  QList<ItAlignment::statRec> m_sr;
+  QDateTime m_lastctime;
+};
+
 class ToggleMarkCommand : public QUndoCommand
 {
 public:

@@ -2647,3 +2647,22 @@ ItAlignment::Link * ItAlignment::getLinkByElId(aligned_doc d, QString id, int * 
     }
     return 0;
 }
+
+bool ItAlignment::swapWithPrevPosition(aligned_doc d, int pos)
+{
+    if (pos < 1)
+        return false;
+    if (pos > links[d].size() - 1)
+        return false;
+    QList<Link *> * tmp = links[d].at(pos);
+    links[d].replace(pos, links[d].at(pos-1));
+    links[d].replace(pos-1, tmp);
+    return true;
+}
+
+bool ItAlignment::crossOrderAlignmentAllowed()
+{
+    if (info.source.startsWith("http"))
+        return false;
+    return true;
+}

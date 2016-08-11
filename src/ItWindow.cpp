@@ -32,6 +32,7 @@ ItWindow::ItWindow() : QMainWindow()
   crypto.setKey(Q_UINT64_C(0xfb6cfc42d17bb211));
   restartApp = false;
   autoCheckUpdates = true;
+  enableCrossOrderAlignment = false;
   htmlViewAct = 0;
   defaultIdNamespaceURI = "";
   searchBar = new ItSearchBar(this);
@@ -1158,6 +1159,17 @@ void ItWindow::createActions()
   toolBarActions.append(popAct);
   ctxmenuActions.append(popAct);
 
+  swapAct = new QAction(tr("Swap with preceding segment"), this);
+  swapAct->setShortcut(Qt::CTRL|Qt::Key_X);
+  swapAct->setStatusTip(tr("Swap with preceding segment"));
+  swapAct->setIcon(composeIcon("swap.png"));
+  connect(swapAct, SIGNAL(triggered()), view, SLOT(swapSegments()));
+  swapAct->setEnabled(false);
+  swapAct->setData(QVariant("swap"));
+  allActions.append(swapAct);
+  toolBarActions.append(swapAct);
+  ctxmenuActions.append(swapAct);
+
   toggleMarkAct = new QAction(tr("Toggle bookmark"), this);
   toggleMarkAct->setShortcut(Qt::Key_M);
   toggleMarkAct->setStatusTip(tr("Toggle bookmark"));
@@ -1506,6 +1518,8 @@ void ItWindow::createMenus()
   editMenu->addAction(moveDownAct);
   editMenu->addAction(popAct);
   editMenu->addSeparator();
+  editMenu->addAction(swapAct);
+  editMenu->addSeparator();
   editMenu->addAction(toggleMarkAct);
   editMenu->addAction(toggleStatusAct);
   editMenu->addAction(confirmAct);
@@ -1649,6 +1663,7 @@ void ItWindow::readSettings()
     QSize size = settings->value("size", QSize(640, 480)).toSize();
     setAutoSaveInterval(settings->value("autosave", 5).toInt());
     autoCheckUpdates = settings->value("check_updates_on_startup", "true").toBool();
+    enableCrossOrderAlignment = settings->value("enable_cross_order_alignment", "false").toBool();
     /*defaultIdNamespaceURI = settings->value("default_id_namespace_uri", defaultIdNamespaceURI).toString();*/ /* not implemented well into ItDocument/ItElement */
     view->setShowControls((ShowControlsType)settings->value("show_controls", view->getShowControls()).toInt());
     view->setSizeControls(settings->value("size_controls", view->getSizeControls()).toInt());
@@ -2124,6 +2139,7 @@ void ItWindow::writeSettings()
     settings->setValue("autosave", autoSaveInterval);
     /*settings->setValue("default_id_namespace_uri", defaultIdNamespaceURI);*/
     settings->setValue("check_updates_on_startup", QVariant(autoCheckUpdates).toString());
+    settings->setValue("enable_cross_order_alignment", QVariant(enableCrossOrderAlignment).toString());
     settings->setValue("show_controls", view->getShowControls());
     settings->setValue("size_controls", view->getSizeControls());
     settings->setValue("autohide_controls", view->controlsHideTimeOut);
@@ -2387,6 +2403,7 @@ void ItWindow::updateActions() {
     moveDownAct->setEnabled(false);
     shiftAct->setEnabled(false);
     popAct->setEnabled(false);
+    swapAct->setEnabled(false);
     mergeAct->setEnabled(false);
     splitParentAct->setEnabled(false);
     mergeParentAct->setEnabled(false);
@@ -2423,10 +2440,16 @@ void ItWindow::updateActions() {
             insertAct->setEnabled(false);
         }
     if (cur.isValid() && (cur.column()==1 || cur.column()==2) && !model->data(cur, Qt::DisplayRole).toString().isEmpty()) {
-			if (cur.row()!=0)
+            if (cur.row()!=0) {
 				moveUpAct->setEnabled(true);
-			else
+                if (crossOrderAlignmentAllowed())
+                    swapAct->setEnabled(true);
+                else
+                    swapAct->setEnabled(false);
+            } else {
 				moveUpAct->setEnabled(false);
+                swapAct->setEnabled(false);
+            }
 			moveDownAct->setEnabled(true);
 			if (cur.row()!=0)
 				shiftAct->setEnabled(true);
@@ -2448,6 +2471,7 @@ void ItWindow::updateActions() {
             moveTextAct->setEnabled(false);
 			shiftAct->setEnabled(false);
 			popAct->setEnabled(false);
+            swapAct->setEnabled(false);
 			splitParentAct->setEnabled(false);
 			mergeParentAct->setEnabled(false);
 		}
@@ -2480,6 +2504,7 @@ void ItWindow::updateActions() {
     moveBDownAct->setEnabled(false);
     moveTextAct->setEnabled(false);
     moveUpAct->setEnabled(false);
+    swapAct->setEnabled(false);
     insertAct->setEnabled(true);
 		moveDownAct->setEnabled(false);
 		if (cur.row()==0 && cur.parent().row()!=0)
@@ -4201,4 +4226,15 @@ void ItWindow::enableHtmlView(bool en) {
     if (htmlViewAct) {
         htmlViewAct->setEnabled(en);
     }
+}
+
+bool ItWindow::crossOrderAlignmentAllowed()
+{
+    if (!enableCrossOrderAlignment)
+        return false;
+    if (!model)
+        return false;
+    if (!model->alignment->crossOrderAlignmentAllowed())
+        return false;
+    return true;
 }

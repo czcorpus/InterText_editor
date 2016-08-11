@@ -150,13 +150,19 @@ void ItAbstractDelegate::createContents(QTextDocument * doc, const QStyleOptionV
     complete = complete.replace("&","&amp;").replace(">","&gt;").replace("<","&lt;");
   //QString header = "<body onMouseOver=\"document.getElementById('controls').style.visibility='visible';\" onMouseOut=\"document.getElementById('controls').style.visibility='hidden';\">";
   //header.append("<div id=\"controls\">Controls</div>");
-  complete = QString("<body><p>%1</p></body>").arg(complete.replace("\n","</p><p>"));
-  complete.replace(QChar(0x25BA),"<img src=\":/images/16/dblarrow.png\"/>");
-  complete.replace(QChar(0x25A0),"<img src=\":/images/16/arrow.png\"/>");
+  complete = QString("<body>%1</p></body>").arg(complete.replace("\n","</p>"));
+  QString brk = "<hr class=\"break\"/>"; // no styling possible :-(
+  //QString brk = "<img src=\":/images/svg/break.svgz\"/>"; // no relative scaling working
+  //QString brk = "<p>******************************</p>"; // simple, better default?
+  complete.replace(QChar(0x25BB),brk+"<p><img src=\":/images/16/dblarrow.png\"/>");
+  complete.replace(QChar(0x25A1),brk+"<p><img src=\":/images/16/arrow.png\"/>");
+  complete.replace(QChar(0x25BA),"<p><img src=\":/images/16/dblarrow.png\"/>");
+  complete.replace(QChar(0x25A0),"<p><img src=\":/images/16/arrow.png\"/>");
   QString css = QString("p{margin:0px;padding:0px;color:%1;} #controls{display:none;} ").arg(model->getColors().fgdefault.name());
   css.append(model->getCSS());
   doc->setDefaultStyleSheet(css);
   // span.match{background-color:#f96;} span.repl{background-color:#6f6;}");
+  //qDebug()<<complete;
   doc->setHtml(complete);//.replace("&","&amp;").replace(">","&gt;").replace("<","&lt;"));
   doc->adjustSize();
   doc->setDefaultFont(option.font);

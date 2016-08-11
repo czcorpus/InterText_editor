@@ -329,6 +329,22 @@ void ItAlignmentView::pop(int row, int doc) {
   m->undoStack->push(new PopCommand(m, myidx));
 }
 
+void ItAlignmentView::swapSegments(int row, int doc)
+{
+    if (model()==0) return;
+      if (segview!=0) closeEditor(segview, QAbstractItemDelegate::NoHint);
+      if (txteditor!=0) closeEditor(txteditor, QAbstractItemDelegate::NoHint);
+    ItAlignmentModel * m;
+    m = static_cast<ItAlignmentModel*>(model());
+    QModelIndex myidx;
+    if (row == INVALID_ROW) {
+        myidx = currentIndex();
+    } else {
+        myidx = m->index(row, doc+1, QModelIndex());
+    }
+    m->undoStack->push(new SwapCommand(m, myidx));
+}
+
 void ItAlignmentView::insertElement() {
     if (model()==0) return;
     if (segview!=0) closeEditor(segview, QAbstractItemDelegate::NoHint);

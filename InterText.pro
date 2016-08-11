@@ -110,3 +110,4 @@ FORMS += \
 
 OTHER_FILES += \
     Changelog.txt
+

@@ -141,20 +141,27 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="genPSettingsBox">
+        <widget class="QGroupBox" name="genASettingsBox">
          <property name="title">
-          <string>Parsing</string>
+          <string>Advanced</string>
          </property>
          <layout class="QFormLayout" name="formLayout">
-          <item row="0" column="0">
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="editIdNameSpace"/>
+          </item>
+          <item row="1" column="0">
            <widget class="QLabel" name="labelIdNameSpace">
             <property name="text">
              <string>ID namespace URI</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="editIdNameSpace"/>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="crossorderEnableCheckBox">
+            <property name="text">
+             <string>Enable cross-order alignment</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -166,8 +173,8 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>578</width>
-           <height>183</height>
+           <width>20</width>
+           <height>40</height>
           </size>
          </property>
         </spacer>

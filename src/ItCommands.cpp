@@ -129,6 +129,31 @@ void PopCommand::undo()
 }
 
 /***************************************************
+** SwapCommand
+*/
+
+SwapCommand::SwapCommand(ItAlignmentModel * m, const QModelIndex &index)
+{
+  setText(QObject::tr("Swap with preceding segment"));
+  m_model = m;
+  m_index = index;
+  m_lastctime = m_model->alignment->info.changed;
+}
+
+void SwapCommand::redo()
+{
+  m_model->swapWithPrevPosition(m_index, &m_sr);
+}
+
+void SwapCommand::undo()
+{
+  m_model->swapWithPrevPosition(m_index, 0, false);
+  m_model->undoStatusChanges(m_sr);
+  m_model->alignment->info.changed = m_lastctime;
+  //m_model->refocusOnIndex(m_index);
+}
+
+/***************************************************
 ** ToggleMarkCommand
 */
 

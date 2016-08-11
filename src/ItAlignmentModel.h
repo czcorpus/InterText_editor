@@ -95,6 +95,7 @@ public:
   bool moveDown(const QModelIndex &idx, QList<ItAlignment::statRec> * slist = 0, bool nofocus = false);
   bool shift(const QModelIndex &idx, QList<ItAlignment::statRec> * slist = 0);
   bool pop(const QModelIndex &idx, QList<ItAlignment::statRec> * slist = 0, bool nofocus = false);
+  bool swapWithPrevPosition(const QModelIndex &idx, QList<ItAlignment::statRec> * slist = 0, bool nofocus = false);
 	void toggleMark(const QModelIndex &idx);
 	void toggleStat(const QModelIndex &idx);
     void confirmAll(const QModelIndex &idx, QList<ItAlignment::statRec> * slist);

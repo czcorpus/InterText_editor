@@ -136,6 +136,7 @@ public:
   QString alTitleFormat;
   bool syncMarkChanges;
   bool autoCheckUpdates;
+  bool enableCrossOrderAlignment;
   TBSize toolBarSize;
   QToolBar *toolBar;
   QList<QAction*> allActions;
@@ -160,6 +161,7 @@ public:
   QAction *mergeParentAct;
   QAction *undoAct, *redoAct;
   QAction *confirmAct;
+  QAction *swapAct;
   QAction *editXmlAct;
 
 
@@ -284,6 +286,8 @@ private:
   bool syncDoc(ItAlignment * a, ServerDialog *sd, aligned_doc d);
 
   bool generateCrossAlignment(ItAlignment::alignmentInfo *newinfo);
+
+  bool crossOrderAlignmentAllowed();
 
   QIcon composeIcon(QString fname);
 

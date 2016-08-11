@@ -133,5 +133,10 @@
         <file>images/32/insert.png</file>
         <file>images/svg/insert.svgz</file>
         <file>images/48/insert.png</file>
+        <file>images/16/swap.png</file>
+        <file>images/22/swap.png</file>
+        <file>images/32/swap.png</file>
+        <file>images/48/swap.png</file>
+        <file>images/svg/swap.svgz</file>
     </qresource>
 </RCC>
