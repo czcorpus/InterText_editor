@@ -665,6 +665,7 @@ bool ItAlignment::updateContents(aligned_doc doc, int pos, int el, QString strin
   bool res = link->element->updateContents(string, trackChanges[doc]);
   if (res) {
     setDocDepCTime(doc, QDateTime::currentDateTime());
+    destroyAlignableElementsOrder(doc); // rebuilding the list just seems to be fast enough...
   }
   return res;
 }
@@ -759,7 +760,7 @@ bool ItAlignment::split(aligned_doc doc, int pos, int el, QStringList newstrings
 	while (!newstrings.isEmpty())
 		if (!duplicate(doc, pos, el++, newstrings.takeFirst()))
 			return false;
-    destroyAlignableElementsOrder(doc);
+    destroyAlignableElementsOrder(doc); // rebuilding the list just seems to be fast enough...
 	renumber(doc);
 	return true;
 }
@@ -934,7 +935,7 @@ bool ItAlignment::removeAfter(aligned_doc doc, int pos, int el, int count) {
 			parel.parentNode().removeChild(parel);
 		}
     }
-    destroyAlignableElementsOrder(doc);
+    destroyAlignableElementsOrder(doc); // rebuilding the list just seems to be fast enough...
     renumber(doc);
 	return true;
 }
@@ -2603,7 +2604,7 @@ bool ItAlignment::breaksOrder(aligned_doc d, int pos, int el)
     if (order == prev + 1)
         return false;
     else {
-        //qDebug()<<"Order broken by doc"<<d+1<<"pos"<<pos+1<<"el"<<el+1<<"order is"<<order<<"prev is"<<prev;
+        //if (d>0) qDebug()<<"Order broken by doc"<<d+1<<"pos"<<pos+1<<"el"<<el+1<<"order is"<<order<<"prev is"<<prev;
         return true;
     }
 }
