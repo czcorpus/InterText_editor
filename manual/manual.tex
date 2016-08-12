@@ -135,14 +135,14 @@ Univerzita Karlova v Praze, Filozofická fakulta \\
 \end{Huge}
 
 \begin{huge}
-v1.3.1\\
+v1.4\\
 \medskip
 comprehensive guide
 \end{huge}
 \bigskip
 
 \begin{Large}
-September 2015\\
+August 2016\\
 \end{Large}
 
 %\vspace*{2cm}
@@ -219,7 +219,9 @@ General features of \IT:
 
 Additional features of \ITeditor:
 \begin{itemize}
+  \item support for cross-order alignment
 	\item creating new alignments from plain text files
+  \item writing your own translation on the fly (create alignment with empty target)
   \item import of new-line aligned text files
 	\item integrated sentence-splitter (fully configurable, based on regular expressions)
 	\item (re)align any selected part of the alignment with an automatic aligner at any time
@@ -233,7 +235,7 @@ Additional features of \ITeditor:
 	\item runs on Linux, MacOs X, MS Windows
 \end{itemize}
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/mainwindow_naum.png}
 \end{figure}
 
@@ -426,7 +428,7 @@ You can import an TEI XML alignment created by \IT or a compatible tool (e.g. TC
 
 If you want to import an alignment from some \ITserver, you first need to configure the connection to your server. Open the menu \menu{Options} and select \menu{Settings}. The settings dialog will pop-up. Select tab \menu{Server}. Click the \menu{New} button and enter some arbitrary name for your server into the dialog that pops-up now.\footnote{You can use the name of your project, corpus or just name of the server or its location. The name will then appear in the sub-menu \menu{Alignment} > \menu{Remote server}.}
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/settings_server.png}
 \end{figure}
 
@@ -440,18 +442,18 @@ You can configure as many server connections as you want to. However, you cannot
 
 If you already have some alignment in your local repository, you can open it from the \emph{Repository manager} (open it e.g. from the menu \menu{Alignments}). The \emph{repository manager} is a small dialog showing a list of all alignments in your local repository. You can select one and open it using the button \menu{Open} or just by double-clicking the item. (For more details on the \emph{repository manager} see chapter \ref{ch:detail:managing_local}.)
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/mainwindow.png}
 \end{figure}
 
 
-The alignment will open in the main window in the form of a table similar to the scheme shown in the introductory chapter \ref{ch:intro:albasics:segments}. The two main columns contain the two aligned texts side-by-side. Column headers show the names of the versions. Each row in the table represents one segment.\footnote{See chapter \ref{ch:intro:albasics:segments} on explanation of what is a segment.} It has a number (on the left side) showing the position (or segment number) in the alignment. Even rows are slightly darker than odd rows for easier orientation (depending on the settings). Each segment contains zero, one or several text units (usually sentences) -- each starting with a blue triangle \includegraphics[height=1ex]{../images/arrow.png} or a double blue triangle \includegraphics[height=1ex]{../images/dblarrow.png}. The double blue triangle marks units (e.g. sentences) which take first place within their parent container (e.g. paragraph) -- so, it usually marks where new paragraphs start. Segments grouping a different amount of text units than 1:1 are by default highlighted with a yellow background (can be changed in the settings or just turned off in the menu \menu{Options}).
+The alignment will open in the main window in the form of a table similar to the scheme shown in the introductory chapter \ref{ch:intro:albasics:segments}. The two main columns contain the two aligned texts side-by-side. Column headers show the names of the versions. Each row in the table represents one segment.\footnote{See chapter \ref{ch:intro:albasics:segments} on explanation of what is a segment.} It has a number (on the left side) showing the position (or segment number) in the alignment. Even rows are slightly darker than odd rows for easier orientation (depending on the settings). Each segment contains zero, one or several text units (usually sentences) -- each starting with a blue triangle \includegraphics[height=1ex]{../images/16/arrow.png} or a double blue triangle \includegraphics[height=1ex]{../images/16/dblarrow.png}. The double blue triangle marks units (e.g. sentences) which take first place within their parent container (e.g. paragraph) -- so, it usually marks where new paragraphs start. Segments grouping a different amount of text units than 1:1 are by default highlighted with a yellow background (can be changed in the settings or just turned off in the menu \menu{Options}).
 
 Hovering the mouse cursor above any segment shows the list of IDs of all elements (units) in the segment in a tool-tip.
 
-The leftmost narrow column contains bookmarks. A white (empty) star \includegraphics[height=1.5ex]{../images/nomark.png} is a symbol for no bookmark. Clicking it toggles the bookmark \includegraphics[height=1.5ex]{../images/mark.png} on and off again. By default, bookmarked segments are highlighted with a red background (can be changed in the settings or just turned off in the menu \menu{Options}).
+The leftmost narrow column contains bookmarks. A white (empty) star \includegraphics[height=1.5ex]{../images/16/nomark.png} is a symbol for no bookmark. Clicking it toggles the bookmark \includegraphics[height=1.5ex]{../images/16/mark.png} on and off again. By default, bookmarked segments are highlighted with a red background (can be changed in the settings or just turned off in the menu \menu{Options}).
 
-The rightmost narrow column shows the status of each segment: \includegraphics[height=1.5ex]{../images/48/confirmed.png} for manually verified (confirmed) segments; \includegraphics[height=1.5ex]{../images/automatic.png} for segments created by an automatic aligner; \includegraphics[height=1.5ex]{../images/plain.png} for segments created in another way (e.g. by a fake 1:1 alignment), with unknown status or otherwise marked for further verification. Clicking the icon can toggle the status between ``confirmed'' and ``unknown''.
+The rightmost narrow column shows the status of each segment: \includegraphics[height=1.5ex]{../images/16/confirmed.png} for manually verified (confirmed) segments; \includegraphics[height=1.5ex]{../images/16/automatic.png} for segments created by an automatic aligner; \includegraphics[height=1.5ex]{../images/16/plain.png} for segments created in another way (e.g. by a fake 1:1 alignment), with unknown status or otherwise marked for further verification. Clicking the icon can toggle the status between ``confirmed'' and ``unknown''.
 
 Hovering the mouse cursor above a status icon shows its meaning in a tool-tip.
 
@@ -525,7 +527,7 @@ Automatic aligner is usually being run when a new alignment is created (see chap
 The automatic aligner can be run from the menu \menu{Edit} > \menu{Auto aligner}. A dialog window asks for more parameters for the alignment process.
 
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=0.8\textwidth]{screenshots/autoaligner.png}
 \end{figure}
 
@@ -558,9 +560,10 @@ It is also possible to change the basic borders of linguistic units in the struc
 
 \begin{itemize}
  \item Elements (text units) can be split into several new elements of the same type in the following way: open the defective element for editing, point the mouse cursor above the place where you want to split the unit, and from the context menu (right mouse-click) select \menu{Split}. Alternatively, you may also manually insert empty line(s) (two \keys{Enter}s) into the text on the place(s) where you want to split the element. After saving the changed contents (by pressing \keys{F2}), the element will be split into as many new elements as desired, according to the empty lines in the new contents.
+ \item New text elements can be easily inserted also using the \menu{Insert element} action from the \menu{Edit} menu, from the context menu (if configured), or by pressing the \keys{I} key. An editor will immediately open for entering text. If the current segment already contains some text elements, the new one will be inserted at the end of the segment.
  \item Elements can be merged by using the \menu{Merge (both) elements} action from the \menu{Edit} menu, from the context menu, or by clicking the \includegraphics[height=2ex]{merge.pdf} symbol in the toolbar, or by pressing the \keys{Alt + Backspace} keys simultaneously. Merge is only possible when both elements are currently grouped in one common segment. If there are more than two elements in the current segment, a submenu will be opened by triggering the action (same as for the \emph{Edit} action) and you have to select the element to be merged with its \emph{preceding} element and trigger the \menu{Merge} action one more time. Applying the action to the first element in a segment will have exactly the same effect as applying it to the second one: the first two elements will be merged.
- \item Parent element (e.g. paragraph) breaks can be changed too: it means you can split or merge paragraphs as well. By selecting a sentence which opens a new paragraph (i.e. it starts with the \includegraphics[height=1ex]{../images/dblarrow.png} symbol), you can use the action \menu{Delete paragraph break}in the \menu{Edit} menu, in the context menu, or press \keys{Ctrl/cmd + B} to delete the paragraph break and merge the current paragraph with the previous one. If the elements are part of containers (parent elements) of different type or on different levels in the XML structure, the merger will be denied.\footnote{For example. when using different types of TEI containers for a prose ``paragraph'' containing sentences and a ``stanza'' containing verses, it will not be possible to merge a ``stanza'' with a ``paragraph''.} To select an element within a segment with several elements, use the \emph{Edit} action to open the submenu for selection of the single elements and then trigger this action on the selected element only. In case the action is triggered on the whole segment containing several elements, the action always affects only the first one.
- \item By selecting a sentence which is just somewhere in the middle of a paragraph (i.e. it starts with the \includegraphics[height=1ex]{../images/arrow.png} symbol), you can insert a new paragraph break just before it by triggering the \menu{Insert paragraph break} action in the \menu{Edit} menu, the context menu, or by pressing \keys{Ctrl/cmd + B}. The current paragraph will then be split into two separate ones, the second one starting with the currently selected sentence. If the elements are enclosed in some other type of structural container (parent element) than a ``paragraph'' (e.g. ``verses'' in a ``stanza''), the new container will be of the same type as the old one, of course.
+ \item Parent element (e.g. paragraph) breaks can be changed too: it means you can split or merge paragraphs as well. By selecting a sentence which opens a new paragraph (i.e. it starts with the \includegraphics[height=1ex]{../images/16/dblarrow.png} symbol), you can use the action \menu{Delete paragraph break}in the \menu{Edit} menu, in the context menu, or press \keys{Ctrl/cmd + B} to delete the paragraph break and merge the current paragraph with the previous one. If the elements are part of containers (parent elements) of different type or on different levels in the XML structure, the merger will be denied.\footnote{For example. when using different types of TEI containers for a prose ``paragraph'' containing sentences and a ``stanza'' containing verses, it will not be possible to merge a ``stanza'' with a ``paragraph''.} To select an element within a segment with several elements, use the \emph{Edit} action to open the submenu for selection of the single elements and then trigger this action on the selected element only. In case the action is triggered on the whole segment containing several elements, the action always affects only the first one.
+ \item By selecting a sentence which is just somewhere in the middle of a paragraph (i.e. it starts with the \includegraphics[height=1ex]{../images/16/arrow.png} symbol), you can insert a new paragraph break just before it by triggering the \menu{Insert paragraph break} action in the \menu{Edit} menu, the context menu, or by pressing \keys{Ctrl/cmd + B}. The current paragraph will then be split into two separate ones, the second one starting with the currently selected sentence. If the elements are enclosed in some other type of structural container (parent element) than a ``paragraph'' (e.g. ``verses'' in a ``stanza''), the new container will be of the same type as the old one, of course.
 \end{itemize}
 
 Merging two elements can be a dangerous action for consistency of other alignments of the same text (see chapter \ref{ch:intro:itbasics:consistency} for explanation), and therefore it will be refused if there is some other alignment of the text, where the two elements are part of two different segments. If the text is synchronized with an \ITserver and an internet connection to the server is available, the server will also be asked for acceptability of such a merger.\footnote{It cannot be expected that all existing alignments of the two texts are also available (downloaded) in the local repository and fully synchronized.} If the merger is not approved by the server, the server may completely deny any further synchronization of the text.
@@ -577,7 +580,7 @@ Please, note that merging or splitting elements (sentences) is not ``another way
 
 \IT keeps all local alignments in its own repository to be able to keep their consistency. All operations on the alignments can be accessed from the \menu{Alignment} menu and/or from the \emph{Repository manager}, which can be opened by the appropriate command in the \menu{Alignment} menu, or by clicking the \includegraphics[height=2ex]{../images/48/manager.png} symbol in the toolbar, or by pressing the \keys{Ctrl/cmd + M} keys.
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/rep_manager.png}
 \end{figure}
 
@@ -593,7 +596,7 @@ Basic instructions for creating new alignments have been presented in chapter \r
 
 The first dialog window presented requires filling in the common name of the document and the two names for the versions to be aligned. The names can either be entered manually or chosen from a list of already existing names in the repository.
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=0.8\textwidth]{screenshots/new_alignment.png}
 \end{figure}
 
@@ -619,7 +622,7 @@ If you did not select a remote server as a source, you will have to select a fil
 
 If you select an XML document, you will be greeted by a new dialog asking for the relevant XML elements containing the text units to be aligned.
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=0.8\textwidth]{screenshots/xml_import.png}
 \end{figure}
 
@@ -631,7 +634,7 @@ If your text is not segmented into the desired text units yet, you may use the i
 
 When selecting a plain text file, you will have to select whether it is really just some ``plain text'' file or a text from a newline-aligned pair of texts.
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=0.5\textwidth]{screenshots/text_import_type.png}
 \end{figure}
 
@@ -643,7 +646,7 @@ The next dialog will ask for details on how to convert the plain text file into 
 
 The text will be enclosed by an XML header and footer and its body will be parsed depending on the fact whether it is only segmented into text blocks (like paragraphs) or whether it is already segmented into the single alignable text units (e.g. sentences).
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=0.9\textwidth]{screenshots/text_import.png}
 \end{figure}
 
@@ -657,7 +660,7 @@ In case your text file contains some XML/HTML-style mark-up (emphasis by italics
 
 Because \IT is able to change the structure of XML files (split or merge text elements / units), it must also be able to generate unique IDs of all the elements concerned.\footnote{See chapter \ref{ch:intro:albasics:alignable}} When importing XML documents, \IT tries to determine any existing numbering scheme used in the document. If no numbering scheme is detected or its structure is too complex for \IT to understand,\footnote{See chapter \ref{ch:detail:managing_local:properties} for closer description of acceptable numbering structures and how the scheme can be changed.} you will be asked which scheme you want to use. \IT is able to create two types of generated IDs:
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=0.8\textwidth]{screenshots/numbering_dialog.png}
 \end{figure}
 
@@ -711,7 +714,7 @@ The formats may be modified\footnote{For example, you may desire to change the d
 
 \IT keeps some metadata connected to each alignment. These are especially crucial for synchronization with a remote \ITserver. When a text is synchronized with a server, it is also not recommended to change these settings unless you know well what you are doing. Changing settings for a synced alignment or some of its text versions may result in irrecoverable inability to synchronize with the server.
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=0.9\textwidth]{screenshots/properties.png}
 \end{figure}
 
@@ -735,18 +738,18 @@ The principles and limitations of the synchronization between an \ITeditor and a
 
 The menu \menu{Alignment} contains a submenu \menu{Remote server} presenting a list of all configured remote \IT servers. Choosing one of them opens a remote alignment manager for that particular server.
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=0.9\textwidth]{screenshots/remote_manager.png}
 \end{figure}
 
 The dialog will download a list of all alignments accessible to the configured user on the remote \ITserver, mixed with a list of local alignments available in the repository. Different icons and colours indicate the current state of each alignment:
 
 \begin{itemize}
- \item \includegraphics[height=1.5ex]{../images/local.png} marks alignments only existing in the local repository
- \item \includegraphics[height=1.5ex]{../images/nonlocal.png} marks alignments only available at the remote server
- \item \includegraphics[height=1.5ex]{../images/conflicting.png} marks alignments that cannot be synchronized because of a conflict (either the alignment or some of its text versions is available under the same name both on the server and in the local repository, but they are not marked for synchronization; this also applies to previously synchronized alignments which have been \emph{released} but not removed locally)
- \item \includegraphics[height=1.5ex]{../images/update-required.png} marks synchronized alignments which need to be updated, because some of the text versions has been modified on the server
- \item \includegraphics[height=1.5ex]{../images/locally-modified.png} marks synchronized alignments containing local changes which have not yet been submitted to the server
+ \item \includegraphics[height=1.5ex]{../images/16/local.png} marks alignments only existing in the local repository
+ \item \includegraphics[height=1.5ex]{../images/16/nonlocal.png} marks alignments only available at the remote server
+ \item \includegraphics[height=1.5ex]{../images/16/conflicting.png} marks alignments that cannot be synchronized because of a conflict (either the alignment or some of its text versions is available under the same name both on the server and in the local repository, but they are not marked for synchronization; this also applies to previously synchronized alignments which have been \emph{released} but not removed locally)
+ \item \includegraphics[height=1.5ex]{../images/16/update-required.png} marks synchronized alignments which need to be updated, because some of the text versions has been modified on the server
+ \item \includegraphics[height=1.5ex]{../images/16/locally-modified.png} marks synchronized alignments containing local changes which have not yet been submitted to the server
  \item \includegraphics[height=1.5ex]{../images/48/confirmed.png} marks fully synchronized alignments (their state on the server is the same as in the local repository)
 \end{itemize}
 
@@ -766,7 +769,7 @@ Buttons on the right hand side may be used to: start \emph{sync}hronization (see
 
 Using the \emph{remote properties} dialog, you can change the same server properties which you would be able to change through the web interface of the \ITserver (i.e. depending on your role and permissions).
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=0.5\textwidth]{screenshots/remote_props1.png}
  \includegraphics[width=0.5\textwidth]{screenshots/remote_props2.png}
 \end{figure}
@@ -787,7 +790,7 @@ The process of synchronization has the following three phases:
 
 If a text version has been modified on the server, you will be presented with a special dialog asking you to accept every single change from the server. Refusing some of the changes will keep your current local state of the concerned text unit(s) and in the next phase it will be submitted back to the server together with other local changes you may have made in the text, and in that way revert the change made on the server.
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/change.png}
 \end{figure}
 
@@ -819,7 +822,7 @@ There is no real synchronization or updating of single changes: the original ali
 
 \chapter{Search and replace text contents}\label{ch:detail:search_replace}
 
-The menu \menu{Search} and the toolbar offer access to the 9 basic searches for previous, first and next bookmark, non-1:1 segment and unconfirmed segment. Additional searches are provided by the \emph{search and replace toolbar} which appears at the bottom of the window when the button \includegraphics[height=2ex]{../images/48/search.png} is clicked on the toolbar or when triggering the menu \menu{Search} > \menu{Find} (or pressing \keys{Ctrl/cmd + F}\footnote{The shortcuts may differ in different operating systems. Please check the menu for your system's shortcut.}) or \menu{Replace} (or pressing \keys{Ctrl/cmd + R}). Unless the last option is used, the search bar only appears in its reduced form for searching only. The bar can be expanded to the full \emph{search and replace bar} by clicking the symbol \includegraphics[height=2ex]{../images/48/arrow-up-double.png} on the right hand side, and again reduced by clicking the symbol \includegraphics[height=2ex]{../images/48/arrow-down-double.png}. It can be closed by clicking the symbol \includegraphics[height=2ex]{../images/close.png} on the left.
+The menu \menu{Search} and the toolbar offer access to the 9 basic searches for previous, first and next bookmark, non-1:1 segment and unconfirmed segment. Additional searches are provided by the \emph{search and replace toolbar} which appears at the bottom of the window when the button \includegraphics[height=2ex]{../images/48/search.png} is clicked on the toolbar or when triggering the menu \menu{Search} > \menu{Find} (or pressing \keys{Ctrl/cmd + F}\footnote{The shortcuts may differ in different operating systems. Please check the menu for your system's shortcut.}) or \menu{Replace} (or pressing \keys{Ctrl/cmd + R}). Unless the last option is used, the search bar only appears in its reduced form for searching only. The bar can be expanded to the full \emph{search and replace bar} by clicking the symbol \includegraphics[height=2ex]{../images/48/arrow-up-double.png} on the right hand side, and again reduced by clicking the symbol \includegraphics[height=2ex]{../images/48/arrow-down-double.png}. It can be closed by clicking the symbol \includegraphics[height=2ex]{../images/16/close.png} on the left.
 
 \medskip
 \begin{bclogo}[couleur = blue!30, arrondi = 0.1, logo = \bcattention,
@@ -878,7 +881,7 @@ Some basic options may be changed quickly through the menu \menu{Options}. These
 
 The \menu{General} pane of the settings dialog allows you to customize the behaviour of \ITeditor:
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/settings_general.png}
 \end{figure}
 
@@ -896,7 +899,7 @@ The \menu{General} pane of the settings dialog allows you to customize the behav
 
 The \menu{View} pane of the settings dialog allows you to customize the visualization of the text data. You can select the default font used to render the text contents here, configure custom rules for transformation of your custom data markup into regular HTML markup, which can be natively displayed in the editor, and possibly add your own CSS stylesheet for proper rendering of your data.
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/settings_view.png}
 \end{figure}
 
@@ -906,7 +909,7 @@ The rules for transformation can only have simple form of find-replace rules. Th
 
 In the \menu{Highlight} pane you may also modify the colours used for highlighting in the alignment table.
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/settings_highlight.png}
 \end{figure}
 
@@ -929,7 +932,7 @@ The selected colour combinations are shown on samples in the middle of the dialo
 
 The \menu{Aligner} pane of the settings dialog allows you to configure external automatic aligners. However, \IT needs to know how to import and interpret the results of an automatic aligner, which cannot be easily configured. At the moment, the only implemented method for importing and interpreting results is the \emph{hunalign ladder parser}.
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/settings_aligner.png}
 \end{figure}
 
@@ -945,7 +948,7 @@ Below, you may configure different profiles -- e.g. different configurations for
 
 The profile may be edited in a separate dialog window:
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=0.8\textwidth]{screenshots/settings_aligner_profile.png}
 \end{figure}
 
@@ -955,7 +958,7 @@ There are just two text fields in the profile form: the profile \emph{name} and 
 
 The \menu{Splitter} pane of the settings dialog allows you to configure different profiles for the integrated rule-based sentence splitter, which can be applied to the imported texts when creating new alignments.\footnote{Of course it is not limited to splitting sentences only -- the text can be split into any custom text units which can be defined by clear formal rules using regular expressions.}
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/settings_splitter.png}
 \end{figure}
 
@@ -983,7 +986,7 @@ The \menu{Profile} selectbox is used to switch the profile currently shown (and 
 
 The form is too long to fit into the window, so that it has to be rolled through using the mouse.
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/settings_export.png}
 \end{figure}
 
@@ -1021,7 +1024,7 @@ You may define your own additional placeholders, or \emph{custom variables}, at 
 
 The toolbar buttons, context menu actions and keyboard-shortcuts can be customized by the user. Open the customization dialog through the menu \menu{Options} > \menu{Customize}.
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/customize_toolbar.png}
 \end{figure}
 
@@ -1032,7 +1035,7 @@ The right column shows all available actions. You can add new action buttons (or
 
 \section{Context menu}\label{ch:detail:custom:contextmenu}
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/customize_contextmenu.png}
 \end{figure}
 
@@ -1040,7 +1043,7 @@ The second tab of the customization dialog shows the configuration of the contex
 
 \section{Keyboard shortcuts}\label{ch:detail:custom:shortcuts}
 
-\begin{figure}[htbf]
+\begin{figure}[htb]
  \includegraphics[width=\textwidth]{screenshots/customize_shortcuts.png}
 \end{figure}
 

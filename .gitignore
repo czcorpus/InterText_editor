@@ -1,2 +1,7 @@
 *.user
-
+manual/manual.aux
+manual/manual.log
+manual/manual.out
+manual/manual.pdf
+manual/manual.toc
+*.backup

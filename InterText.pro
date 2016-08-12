@@ -111,3 +111,6 @@ FORMS += \
 OTHER_FILES += \
     Changelog.txt
 
+DISTFILES += \
+    CHANGELOG
+

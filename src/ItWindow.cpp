@@ -1717,7 +1717,7 @@ void ItWindow::readSettings()
             }
         }
     }
-    QString defaultCtxMenuConf("shift move_up move_both_up move_both_down move_down pop | edit | merge split_parent merge_parent | confirm | undo redo");
+    QString defaultCtxMenuConf("shift move_up move_both_up move_both_down move_down pop | edit insert | merge split_parent merge_parent | confirm | undo redo");
     QStringList ctxmenuConf = settings->value("context_menu_actions", defaultCtxMenuConf).toString().split(" ");
     foreach (aname, ctxmenuConf) {
         if (aname == "|")
