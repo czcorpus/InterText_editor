@@ -1156,6 +1156,8 @@ bool ItAlignment::moveDown(aligned_doc doc, int pos)
 	if (pos>links[doc].size()-1) return false;
   links[doc].insert(pos,new QList<Link*>);
   //updateStat(pos, slist);
+  while (links[doc].last()->isEmpty())
+      links[doc].takeLast();
   info.changed = QDateTime::currentDateTime();
 	return true;
 }
