@@ -688,8 +688,8 @@ void ItAlignmentView::dataChanged(const QModelIndex &topLeft, const QModelIndex 
   int last = bottomRight.row();
   if (first<rowAt(0))
     first = rowAt(0);
-  if (last>rowAt(height()))
-    last = rowAt(height());//qDebug() << first << last;
+  if (rowAt(height())>0 && last>rowAt(height()))
+    last = rowAt(height());
   for (int i = first; i <= last; ++i)
       resizeRowToContents(i);
   /*if (last<nextToResize-1)
