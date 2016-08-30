@@ -38,16 +38,16 @@ order=-1
 
 [item:manual.tex]
 archive=true
-column=18
+column=155
 encoding=UTF-8
 highlight=LaTeX
-line=227
+line=562
 mode=LaTeX
 open=true
 order=0
 
 [view-settings,view=0,item:manual.tex]
-CursorColumn=18
-CursorLine=227
+CursorColumn=155
+CursorLine=562
 JumpList=
-ViMarks=.,1,0,[,1,0,],1,0
+ViMarks=.,562,154,[,562,142,],562,154

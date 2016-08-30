@@ -438,6 +438,10 @@ After closing the settings dialog, you can find your server as a new item in the
 
 You can configure as many server connections as you want to. However, you cannot share alignments between servers. One alignment or document version can only be in synchronization with one server. It is not possible to have several documents or alignments with the same name in your repository. If your repository already contains an alignment with the same name as an alignment on the server, and it is not result of synchronization with this particular server, any synchronization of this alignment or its documents will be blocked.
 
+\section{Writing your own translation of an existing text}\label{ch:howto:translation}
+
+Please, see chapter \ref{ch:detail:translation} for more details on how you may use \ITeditor also for writing your own aligned translation.
+
 \chapter{The user interface: or what do you see}\label{ch:howto:interface}
 
 If you already have some alignment in your local repository, you can open it from the \emph{Repository manager} (open it e.g. from the menu \menu{Alignments}). The \emph{repository manager} is a small dialog showing a list of all alignments in your local repository. You can select one and open it using the button \menu{Open} or just by double-clicking the item. (For more details on the \emph{repository manager} see chapter \ref{ch:detail:managing_local}.)
@@ -463,7 +467,7 @@ The status bar at the bottom of the window usually shows how many positions (seg
 
 The status bar also shows context help when browsing the menu or state of a process running in background (e.g. synchronization).
 
-At the top of the window, between the menu and the alignment table, there is a toolbar with buttons. The buttons trigger the most frequently used actions also accessible from the main menu or from the context menu (or from the \emph{floating controls} - see below). Hovering the mouse cursor above a button shows its function in a tool-tip and a context help in the status bar at the bottom of the window. The buttons and their function is as follows:
+At the top of the window, between the menu and the alignment table, there is a toolbar with buttons. The buttons trigger the most frequently used actions also accessible from the main menu or from the context menu (or from the \emph{floating controls} - see below). Hovering the mouse cursor above a button shows its function in a tool-tip and a context help in the status bar at the bottom of the window. By default, the buttons in the toolbar and their functions are as follows:
 
 \begin{itemize}
 	\item \includegraphics[height=2ex]{../images/48/manager.png} opens the \emph{repository manager}
@@ -485,7 +489,11 @@ At the top of the window, between the menu and the alignment table, there is a t
 	\item \includegraphics[height=2ex]{../images/48/search.png} opens the search bar (see chapter \ref{ch:detail:search_replace} for details)
 \end{itemize}
 
+The toolbar may be freely customized according to your own needs. You may add more actions, reorder the buttons or remove some of them. See chapter \ref{ch:detail:custom:toolbar} for details.
+
 When moving the mouse cursor above the table rows, the \emph{floating controls} appear in the middle of the table above each segment by default. They contain the most important of the buttons needed to change the alignment. The controls can be switched to appear only on mouse-click or they can be be turned off (hidden) completely in the \menu{Options} menu. Their size can be adjusted in the same menu as well.
+
+Pressing the right mouse button above the table will open a context menu with the most important actions as well. The context menu can also be reconfigured according to your needs: see chapter \ref{ch:detail:custom:contextmenu} for details.
 
 \chapter{Correcting alignment and text contents}\label{ch:howto:edit}
 
@@ -544,7 +552,7 @@ For details on configuring an automatic aligner and its profiles see chapter \re
 
 Text contents can therefore be easily edited in \IT by triggering the \menu{Edit element} action in the \menu{Edit} menu, in the context menu (right mouse-click), or by clicking the \includegraphics[height=2ex]{../images/48/edit-rename.png} symbol in the toolbar, or by pressing the \keys{E} key when the desired text unit is selected, or just by double-clicking the segment. To select a single text unit within a segment with multiple units, you have to use \emph{Edit} twice: first to open the segment contents menu to select the desired text unit (sentence), and then finally to open that unit for editing. If there is only one text unit in the current segment, it will be opened for editing instantly on the first \emph{Edit} action.
 
-When you finish editing the contents of a text unit, you can save the new contents by pressing the \keys{F2} functional key,\footnote{The assignment of keys or keyboard shortcuts can be modified in the customization dialog. See chapter \ref{ch:detail:custom:shortcuts}.} or you can anytime just escape the editing mode by pressing the \keys{Esc} key to discard the changes made and return the contents to the previous state. Using the \keys{Tab} and \keys{Back-tab} keys, you can save the changes and automatically open the following or preceding element for editing. If you just leave the editor, \ITeditor will ask you whether you want to save or discard the changed contents. By checking the option ``Remember my choice and do not ask again.'' you can set the default behaviour and avoid being asked again. This choice may always be changed in the \menu{Settings} later, though (see chapter \ref{ch:detail:config:editor}).
+When you finish editing the contents of a text unit, you can save the new contents by pressing the \keys{F2} functional key,\footnote{The assignment of keys or keyboard shortcuts can be modified in the customization dialog. See chapter \ref{ch:detail:custom:shortcuts}.} or you can anytime just escape the editing mode by pressing the \keys{Esc} key to discard the changes made and return the contents to the previous state. Using the \keys{Tab} and \keys{Back-tab} keys, you can save the changes and automatically open the following or preceding element for editing. There is also a special editor keyboard shortcut for both saving the contents and creating (inserting) a new text element in the following segment.\footnote{By default, it is \keys{Ctrl/cmd+Tab}; see chapter \ref{ch:howto:edit_struc} for more information on inserting elements and chapter \ref{ch:detail:translation} for details on the purpose of this shortcut.} If you just leave the editor in some other way, \ITeditor will ask you whether you want to save or discard the changed contents. By checking the option ``Remember my choice and do not ask again.'' you can set the default behaviour and avoid being asked again. This choice may always be changed in the \menu{Settings} later, though (see chapter \ref{ch:detail:config:editor}).
 
 Advanced search and replace functionality is also available and will be described in chapter \ref{ch:detail:search_replace}.
 
@@ -560,7 +568,7 @@ It is also possible to change the basic borders of linguistic units in the struc
 
 \begin{itemize}
  \item Elements (text units) can be split into several new elements of the same type in the following way: open the defective element for editing, point the mouse cursor above the place where you want to split the unit, and from the context menu (right mouse-click) select \menu{Split}. Alternatively, you may also manually insert empty line(s) (two \keys{Enter}s) into the text on the place(s) where you want to split the element. After saving the changed contents (by pressing \keys{F2}), the element will be split into as many new elements as desired, according to the empty lines in the new contents.
- \item New text elements can be easily inserted also using the \menu{Insert element} action from the \menu{Edit} menu, from the context menu (if configured), or by pressing the \keys{I} key. An editor will immediately open for entering text. If the current segment already contains some text elements, the new one will be inserted at the end of the segment.
+ \item New text elements can be easily inserted also using the \menu{Insert element} action from the \menu{Edit} menu, from the context menu (if configured), or by pressing the \keys{I} key. An editor will immediately open for entering text. If the current segment already contains some text elements, the new one will be inserted at the end of the segment. The new element will be of the same type as the immediately preceding alignable element.\footnote{Please, note that there must already be some alignable element preceding the place of insertion, since \IT needs to know what type of element it should create. Thus, \emph{inserting} actually means \emph{splitting} (or cloning) the preceding element with no contents given yet to the second part. If you need to insert a new element at the very beginning of the document, you may use a simple trick: open the first text element for editing and split it by entering the new contents at its very beginning, followed by an empty line (two enters) and then its original contents. Then it will be split into two elements with the new contents preceding the original one.}
  \item Elements can be merged by using the \menu{Merge (both) elements} action from the \menu{Edit} menu, from the context menu, or by clicking the \includegraphics[height=2ex]{merge.pdf} symbol in the toolbar, or by pressing the \keys{Alt + Backspace} keys simultaneously. Merge is only possible when both elements are currently grouped in one common segment. If there are more than two elements in the current segment, a submenu will be opened by triggering the action (same as for the \emph{Edit} action) and you have to select the element to be merged with its \emph{preceding} element and trigger the \menu{Merge} action one more time. Applying the action to the first element in a segment will have exactly the same effect as applying it to the second one: the first two elements will be merged.
  \item Parent element (e.g. paragraph) breaks can be changed too: it means you can split or merge paragraphs as well. By selecting a sentence which opens a new paragraph (i.e. it starts with the \includegraphics[height=1ex]{../images/16/dblarrow.png} symbol), you can use the action \menu{Delete paragraph break}in the \menu{Edit} menu, in the context menu, or press \keys{Ctrl/cmd + B} to delete the paragraph break and merge the current paragraph with the previous one. If the elements are part of containers (parent elements) of different type or on different levels in the XML structure, the merger will be denied.\footnote{For example. when using different types of TEI containers for a prose ``paragraph'' containing sentences and a ``stanza'' containing verses, it will not be possible to merge a ``stanza'' with a ``paragraph''.} To select an element within a segment with several elements, use the \emph{Edit} action to open the submenu for selection of the single elements and then trigger this action on the selected element only. In case the action is triggered on the whole segment containing several elements, the action always affects only the first one.
  \item By selecting a sentence which is just somewhere in the middle of a paragraph (i.e. it starts with the \includegraphics[height=1ex]{../images/16/arrow.png} symbol), you can insert a new paragraph break just before it by triggering the \menu{Insert paragraph break} action in the \menu{Edit} menu, the context menu, or by pressing \keys{Ctrl/cmd + B}. The current paragraph will then be split into two separate ones, the second one starting with the currently selected sentence. If the elements are enclosed in some other type of structural container (parent element) than a ``paragraph'' (e.g. ``verses'' in a ``stanza''), the new container will be of the same type as the old one, of course.
@@ -600,7 +608,7 @@ The first dialog window presented requires filling in the common name of the doc
  \includegraphics[width=0.8\textwidth]{screenshots/new_alignment.png}
 \end{figure}
 
-Select boxes on the right hand side of the version names can be used to switch the source from a local file import to a remote server, in order to select a text version to be imported from a pre-configured \ITserver. If a server is selected, the text name and version name editor fields change into select boxes as well and only text and version names available at the server can be selected. Arbitrary names cannot be chosen of obvious reasons: the text (document) and version names are considered general and thus unique identifiers across all projects you may access.
+Select boxes on the right hand side of the version names can be used to switch the source from a \emph{local file} import to a remote server, in order to select a text version to be imported from a pre-configured \ITserver. If a server is selected, the text name and version name editor fields change into select boxes as well and only text and version names available at the server can be selected. Arbitrary names cannot be chosen of obvious reasons: the text (document) and version names are considered general and thus unique identifiers across all projects you may access.
 
 The source can be selected for both versions separately, so that texts from different sources can be aligned with each other:
 
@@ -610,9 +618,11 @@ The source can be selected for both versions separately, so that texts from diff
  \item alignment can also be created from two text versions originating from two different \IT servers, but only if there are any documents with a common name (identifier) on the two different servers -- the identity and uniqueness of text names as identifiers is automatically considered a necessary requirement
 \end{itemize}
 
-If you select a name of a text version already present in the repository, you will be forced to use that particular text or choose a different name to import a new text file. You cannot import a new text (either from a file or a server) using a name of some text version already existing in the repository.
+If you select a name of a text version already present in the repository, you will be forced to either use that particular text version or choose a different name to import a new text file. You cannot import a new text (either from a file or a server) using a name of some text version already existing in the repository.
 
 If you select two versions which are both already available in the repository and which are already (locally) aligned to a third, common version, \IT will offer you the possibility to automatically generate the alignment from the existing ones. See chapter \ref{ch:detail:managing_local:generate} for more details.
+
+Beside of creating alignment of two existing texts, you may also create alignment from one existing text version and one \emph{empty document} if you want to write your translations yourself. See chapter \ref{ch:detail:translation} for more details.
 
 \subsection{Selecting text file(s)}\label{ch:detail:managing_local:new:files}
 
@@ -836,7 +846,7 @@ The select box on the left side of the search text field offers the following ty
 \begin{itemize}
  \item \textbf{Substring (a=A)} -- case insensitive search for a substring
  \item \textbf{Substring (a<>A)} -- case sensitive search for a substring
- \item \textbf{Regular exp. (a=A)} -- case insensitive search for a regular expression\footnote{See chapter \ref{ch:technical:strings} for details on supported regular expressions.}
+ \item \textbf{Regular exp. (a=A)} -- case insensitive search for a regular expression\footnote{See appendix \ref{ch:technical:strings} for details on supported regular expressions.}
  \item \textbf{Regular exp. (a<>A)} -- case sensitive search for a regular expression
  \item \textbf{Element ID (reg.exp.)} -- search for a particular alignable element by its ID (using regular expressions)
  \item \textbf{Empty segment} -- search for a segments containing no text units (on one or both sides -- see below)
@@ -859,6 +869,42 @@ The other buttons have the following functions:
 \end{itemize}
 
 This function can also be used to automatically \emph{find and split} wrongly segmented elements (since version 1.1) -- see appendix \ref{ch:technical:strings}. No \emph{find and merge} function is available, though. You are suggested to check the segmentation of your texts before importing them into \IT.
+
+\chapter{Using \IT to write your own aligned translation}\label{ch:detail:translation}
+
+Even though it is not the original purpose of \IT to be used as an text editor for writing new texts or translations, it also partly supports such process.
+
+New alignment can be created from an existing text (either \emph{local file} or text imported from a remote \ITserver) aligned with an \emph{empty document}. When creating your new alignment (see chapter \ref{ch:detail:managing_local:new}), just choose \emph{empty document} as the source of your second text version. After the import of the existing version, you will be presented with a template for the new empty XML document (you may change it if you need to)\footnote{Please, note that the empty document template must always contain at least one sample text element whose contents you may change later. Otherwise, you would not be able to insert any new text elements into the document (see the note in chapter \ref{ch:howto:edit_struc} for explanation).} which you have to confirm.
+
+\begin{figure}[htb]
+ \includegraphics[width=0.5\textwidth]{screenshots/empty_doc_template.png}
+\end{figure}
+
+Subsequently, you can open the first and only sample sentence element from the \emph{empty document} for editing and replace its contents with your own. By pressing the editor keyboard shortcut for \emph{saving and inserting next} element, your text will be saved, and a new element will be inserted just into the next following segment and immediately opened for entering the contents. The default shortcut for this combined action is \keys{Ctrl/cmd+Tab}, but you may change it to your own liking (see chapter \ref{ch:detail:custom:shortcuts}), e.g. to use plain \keys{Enter} to make this process even easier.
+
+In this way, you may proceed to write your own translation on the fly, sentence by sentence, aligned with the original text.
+
+\chapter{Support for cross-order alignment}\label{ch:detail:crossorder}
+
+Since version 1.4, \ITeditor also supports cross-order alignment. It means that single text elements (or blocks of them) can seemingly be (manually) moved out of their position in one text version in order to be aligned with corresponding text elements located somewhere else in the flow of the other text version. In this way, the actual text contents are \emph{not} changed or reordered in any way -- only \emph{the way it is displayed} in \ITeditor is changed, so that corresponding elements are displayed aligned side-by-side in the table view. Thus, the order of text elements shown in the table view will not always correspond to the actual flow of the text document anymore.
+
+This feature should be considered advanced (and experimental, i.e. not heavily tested) and therefore it must be explicitly enabled in the settings (see chapter \ref{ch:detail:config:general}). It is not supported by \ITserver either, and therefore it will be blocked for remote alignments even if generally enabled.\footnote{You may release the alignment from synchronization with the \ITserver and \emph{then} use this feature, but you will not be able to upload the alignment back to the server. Uploading cross-order alignments to an \ITserver may have unpredictable consequences. (You have been warned.)}
+
+You should also consider using this feature according to the further aim of your project and the capabilities of other tools you want to apply to the alignment, since probably most tools for processing and searching of parallel corpora do not currently support cross-order alignments. It probably need not be mentioned that automatic aligners (at least \emph{hunalign} or \emph{TCA2}) do not support such alignments either. You may experience unexpected behaviour when using cross-order alignment with tools that do not expect such input.
+
+\section{How to reorder text elements in the alignment}\label{ch:detail:crossorder:swap}
+
+When cross-order alignment is not disabled or blocked, an additional action called \menu{Swap with preceding segment} becomes available in the \menu{Edit} menu.\footnote{It can also be triggered by a keyboard shortcut (by default \keys{Ctrl/cmd+X}) or added to the toolbar or context menu (see chapter \ref{ch:detail:custom}).} This action will swap all text elements in the currently selected segment of one of the texts with all text elements in the preceding segment of the same text version. (The contents of the segments will swap their positions in the table.) Repeating the action may move the chosen block of text multiple positions upwards. In the opposite direction, a text segment will consequently be moved downwards, if the action is repeatedly applied to the segments following it. As mentioned above, the actual text flow of the document will \emph{not} be changed, but only the order in which the text elements are \emph{displayed} in the table view in \ITeditor.
+
+This action is naturally also supported by the undo/redo, so that you may revert your actions if you make some mistake.
+
+\section[How to identify the original order]{How to identify the original order of text elements in a cross-order alignment}\label{ch:detail:crossorder:visualization}
+
+\ITeditor offers only very simple indication of cross-ordered text elements in an alignment: it displays a horizontal bar at the top of each text element which does not really immediately follow (in the flow of the text) the element displayed just above it in the table view.
+
+This means that if you move some block of text elements out of their natural location in the text flow, there will be one bar displayed at the beginning of the block (the first element breaking the order) and second bar at the end of the block (the first element \emph{following} the block). But a third bar will also consequently be displayed at the original location of the text block -- i.e. by the first element following the original location of the displaced block, since there will also occur a gap in the view, where the displayed text elements do not immediately follow each other in the real text flow either.
+
+There is no other visual indication of which block of text originally belongs to which location in the flow. The only possibility to get a hint of the original order of text elements is by their consequent numbering of IDs as shown by the mouse-over. If the displaced text element (or block of them) is moved back to its original location, the bars will disappear, since the order in the table view would correspond to the text flow again.
 
 \chapter{Configuring and extending \IT}\label{ch:detail:config}
 
@@ -885,12 +931,20 @@ The \menu{General} pane of the settings dialog allows you to customize the behav
  \includegraphics[width=\textwidth]{screenshots/settings_general.png}
 \end{figure}
 
+\subsection*{Behaviour}
+
 \begin{itemize}
  \item \emph{keep page margin when skipping} -- sets the number of positions used as overlap when moving up and down the table using the \keys{PageUp} and \keys{PageDown} keys; when you page down or up, there will always be this number of positions shown from the previous page, so that you can be sure you do not overlook anything
  \item \emph{auto save interval} -- sets the interval in minutes when \IT automatically saves you current state of work to the repository (so that you won't lose your work e.g. in case of sudden power outage or software crash); setting the value to 0 turns the auto-save function off
  \item \emph{auto save edited contents} -- sets the behaviour when leaving an open text editor without pressing one of the keys \keys{Esc} or \keys{F2}: the changed contents can automatically be \emph{saved}, \emph{discarded} or the user should be \emph{asked} each time (see chapter \ref{ch:howto:edit_text})
  \item \emph{auto hide controls} -- sets the time interval (in milliseconds) after that the \emph{floating controls} (see chapter \ref{ch:howto:interface}) become hidden again when the mouse cursor stops moving (only applied when they are set to appear on mouse move -- see previous section)
  \item \emph{check for updates on start} -- sets whether \ITeditor should automatically try to use the \emph{PackageManager} to check for availability of updates on each program start; if updates are available, the user will be offered to install them and restart \ITeditor; the check can be as well triggered manually by the menu item \menu{Check for updates...} in the \menu{Help} menu or by running the \emph{PackageManager}
+\end{itemize}
+
+\subsection*{Advanced features}
+
+\begin{itemize}
+ \item \emph{enable cross-order alignment} -- see chapter \ref{ch:detail:crossorder}
 \end{itemize}
 
 \section{Configuring the text view}\label{ch:detail:config:editor}
