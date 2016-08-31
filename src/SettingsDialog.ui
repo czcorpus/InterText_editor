@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>625</width>
-    <height>569</height>
+    <height>581</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -146,8 +146,12 @@
           <string>Advanced</string>
          </property>
          <layout class="QFormLayout" name="formLayout">
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="editIdNameSpace"/>
+          <item row="0" column="0" colspan="2">
+           <widget class="QCheckBox" name="crossorderEnableCheckBox">
+            <property name="text">
+             <string>Enable cross-order alignment</string>
+            </property>
+           </widget>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="labelIdNameSpace">
@@ -156,12 +160,8 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="crossorderEnableCheckBox">
-            <property name="text">
-             <string>Enable cross-order alignment</string>
-            </property>
-           </widget>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="editIdNameSpace"/>
           </item>
          </layout>
         </widget>
@@ -1235,8 +1235,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>569</width>
-            <height>1232</height>
+            <width>553</width>
+            <height>1156</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
