@@ -943,7 +943,7 @@ void ItAlignmentModel::undo()
 bool ItAlignmentModel::swapWithPrevPosition(const QModelIndex &idx, QList<ItAlignment::statRec> * slist, bool nofocus)
 {
     bool res;
-    QModelIndex next = index(idx.row()+1, LAST_COLUMN, idx.parent());
+    QModelIndex prev = index(idx.row()-1, LAST_COLUMN, idx.parent());
     emit layoutAboutToBeChanged();
     if (autoUpdateStatus) alignment->scanStat(idx.row(), slist);
     res = alignment->swapWithPrevPosition(idx.column()-1, idx.row());
@@ -951,7 +951,7 @@ bool ItAlignmentModel::swapWithPrevPosition(const QModelIndex &idx, QList<ItAlig
     QModelIndex cur = index(idx.row(), FIRST_COLUMN, idx.parent());
     if (res) {
         replaceHistoryClear();
-        emit dataChanged(cur, next);
+        emit dataChanged(prev, cur);
     }
     emit layoutChanged();
     if (!nofocus)
