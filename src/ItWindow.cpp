@@ -3592,7 +3592,7 @@ void ItWindow::newServerConnection()
                               QMessageBox::Ok|QMessageBox::Cancel) == QMessageBox::Ok)
     {
         SettingsDialog * d = new SettingsDialog(this);
-        d->setTab(4);
+        d->setTab(5);
         d->show();
         connect(d, SIGNAL(accepted()), this, SLOT(updateServerMenu()));
     }
