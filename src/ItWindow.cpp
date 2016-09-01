@@ -3588,7 +3588,7 @@ void ItWindow::newServerConnection()
 {
     if (QMessageBox::question(this, tr("Set-up server connection"),
                               tr("In order to connect to a remote InterText server, you have to set the connection in the settings. "
-                                 "You create several connections to different servers. Do you want to continue?"),
+                                 "You may create several connections to different servers. Do you want to continue?"),
                               QMessageBox::Ok|QMessageBox::Cancel) == QMessageBox::Ok)
     {
         SettingsDialog * d = new SettingsDialog(this);
