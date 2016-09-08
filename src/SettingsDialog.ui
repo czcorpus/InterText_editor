@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>625</width>
-    <height>581</height>
+    <height>624</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1178,6 +1178,286 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab_import">
+      <attribute name="title">
+       <string>Import</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QScrollArea" name="scrollArea_import">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>569</width>
+            <height>949</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_10">
+           <item>
+            <widget class="QGroupBox" name="groupBox_textimport">
+             <property name="title">
+              <string>Plain text import defaults</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_21">
+              <item row="3" column="1">
+               <widget class="QPushButton" name="buttonXmlFooterEdit">
+                <property name="text">
+                 <string>Edit</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QPushButton" name="buttonXmlHeaderEdit">
+                <property name="text">
+                 <string>Edit</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0" colspan="4">
+               <widget class="QGroupBox" name="sentBox">
+                <property name="title">
+                 <string>Sentences (elements)</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_20">
+                 <item row="2" column="0" colspan="2">
+                  <widget class="QCheckBox" name="keepMarkup">
+                   <property name="text">
+                    <string>keep HTML/XML markup in text</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QComboBox" name="sentSepEdit">
+                   <property name="editable">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QRadioButton" name="sel_sentSep">
+                   <property name="text">
+                    <string> are already separated by:</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0" colspan="2">
+                  <widget class="QRadioButton" name="sel_autoSep">
+                   <property name="text">
+                    <string>automatically segment text using the splitter</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="labelXmlFooter">
+                <property name="text">
+                 <string>XML Footer:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" colspan="4">
+               <widget class="QCheckBox" name="askOnTextCheckBox">
+                <property name="text">
+                 <string>ask on every import</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="labelXmlHeader">
+                <property name="text">
+                 <string>XML Header:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="3">
+               <widget class="QComboBox" name="encSel"/>
+              </item>
+              <item row="4" column="0" colspan="4">
+               <widget class="QGroupBox" name="parBox">
+                <property name="title">
+                 <string>Paragraphs (containers)</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_19">
+                 <item row="0" column="1">
+                  <widget class="QComboBox" name="parSepEdit">
+                   <property name="editable">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_parSep_2">
+                   <property name="text">
+                    <string>separated by:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_parEl">
+                   <property name="text">
+                    <string>create elements:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="parElEdit"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="labelEncoding">
+                <property name="text">
+                 <string>Encoding:</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_XmlImport">
+             <property name="title">
+              <string>XML import defaults</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_22">
+              <item row="4" column="0" colspan="2">
+               <widget class="QRadioButton" name="sel_textelements">
+                <property name="text">
+                 <string>use the splitter to automatically segment text within the following elements:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" colspan="2">
+               <widget class="QCheckBox" name="askOnXmlCheckBox">
+                <property name="text">
+                 <string>ask on every import</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0" colspan="2">
+               <widget class="QCheckBox" name="lockIDs_checkBox">
+                <property name="text">
+                 <string>Lock imported XML for structure changes and preserve original IDs</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QRadioButton" name="sel_alelements">
+                <property name="text">
+                 <string>text is already segmented into the following alignable elements:</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0" colspan="2">
+               <widget class="QLineEdit" name="edit_alelements"/>
+              </item>
+              <item row="5" column="0" colspan="2">
+               <widget class="QLineEdit" name="edit_textelements"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="title">
+              <string>Splitter defaults</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_23">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_profile">
+                <property name="text">
+                 <string>profile:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QComboBox" name="splitterProfileSel"/>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_sentEl">
+                <property name="text">
+                 <string>create elements:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="sentElEdit"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_emptyimport">
+             <property name="title">
+              <string>Empty document creation</string>
+             </property>
+             <layout class="QFormLayout" name="formLayout_2">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_emptyXmlTemplate">
+                <property name="text">
+                 <string>XML template:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QPushButton" name="buttonXmlTemplateEdit">
+                <property name="text">
+                 <string>Edit</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string>Default numbering of elements</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_11">
+              <item>
+               <widget class="QRadioButton" name="twolevelButton">
+                <property name="text">
+                 <string>Use two level numbering (IDs of alignable elements and their parents may change)</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="singleButton">
+                <property name="text">
+                 <string>Use single level numbering (IDs of aligned elements may change)</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab">
       <attribute name="title">
        <string>Export</string>
@@ -1235,8 +1515,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>553</width>
-            <height>1156</height>
+            <width>569</width>
+            <height>1232</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1638,6 +1918,117 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>encSel</tabstop>
+  <tabstop>buttonXmlHeaderEdit</tabstop>
+  <tabstop>buttonXmlFooterEdit</tabstop>
+  <tabstop>parSepEdit</tabstop>
+  <tabstop>parElEdit</tabstop>
+  <tabstop>sentSepEdit</tabstop>
+  <tabstop>keepMarkup</tabstop>
+  <tabstop>upTransRuleButton</tabstop>
+  <tabstop>downTransRuleButton</tabstop>
+  <tabstop>newTransRuleButton</tabstop>
+  <tabstop>editTransRuleButton</tabstop>
+  <tabstop>transrules_view</tabstop>
+  <tabstop>delTransRuleButton</tabstop>
+  <tabstop>cssEdit</tabstop>
+  <tabstop>changeCFDefaultButton</tabstop>
+  <tabstop>changeCMarkedButton</tabstop>
+  <tabstop>changeCFoundButton</tabstop>
+  <tabstop>edit_caddDarker</tabstop>
+  <tabstop>changeCNon11Button</tabstop>
+  <tabstop>changeCDefaultButton</tabstop>
+  <tabstop>changeCReplButton</tabstop>
+  <tabstop>edit_cursorOpac</tabstop>
+  <tabstop>defaultColorsButton</tabstop>
+  <tabstop>changeCCursorButton</tabstop>
+  <tabstop>sel_aligner</tabstop>
+  <tabstop>newAlButton</tabstop>
+  <tabstop>delAlButton</tabstop>
+  <tabstop>edit_exec</tabstop>
+  <tabstop>selExecButton</tabstop>
+  <tabstop>edit_tmpdir</tabstop>
+  <tabstop>selTmpDirButton</tabstop>
+  <tabstop>edit_parSep</tabstop>
+  <tabstop>edit_elSep</tabstop>
+  <tabstop>edit_header</tabstop>
+  <tabstop>edit_footer</tabstop>
+  <tabstop>sel_impRes</tabstop>
+  <tabstop>list_profiles</tabstop>
+  <tabstop>editProfileButton</tabstop>
+  <tabstop>newProfileButton</tabstop>
+  <tabstop>delProfileButton</tabstop>
+  <tabstop>renameAlButton</tabstop>
+  <tabstop>sel_sprofile</tabstop>
+  <tabstop>newSProfileButton</tabstop>
+  <tabstop>delSProfileButton</tabstop>
+  <tabstop>srules_view</tabstop>
+  <tabstop>newSRuleButton</tabstop>
+  <tabstop>editSRuleButton</tabstop>
+  <tabstop>delSRuleButton</tabstop>
+  <tabstop>upSRuleButton</tabstop>
+  <tabstop>downSRuleButton</tabstop>
+  <tabstop>sabbrevs_view</tabstop>
+  <tabstop>newSAbbrevButton</tabstop>
+  <tabstop>editSAbbrevButton</tabstop>
+  <tabstop>delSAbbrevButton</tabstop>
+  <tabstop>renameSProfileButton</tabstop>
+  <tabstop>serverSelect</tabstop>
+  <tabstop>newServerButton</tabstop>
+  <tabstop>renameServerButton</tabstop>
+  <tabstop>delServerButton</tabstop>
+  <tabstop>editUrl</tabstop>
+  <tabstop>editUsername</tabstop>
+  <tabstop>editPasswd</tabstop>
+  <tabstop>autoUpdateCheck</tabstop>
+  <tabstop>expProfSelect</tabstop>
+  <tabstop>newExpProfButton</tabstop>
+  <tabstop>renameExpProfButton</tabstop>
+  <tabstop>delExpProfButton</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>expProfExtEdit</tabstop>
+  <tabstop>expProfFooterEdit</tabstop>
+  <tabstop>expProfHeaderEdit</tabstop>
+  <tabstop>expProfEncodingSel</tabstop>
+  <tabstop>expProfKeepSeg</tabstop>
+  <tabstop>expProfSegStartEdit</tabstop>
+  <tabstop>expProfSegEndEdit</tabstop>
+  <tabstop>expProfSegSepEdit</tabstop>
+  <tabstop>expProfSkipEmptySegs</tabstop>
+  <tabstop>expProfSkipUnconfSegs</tabstop>
+  <tabstop>expProfEmptySegFillEdit</tabstop>
+  <tabstop>expProfElStartEdit</tabstop>
+  <tabstop>expProfElEndEdit</tabstop>
+  <tabstop>expProfElSepEdit</tabstop>
+  <tabstop>expProfKeepPar</tabstop>
+  <tabstop>expProfParSepEdit</tabstop>
+  <tabstop>expProfVerSepEdit</tabstop>
+  <tabstop>expProfKeepBoth</tabstop>
+  <tabstop>expProfReplView</tabstop>
+  <tabstop>expProfReplDownButton</tabstop>
+  <tabstop>expProfReplUpButton</tabstop>
+  <tabstop>expProfReplDelButton</tabstop>
+  <tabstop>expProfReplNewButton</tabstop>
+  <tabstop>expProfReplEditButton</tabstop>
+  <tabstop>expProfCustVarEditButton</tabstop>
+  <tabstop>expProfCustVarView</tabstop>
+  <tabstop>expProfCustVarDelButton</tabstop>
+  <tabstop>expProfCustVarNewButton</tabstop>
+  <tabstop>scrollArea_import</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>askOnTextCheckBox</tabstop>
+  <tabstop>editSkipMargin</tabstop>
+  <tabstop>editAutoSaveInterval</tabstop>
+  <tabstop>changeAutoSaveElement</tabstop>
+  <tabstop>editAutoHide</tabstop>
+  <tabstop>sel_sentSep</tabstop>
+  <tabstop>sel_autoSep</tabstop>
+  <tabstop>crossorderEnableCheckBox</tabstop>
+  <tabstop>editIdNameSpace</tabstop>
+  <tabstop>autoCheckForUpdates</tabstop>
+  <tabstop>changeFontButton</tabstop>
+ </tabstops>
  <resources>
   <include location="../InterText.qrc"/>
  </resources>

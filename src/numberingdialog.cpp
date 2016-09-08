@@ -22,7 +22,7 @@
 #include "numberingdialog.h"
 #include "ui_numberingdialog.h"
 
-numberingDialog::numberingDialog(QWidget *parent, ItAlignment * a, int document, bool allowLockOnly) :
+numberingDialog::numberingDialog(QWidget *parent, ItAlignment * a, int document, bool allowLock) :
     QDialog(parent),
     ui(new Ui::numberingDialog)
 {
@@ -30,7 +30,7 @@ numberingDialog::numberingDialog(QWidget *parent, ItAlignment * a, int document,
   alignment = a;
   doc = document;
   ui->mainLabel->setText(tr("The document version '%1' uses uknown element numbering scheme. Choose how to treat it:").arg(a->info.ver[doc].name));
-  if (!allowLockOnly)
+  if (!allowLock)
     ui->lockButton->hide();
   adjustSize();
 }
@@ -59,6 +59,6 @@ void numberingDialog::setDefaultLevels(int level)
     ui->lockButton->setChecked(true);
   else if (level==1)
     ui->singleButton->setChecked(true);
-  else if (level==3)
+  else if (level==2)
     ui->twolevelButton->setChecked(true);
 }

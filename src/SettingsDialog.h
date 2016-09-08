@@ -73,6 +73,10 @@ private:
   QStringList encodings;
   QList<Replacement> transformations;
 
+  QString importXmlHeader, importXmlFooter;
+  QString emptyDocTemplate;
+  bool checkXml(QString xml, int linedec = 0);
+
 private slots:
   void changeTextFont();
   void showTextFont();
@@ -176,6 +180,10 @@ private slots:
   void currentTransRuleChanged(int row, int col, int prow, int pcol);
   void moveupTransRule();
   void movedownTransRule();
+
+  void editEmptyDocTemplate();
+  void editXmlHeader();
+  void editXmlFooter();
 };
 
 #endif // SETTINGSDIALOG_H

@@ -54,7 +54,9 @@ ItWindow::ItWindow() : QMainWindow()
 
   lockfile.open(QIODevice::WriteOnly);
   lockfile.close();
-
+  askOnTxtImport = true;
+  askOnXmlImport = true;
+  importXmlLock = false;
   infoBar = new QLabel();
   toolBarSize = Small;
   toolBarLocation = Qt::TopToolBarArea;
@@ -67,7 +69,9 @@ ItWindow::ItWindow() : QMainWindow()
   alignableElements << "head" << "s" << "verse";
   textElements << "p";
   splitterElName = "s";
-  splitSet = false;
+  splitSetTxt = false;
+  splitSetXml = false;
+  defaultNumberingLevels = 2;
   importKeepMarkup = false;
   importTxtEncoding = "UTF-8";
   importXmlHeader = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<text>\n";
@@ -657,7 +661,7 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
   if (format==0) {
     /* XML */
     ImportXmlDialog * xmld = new ImportXmlDialog(this);
-    if (splitSet)
+    if (splitSetXml)
       xmld->setSplitter();
     xmld->setAlElements(alignableElements);
     xmld->setTextElements(textElements);
@@ -668,7 +672,7 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
     textElements = xmld->getTextElements();
     splitter.selectProfile(xmld->getProfile());
     splitterElName = xmld->getNewElName();
-    splitSet = xmld->getSplitter();
+    splitSetXml = xmld->getSplitter();
     //data = QString::fromUtf8(file.readAll());
     QByteArray ba = file.readAll();
     if (!a->setDocXml(d, ba)) {
@@ -736,7 +740,7 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
   } else {
     /* Plain text */
     ImportTxtDialog * txtd = new ImportTxtDialog(this);
-    if (splitSet)
+    if (splitSetTxt)
       txtd->setSplit(true);
     txtd->setXmlHeader(importXmlHeader);
     txtd->setXmlFooter(importXmlFooter);
@@ -752,7 +756,7 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
     txtd->setKeepMarkup(importKeepMarkup);
     txtd->exec();
     importTxtEncoding = txtd->getEncoding();
-    splitSet = txtd->getSplit();
+    splitSetTxt = txtd->getSplit();
     importKeepMarkup = txtd->getKeepMarkup();
     splitterElName = txtd->getSentEl();
     splitter.selectProfile(txtd->getSplitProfile());
@@ -775,7 +779,7 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
     data = data.trimmed();
     if (!importKeepMarkup)
       data.replace("&","&amp;").replace(">","&gt;").replace("<","&lt;");
-    if (splitSet) {
+    if (splitSetTxt) {
       data.replace(importParSeparator, QString("</%1>\n<%1>").arg(textElements.at(0)));
       data.replace(QRegExp(QString("<%1>\\s*</%1>").arg(textElements.at(0))), ""); // delete empty containers
       data = QString("<%1>\n%2</%1>\n").arg(textElements.at(0), data);
@@ -1848,8 +1852,12 @@ void ItWindow::readSettings()
     }
 
     settings->beginGroup("import");
+    askOnTxtImport = settings->value("ask_on_txtimport", askOnTxtImport).toBool();
+    askOnXmlImport = settings->value("ask_on_xmlimport", askOnXmlImport).toBool();
+    importXmlLock = settings->value("xmlimport_lock", importXmlLock).toBool();
     workDir = settings->value("working_dir", workDir).toString();
-    splitSet = settings->value("splitter_on", splitSet).toBool();
+    splitSetTxt = settings->value("splitter_on", splitSetTxt).toBool();
+    splitSetXml = settings->value("splitter_on_xml", splitSetTxt).toBool();
     alignableElements = settings->value("alignable_elements", alignableElements).toStringList();
     textElements = settings->value("splitter_text_containers", textElements).toStringList();
     splitterElName = settings->value("splitter_new_element", splitterElName).toString();
@@ -1863,6 +1871,7 @@ void ItWindow::readSettings()
     importKeepMarkup = settings->value("keep_markup", importKeepMarkup).toBool();
     importFileDialogState = settings->value("filedialog_state", importFileDialogState).toByteArray();
     importFormat = settings->value("import_format", importFormat).toInt();
+    defaultNumberingLevels = settings->value("default_num_levels",defaultNumberingLevels).toInt();
     settings->endGroup();
 
     QList<ItSentenceSplitter::SplitterProfile> sprofiles;
@@ -2236,8 +2245,12 @@ void ItWindow::writeSettings()
     settings->endArray();
 
     settings->beginGroup("import");
+    settings->setValue("ask_on_txtimport", QVariant(askOnTxtImport).toString());
+    settings->setValue("ask_on_xmlimport", QVariant(askOnXmlImport).toString());
+    settings->setValue("xmlimport_lock", QVariant(importXmlLock).toString());
     settings->setValue("working_dir", workDir);
-    settings->setValue("splitter_on", QVariant(splitSet).toString());
+    settings->setValue("splitter_on", QVariant(splitSetTxt).toString());
+    settings->setValue("splitter_on_xml", QVariant(splitSetXml).toString());
     settings->setValue("alignable_elements", alignableElements);
     settings->setValue("splitter_text_containers", textElements);
     settings->setValue("splitter_new_element", splitterElName);
@@ -2251,6 +2264,7 @@ void ItWindow::writeSettings()
     settings->setValue("keep_markup", QVariant(importKeepMarkup).toString());
     settings->setValue("filedialog_state", importFileDialogState);
     settings->setValue("import_format", importFormat);
+    settings->setValue("default_num_levels", defaultNumberingLevels);
     settings->endGroup();
 
     settings->beginWriteArray("splitter_profiles");

@@ -111,6 +111,7 @@ SettingsDialog::SettingsDialog(ItWindow *parent) :
     }
     encodings.sort();
     ui->expProfEncodingSel->insertItems(0, encodings);
+    ui->encSel->insertItems(0, encodings);
 
     ui->autoCheckForUpdates->setChecked(window->autoCheckUpdates);
     ui->crossorderEnableCheckBox->setChecked(window->enableCrossOrderAlignment);
@@ -141,6 +142,57 @@ SettingsDialog::SettingsDialog(ItWindow *parent) :
     ui->expProfCustVarView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->expProfCustVarView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
     ui->expProfCustVarView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+
+    // import defaults
+    ui->askOnTextCheckBox->setChecked(window->askOnTxtImport);
+    ui->askOnXmlCheckBox->setChecked(window->askOnXmlImport);
+    ui->lockIDs_checkBox->setChecked(window->importXmlLock);
+    ui->encSel->setCurrentIndex(encodings.indexOf(window->importTxtEncoding));
+    importXmlFooter = window->importXmlFooter;
+    importXmlHeader = window->importXmlHeader;
+    emptyDocTemplate = window->emptyDocTemplate;
+    if (window->splitSetTxt)
+      ui->sel_autoSep->setChecked(true);
+    QStringList items;
+    items << tr("line break") << tr("empty line");
+    int set;
+    QString sep = window->importParSeparator;
+    if (sep=="\n")
+      set = 0;
+    else if (sep=="\n\n")
+      set = 1;
+    else {
+      items << sep;
+      set = 2;
+    }
+    ui->parSepEdit->addItems(items);
+    ui->parSepEdit->setCurrentIndex(set);
+    if (window->textElements.size())
+        ui->parElEdit->setText(window->textElements.at(0));
+    else
+        ui->parElEdit->setText("");
+    items.clear();
+    items << tr("line break") << tr("empty line");
+    sep = window->importSentenceSeparator;
+    if (sep=="\n")
+      set = 0;
+    else if (sep=="\n\n")
+      set = 1;
+    else {
+      items << sep;
+      set = 2;
+    }
+    ui->sentSepEdit->addItems(items);
+    ui->sentSepEdit->setCurrentIndex(set);
+    ui->sentElEdit->setText(window->splitterElName);
+    ui->splitterProfileSel->insertItems(0, window->splitter.getProfileNames());
+    ui->keepMarkup->setChecked(window->importKeepMarkup);
+    if (window->splitSetXml)
+        ui->sel_textelements->setChecked(true);
+    ui->edit_alelements->setText(window->alignableElements.join(","));
+    ui->edit_textelements->setText(window->textElements.join(","));
+    if (window->defaultNumberingLevels == 2)
+      ui->twolevelButton->setChecked(true);
 
     connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(buttonClicked(QAbstractButton*)));
     connect(ui->sel_aligner, SIGNAL(currentIndexChanged(int)), this, SLOT(showAligner(int)));
@@ -240,6 +292,10 @@ SettingsDialog::SettingsDialog(ItWindow *parent) :
     connect(ui->upTransRuleButton, SIGNAL(clicked()), this, SLOT(moveupTransRule()));
     connect(ui->downTransRuleButton, SIGNAL(clicked()), this, SLOT(movedownTransRule()));
 
+    connect(ui->buttonXmlTemplateEdit, SIGNAL(clicked(bool)), this, SLOT(editEmptyDocTemplate()));
+    connect(ui->buttonXmlHeaderEdit, SIGNAL(clicked(bool)), this, SLOT(editXmlHeader()));
+    connect(ui->buttonXmlFooterEdit, SIGNAL(clicked(bool)), this, SLOT(editXmlFooter()));
+
     //connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
 }
 
@@ -299,6 +355,58 @@ void SettingsDialog::apply()
   window->servers = servers;
   window->exTextProfiles = exTextProfiles;
   window->updateServerMenu();
+
+  // import settings
+  window->askOnTxtImport = ui->askOnTextCheckBox->isChecked();
+  window->askOnXmlImport = ui->askOnXmlCheckBox->isChecked();
+  window->importXmlLock = ui->lockIDs_checkBox->isChecked();
+  window->emptyDocTemplate = emptyDocTemplate;
+  window->importXmlHeader = importXmlHeader;
+  window->importXmlFooter = importXmlFooter;
+  window->importTxtEncoding = ui->encSel->itemText(ui->encSel->currentIndex());
+  window->splitSetTxt = ui->sel_autoSep->isChecked();
+  window->importKeepMarkup = ui->keepMarkup->isChecked();
+  window->splitterElName = ui->sentElEdit->text();
+  window->splitter.selectProfile(ui->splitterProfileSel->currentIndex());
+  QString ret = ui->parSepEdit->currentText();
+  QString sep;
+  if (ret==tr("line break"))
+    sep = "\n";
+  else if (ret==tr("empty line"))
+    sep = "\n\n";
+  else
+    sep = ret;
+  window->importParSeparator = sep;
+  QString elName = ui->parElEdit->text();
+  int i = window->textElements.indexOf(elName);
+  if (i == -1)
+    window->textElements.insert(0,elName);
+  else if (i != 0) {
+    window->textElements.move(i, 0);
+  }
+  ret = ui->sentSepEdit->currentText();
+  if (ret==tr("line break"))
+    sep = "\n";
+  else if (ret==tr("empty line"))
+    sep = "\n\n";
+  else
+    sep = ret;
+  window->importSentenceSeparator = sep;
+  QStringList list;
+  foreach (elName, ui->edit_alelements->text().split(",", QString::SkipEmptyParts)) {
+    list.append(elName.trimmed());
+  }
+  window->alignableElements = list;
+  list.clear();
+  foreach (elName, ui->edit_textelements->text().split(",", QString::SkipEmptyParts)) {
+    list.append(elName.trimmed());
+  }
+  window->textElements = list;
+  window->splitSetXml = ui->sel_textelements->isChecked();
+  if (ui->singleButton->isChecked())
+      window->defaultNumberingLevels = 1;
+  else
+      window->defaultNumberingLevels = 2;
 }
 
 void SettingsDialog::showAligner(int n)
@@ -1680,4 +1788,57 @@ QString SettingsDialog::strescape(QString str) {
 
 QString SettingsDialog::strunescape(QString str) {
     return str.replace("\\n","\n").replace("\\t", "\t");
+}
+
+void SettingsDialog::editEmptyDocTemplate()
+{
+    bool ok;
+    QString text = emptyDocTemplate;
+    do {
+        text = QInputDialog::getMultiLineText(this, tr("New empty document"), tr("Document template"), text, &ok);
+        if (!ok || text.isEmpty()) {
+            return;
+        }
+    } while (!checkXml(text));
+    emptyDocTemplate = text;
+}
+
+void SettingsDialog::editXmlHeader()
+{
+    bool ok;
+    QString text = importXmlHeader;
+    do {
+        text = QInputDialog::getMultiLineText(this, tr("XML template"), tr("Document header"), text, &ok);
+        if (!ok || text.isEmpty()) {
+            return;
+        }
+    } while (!checkXml(text + importXmlFooter));
+    importXmlHeader = text;
+}
+
+void SettingsDialog::editXmlFooter()
+{
+    bool ok;
+    QString text = importXmlFooter;
+    do {
+        text = QInputDialog::getMultiLineText(this, tr("XML template"), tr("Document footer"), text, &ok);
+        if (!ok || text.isEmpty()) {
+            return;
+        }
+    } while (!checkXml(importXmlHeader + text, importXmlHeader.count("\n")));
+    importXmlFooter = text;
+
+}
+
+bool SettingsDialog::checkXml(QString xml, int linedec)
+{
+    QDomDocument doc;
+    QString errorMsg; int errorLine, errorColumn;
+    if (!doc.setContent(xml, true, &errorMsg, &errorLine, &errorColumn)) {
+        QString errorMessage = QObject::tr("Error parsing XML at line %1, column %2: %3.").arg(QString::number(errorLine-linedec), QString::number(errorColumn), errorMsg);
+        QMessageBox::critical(this, tr("XML validation"), tr("Error: ").append(errorMessage));
+        return false;
+    }
+    return true;
+
 }

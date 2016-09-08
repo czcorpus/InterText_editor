@@ -34,7 +34,7 @@ class numberingDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit numberingDialog(QWidget *parent, ItAlignment * a, int document, bool allowLockOnly = true);
+    explicit numberingDialog(QWidget *parent, ItAlignment * a, int document, bool allowLock = true);
     ~numberingDialog();
     void accept();
     void setDefaultLevels(int level);

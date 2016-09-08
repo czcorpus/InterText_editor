@@ -145,6 +145,20 @@ public:
   QList<QAction*> contextMenuCurActions;
   QHash<QString, QString> defaultShortcuts;
 
+  bool askOnTxtImport, askOnXmlImport;
+  bool importXmlLock;
+  QStringList alignableElements;
+  QStringList textElements;
+  QString splitterElName;
+  QString workDir;
+  bool splitSetTxt, splitSetXml, importKeepMarkup;
+  int defaultNumberingLevels;
+  QString importXmlHeader, importXmlFooter;
+  QString emptyDocTemplate;
+  QString importTxtEncoding;
+  QString importParSeparator;
+  QString importSentenceSeparator;
+
   QAction *mergeAct;
   QAction *moveUpAct;
   QAction *moveDownAct;
@@ -237,16 +251,6 @@ private:
   };
   searchQuery lastSearch;
   ItSearchBar * searchBar;
-  QStringList alignableElements;
-  QStringList textElements;
-  QString splitterElName;
-  QString workDir;
-  bool splitSet, importKeepMarkup;
-  QString importXmlHeader, importXmlFooter;
-  QString emptyDocTemplate;
-  QString importTxtEncoding;
-  QString importParSeparator;
-  QString importSentenceSeparator;
   QByteArray importFileDialogState;
   int importFormat;
   QSignalMapper * serverMapper;
