@@ -187,3 +187,9 @@ QString ImportTxtDialog::getEncoding()
 {
     return ui->encSel->itemText(ui->encSel->currentIndex());
 }
+
+
+bool ImportTxtDialog::dontAsk()
+{
+    return ui->dontAsk->isChecked();
+}

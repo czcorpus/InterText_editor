@@ -57,6 +57,7 @@ public:
   QString getXmlFooter();
   void setKeepMarkup(bool set);
   bool getKeepMarkup();
+  bool dontAsk();
 
 private:
     Ui::ImportTxtDialog *ui;

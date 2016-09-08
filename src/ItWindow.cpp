@@ -509,21 +509,26 @@ void ItWindow::createNewAlignment() {
             a->renumber(d);
           a->syncDepsPermissions();
       } else if (a->loadDoc(d)) { // open existing text document from repository
-          ImportXmlDialog * xmld = new ImportXmlDialog(this);
-          xmld->setAlignableOnlyMode();
-          xmld->setAlElements(alignableElements);
-          xmld->exec();
-          alignableElements = xmld->getAlElements();
+          if (askOnXmlImport) {
+              ImportXmlDialog * xmld = new ImportXmlDialog(this);
+              xmld->setAlignableOnlyMode();
+              xmld->setAlElements(alignableElements);
+              xmld->exec();
+              alignableElements = xmld->getAlElements();
+              if (xmld->dontAsk())
+                  askOnXmlImport = false;
+              delete xmld;
+          }
           a->createLinks(d, alignableElements);
           a->detectIdSystem(d);
           if (!checkNumbering(a, d, false))
               a->renumber(d);
           a->syncDepsPermissions();
-          delete xmld;
       } else if (a->info.ver[d].source == "0") { // create new empty XML document
           a->info.ver[d].source = "";
+          a->setDocXml(d, emptyDocTemplate);
           noalign = true;
-          QString text;
+          /*QString text;
           bool ok;
           while (true) {
               text = QInputDialog::getMultiLineText(this, tr("New empty document"), tr("Document template"), emptyDocTemplate, &ok);
@@ -537,18 +542,19 @@ void ItWindow::createNewAlignment() {
                   delete a;
                   return;
               }
-          }
-          ImportXmlDialog * xmld = new ImportXmlDialog(this);
+          }*/
+          /*ImportXmlDialog * xmld = new ImportXmlDialog(this);
           xmld->setAlignableOnlyMode();
           xmld->setAlElements(alignableElements);
           xmld->exec();
           alignableElements = xmld->getAlElements();
+          delete xmld;
+          */
           a->createLinks(d, alignableElements);
           a->detectIdSystem(d);
           if (!checkNumbering(a, d, false))
               a->renumber(d);
           a->syncDepsPermissions();
-          delete xmld;
       } else { // import from file
           QFileDialog fd(this);
           fd.setDirectory(workDir);
@@ -660,27 +666,31 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
   QString data;
   if (format==0) {
     /* XML */
-    ImportXmlDialog * xmld = new ImportXmlDialog(this);
-    if (splitSetXml)
-      xmld->setSplitter();
-    xmld->setAlElements(alignableElements);
-    xmld->setTextElements(textElements);
-    xmld->setProfiles(splitter.getProfileNames());
-    xmld->setNewElName(splitterElName);
-    xmld->exec();
-    alignableElements = xmld->getAlElements();
-    textElements = xmld->getTextElements();
-    splitter.selectProfile(xmld->getProfile());
-    splitterElName = xmld->getNewElName();
-    splitSetXml = xmld->getSplitter();
+      if (askOnXmlImport) {
+          ImportXmlDialog * xmld = new ImportXmlDialog(this);
+          if (splitSetXml)
+              xmld->setSplitter();
+          xmld->setAlElements(alignableElements);
+          xmld->setTextElements(textElements);
+          xmld->setProfiles(splitter.getProfileNames());
+          xmld->setNewElName(splitterElName);
+          xmld->exec();
+          alignableElements = xmld->getAlElements();
+          textElements = xmld->getTextElements();
+          splitter.selectProfile(xmld->getProfile());
+          splitterElName = xmld->getNewElName();
+          splitSetXml = xmld->getSplitter();
+          if (xmld->dontAsk())
+              askOnXmlImport = false;
+          delete xmld;
+      }
     //data = QString::fromUtf8(file.readAll());
     QByteArray ba = file.readAll();
     if (!a->setDocXml(d, ba)) {
       QMessageBox::critical(this, tr("Import"), tr("Error: ").append(a->errorMessage));
-      delete xmld;
       return false;
     }
-    if (!xmld->isSegmented()) {
+    if (splitSetXml) {
       checkNumbering(a, d, false);
       a->applySentenceSplitter(d, &splitter, textElements, splitterElName);
       a->createLinks(d, QStringList(splitterElName));
@@ -691,16 +701,19 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
       if (!checkNumbering(a, d, false))
         a->renumber(d);
     }
-    delete xmld;
     return true;
   } else if (format==2) {
     /* XML fragment, newline-aligned */
-    ImportXmlDialog * xmld = new ImportXmlDialog(this);
-    xmld->setAlignableOnlyMode();
-    xmld->setAlElements(alignableElements);
-    xmld->exec();
-    alignableElements = xmld->getAlElements();
-    delete xmld;
+      if (askOnXmlImport) {
+          ImportXmlDialog * xmld = new ImportXmlDialog(this);
+          xmld->setAlignableOnlyMode();
+          xmld->setAlElements(alignableElements);
+          xmld->exec();
+          alignableElements = xmld->getAlElements();
+          if (xmld->dontAsk())
+              askOnXmlImport = false;
+          delete xmld;
+      }
     QString ae, line;
     int c;
     QList<int> groups;
@@ -717,16 +730,20 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
       }
       groups << c;
     }
-    ImportTxtDialog * txtd = new ImportTxtDialog(this);
-    txtd->setHeaderFooterModeOnly();
-    txtd->setXmlHeader(importXmlHeader);
-    txtd->setXmlFooter(importXmlFooter);
-    txtd->setEncoding(importTxtEncoding);
-    txtd->exec();
-    importTxtEncoding = txtd->getEncoding();
-    importXmlHeader = txtd->getXmlHeader();
-    importXmlFooter = txtd->getXmlFooter();
-    delete txtd;
+    if (askOnTxtImport) {
+        ImportTxtDialog * txtd = new ImportTxtDialog(this);
+        txtd->setHeaderFooterModeOnly();
+        txtd->setXmlHeader(importXmlHeader);
+        txtd->setXmlFooter(importXmlFooter);
+        txtd->setEncoding(importTxtEncoding);
+        txtd->exec();
+        importTxtEncoding = txtd->getEncoding();
+        importXmlHeader = txtd->getXmlHeader();
+        importXmlFooter = txtd->getXmlFooter();
+        if (txtd->dontAsk())
+            askOnTxtImport = false;
+        delete txtd;
+    }
     data = QString("%1\n%2%3").arg(importXmlHeader, data, importXmlFooter);
     if (!a->setDocXml(d, data)) {
       QMessageBox::critical(this, tr("Import"), tr("Error: ").append(a->errorMessage));
@@ -739,37 +756,42 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
     return true;
   } else {
     /* Plain text */
-    ImportTxtDialog * txtd = new ImportTxtDialog(this);
-    if (splitSetTxt)
-      txtd->setSplit(true);
-    txtd->setXmlHeader(importXmlHeader);
-    txtd->setXmlFooter(importXmlFooter);
-    txtd->setEncoding(importTxtEncoding);
-    txtd->setParSep(importParSeparator);
-    if (textElements.size())
-      txtd->setParEl(textElements.at(0));
-    else
-      txtd->setParEl("");
-    txtd->setSentSep(importSentenceSeparator);
-    txtd->setSentEl(splitterElName);
-    txtd->setSplitProfiles(splitter.getProfileNames());
-    txtd->setKeepMarkup(importKeepMarkup);
-    txtd->exec();
-    importTxtEncoding = txtd->getEncoding();
-    splitSetTxt = txtd->getSplit();
-    importKeepMarkup = txtd->getKeepMarkup();
-    splitterElName = txtd->getSentEl();
-    splitter.selectProfile(txtd->getSplitProfile());
-    importXmlHeader = txtd->getXmlHeader();
-    importXmlFooter = txtd->getXmlFooter();
-    importParSeparator = txtd->getParSep();
-    int i = textElements.indexOf(txtd->getParEl());
-    if (i == -1)
-      textElements.insert(0,txtd->getParEl());
-    else if (i != 0) {
-      textElements.move(i, 0);
-    }
-    importSentenceSeparator = txtd->getSentSep();
+      if (askOnTxtImport) {
+          ImportTxtDialog * txtd = new ImportTxtDialog(this);
+          if (splitSetTxt)
+              txtd->setSplit(true);
+          txtd->setXmlHeader(importXmlHeader);
+          txtd->setXmlFooter(importXmlFooter);
+          txtd->setEncoding(importTxtEncoding);
+          txtd->setParSep(importParSeparator);
+          if (textElements.size())
+              txtd->setParEl(textElements.at(0));
+          else
+              txtd->setParEl("");
+          txtd->setSentSep(importSentenceSeparator);
+          txtd->setSentEl(splitterElName);
+          txtd->setSplitProfiles(splitter.getProfileNames());
+          txtd->setKeepMarkup(importKeepMarkup);
+          txtd->exec();
+          importTxtEncoding = txtd->getEncoding();
+          splitSetTxt = txtd->getSplit();
+          importKeepMarkup = txtd->getKeepMarkup();
+          splitterElName = txtd->getSentEl();
+          splitter.selectProfile(txtd->getSplitProfile());
+          importXmlHeader = txtd->getXmlHeader();
+          importXmlFooter = txtd->getXmlFooter();
+          importParSeparator = txtd->getParSep();
+          int i = textElements.indexOf(txtd->getParEl());
+          if (i == -1)
+              textElements.insert(0,txtd->getParEl());
+          else if (i != 0) {
+              textElements.move(i, 0);
+          }
+          importSentenceSeparator = txtd->getSentSep();
+          if (txtd->dontAsk())
+              askOnTxtImport = false;
+          delete txtd;
+      }
     QTextCodec *codec = QTextCodec::codecForName(importTxtEncoding.toLatin1());
     if (!codec) {
         QMessageBox::critical(this, tr("Import"), tr("Unknown encoding '%1'.").arg(importTxtEncoding));
@@ -789,7 +811,6 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
       data = QString("%1%2%3\n").arg(importXmlHeader, data, importXmlFooter);
       if (!a->setDocXml(d, data)) {
         QMessageBox::critical(this, tr("Import"), tr("Error: ").append(a->errorMessage));
-        delete txtd;
         return false;
       }
       checkNumbering(a, d, false);
@@ -807,28 +828,37 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
       data = QString("%1<%2>\n<%5>%3</%5></%2>\n%4").arg(importXmlHeader, textElements.at(0), data, importXmlFooter, splitterElName);
       if (!a->setDocXml(d, data)) {
         QMessageBox::critical(this, tr("Import"), tr("Error: ").append(a->errorMessage));
-        delete txtd;
         return false;
       }
       checkNumbering(a, d, false);
       a->createLinks(d, QStringList(splitterElName));
       a->renumber(d);
     }
-    delete txtd;
     return true;
   }
 }
 
-bool ItWindow::checkNumbering(ItAlignment * a, aligned_doc doc, bool allowLockOnly, int defaultLevels)
+bool ItWindow::checkNumbering(ItAlignment * a, aligned_doc doc, bool allowLock, int levels)
 {
+    if (levels<0)
+        levels = defaultNumberingLevels;
   if (a->info.ver[doc].numLevels<1) {
-    numberingDialog * form = new numberingDialog(this, a, doc, allowLockOnly);
+    /*numberingDialog * form = new numberingDialog(this, a, doc, allowLock);
     form->setDefaultLevels(defaultLevels);
     if (a->info.ver[doc].numLevels<1) {
         while (a->info.ver[doc].numLevels<1) form->exec();
         //a->renumber(doc);
     }
-    delete form;
+    delete form;*/
+    if (allowLock && (importXmlLock || levels==0)) {
+      a->info.ver[doc].numLevels=1;
+      a->info.ver[doc].perm_chstruct=false;
+    } else if (levels==1) {
+      a->info.ver[doc].numLevels=1;
+    } else {
+      a->info.ver[doc].numLevels=2;
+      a->info.ver[doc].numPrefix=":";
+    }
     return false;
   }
   return true;

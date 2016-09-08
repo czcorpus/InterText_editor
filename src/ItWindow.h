@@ -266,7 +266,7 @@ private:
 
   void setNewAlignment(ItAlignment * a);
   bool processImportFile(ItAlignment * a, aligned_doc d, QString filename, int format);
-  bool checkNumbering(ItAlignment * a, aligned_doc doc, bool allowLockOnly = true, int defaultLevels = 2);
+  bool checkNumbering(ItAlignment * a, aligned_doc doc, bool allowLock = true, int levels = -1);
   bool newSearchQuery(uint startpos = INVALID_POSITION, bool force = false);
   bool setAlignmentNames(ItAlignment * a);
 	

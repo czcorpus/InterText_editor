@@ -47,6 +47,7 @@ public:
   QStringList getTextElements();
   int getProfile();
   QString getNewElName();
+  bool dontAsk();
 
 private:
     Ui::ImportXmlDialog *ui;

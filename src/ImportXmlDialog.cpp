@@ -118,3 +118,8 @@ QString ImportXmlDialog::getNewElName()
 {
   return ui->edit_newelname->text();
 }
+
+bool ImportXmlDialog::dontAsk()
+{
+    return ui->dontAsk->isChecked();
+}

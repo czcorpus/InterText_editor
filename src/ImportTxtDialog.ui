@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>532</width>
-    <height>637</height>
+    <height>1002</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -183,6 +183,20 @@
        </spacer>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="dontAsk">
+     <property name="text">
+      <string>don't ask me every time</string>
+     </property>
     </widget>
    </item>
    <item>

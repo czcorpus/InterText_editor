@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>465</width>
-    <height>282</height>
+    <height>358</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -32,19 +32,6 @@
       <string>alignable elements:</string>
      </property>
      <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Ok</set>
-     </property>
-     <property name="centerButtons">
       <bool>true</bool>
      </property>
     </widget>
@@ -117,6 +104,33 @@
    </item>
    <item row="9" column="1">
     <widget class="QLineEdit" name="edit_newelname"/>
+   </item>
+   <item row="13" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="0" colspan="2">
+    <widget class="QCheckBox" name="dontAsk">
+     <property name="text">
+      <string>don't ask me every time</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0" colspan="2">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
