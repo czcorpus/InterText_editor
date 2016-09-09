@@ -475,14 +475,11 @@ void ItWindow::createNewAlignment() {
   if (generateCrossAlignment(&a->info)) {
       open(a->info.name);
       delete a;
-      //setNewAlignment(a);
-      //syncAct->setEnabled(false);
       return;
   }
 
   int format = 0;
   bool noalign = false;
-  //bool reload = false;
   for (int d=0; d<=1; d++) {
       if (a->info.ver[d].source.startsWith("http")) { // download text document from server
           ItServer s;
@@ -510,21 +507,14 @@ void ItWindow::createNewAlignment() {
             a->renumber(d);
           a->syncDepsPermissions();
       } else if (a->loadDoc(d)) { // open existing text document from repository
-          if (askOnXmlImport) { // TODO: you should find out yourself!
-              ImportXmlDialog * xmld = new ImportXmlDialog(this);
-              xmld->setAlignableOnlyMode();
-              xmld->setAlElements(alignableElements);
-              xmld->exec();
-              alignableElements = xmld->getAlElements();
-              if (xmld->dontAsk())
-                  askOnXmlImport = false;
-              delete xmld;
+          QStringList alignable = a->getAlignableElementnamesForDoc(d);
+          if (alignable.isEmpty()) { // This should actually never happen!
+              alignable = alignableElements;
           }
-          a->createLinks(d, alignableElements);
+          a->createLinks(d, alignable);
           a->detectIdSystem(d);
           if (!checkNumbering(a, d, false))
               a->renumber(d);
-          //reload = true;
       } else if (a->info.ver[d].source == "0") { // create new empty XML document
           a->info.ver[d].source = "";
           a->setDocXml(d, emptyDocTemplate);
@@ -555,7 +545,6 @@ void ItWindow::createNewAlignment() {
           a->detectIdSystem(d);
           if (!checkNumbering(a, d, false))
               a->renumber(d);
-          //a->syncDepsPermissions();
       } else { // import from file
           QFileDialog fd(this);
           fd.setDirectory(workDir);
@@ -590,16 +579,10 @@ void ItWindow::createNewAlignment() {
 
   if (!a->loadDependentAlignments()) {
       QMessageBox::critical(this, tr("Dependent alignment"), tr("Error: ").append(a->errorMessage));
+      delete a;
       return;
   }
   a->syncDepsPermissions();
-  /*if (reload) { // reload alignments created with some existing document to load dependent alignments!
-      a->save();
-      QString name = a->info.name;
-      delete a;
-      a = new ItAlignment(storagePath, name);
-      a->syncDepsPermissions();
-  }*/
   setNewAlignment(a);
   syncAct->setEnabled(false);
   save();

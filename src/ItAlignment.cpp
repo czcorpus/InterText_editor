@@ -2523,6 +2523,27 @@ void ItAlignment::deleteAlignment(QString repository_path, QString al)
     QFile::remove(QFileInfo(repository_path, QString("%1.%2.xml").arg(c.at(0), c.at(2))).canonicalFilePath());
 }
 
+QStringList ItAlignment::getAlignableElementnamesForDoc(aligned_doc d)
+{
+  QStringList list;
+  QDir datadir(storagePath);
+  aligned_doc other_doc = 0;
+  datadir.setNameFilters(QStringList(QString("%1.%2.*.conf").arg(info.docId, info.ver[d].name)));
+  list = datadir.entryList();
+  if (list.empty()) {
+      other_doc = 1;
+      datadir.setNameFilters(QStringList(QString("%1.*.%2.conf").arg(info.docId, info.ver[d].name)));
+      list = datadir.entryList();
+      if (list.empty())
+          return QStringList();
+  }
+  QString al = list.at(0);
+  ItAlignment * a = new ItAlignment(storagePath, al.remove(QRegExp("\.conf$")));
+  list = a->getAlignableElementnames(other_doc);
+  delete a;
+  return list;
+}
+
 QStringList ItAlignment::getAlignableElementnames(aligned_doc d)
 {
     QStringList names;

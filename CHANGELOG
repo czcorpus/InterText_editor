@@ -4,6 +4,7 @@ Improvements:
 - create global default settings for file import
 - let the user avoid the import settings dialogs open every time
 - simplify dialog with text file import settings
+- autodetect alignable elements for documents already present in repository
 
 Fixes:
 

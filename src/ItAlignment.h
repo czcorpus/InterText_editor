@@ -228,6 +228,7 @@ public:
   QList<ItElement* > getChangedElements(aligned_doc d);
   void getAlignmentXML(QTextStream * out, QString doc1name = "", QString doc2name = "");
   QString getDocXML(aligned_doc d);
+  QStringList getAlignableElementnamesForDoc(aligned_doc d);
   QStringList getAlignableElementnames(aligned_doc d);
   ItDocument * getDocument(aligned_doc d);
 
