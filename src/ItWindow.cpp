@@ -519,28 +519,6 @@ void ItWindow::createNewAlignment() {
           a->info.ver[d].source = "";
           a->setDocXml(d, emptyDocTemplate);
           noalign = true;
-          /*QString text;
-          bool ok;
-          while (true) {
-              text = QInputDialog::getMultiLineText(this, tr("New empty document"), tr("Document template"), emptyDocTemplate, &ok);
-              if (ok && !text.isEmpty()) {
-                  emptyDocTemplate = text;
-                  if (!a->setDocXml(d, emptyDocTemplate)) {
-                      QMessageBox::critical(this, tr("New empty document"), tr("Error: ").append(a->errorMessage));
-                  } else
-                      break;
-              } else {
-                  delete a;
-                  return;
-              }
-          }*/
-          /*ImportXmlDialog * xmld = new ImportXmlDialog(this);
-          xmld->setAlignableOnlyMode();
-          xmld->setAlElements(alignableElements);
-          xmld->exec();
-          alignableElements = xmld->getAlElements();
-          delete xmld;
-          */
           a->createLinks(d, alignableElements);
           a->detectIdSystem(d);
           if (!checkNumbering(a, d, false))
@@ -694,7 +672,7 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
     } else {
       a->createLinks(d, alignableElements);
       a->detectIdSystem(d);
-      if (!checkNumbering(a, d, false))
+      if (!checkNumbering(a, d, true))
         a->renumber(d);
     }
     return true;
@@ -838,26 +816,33 @@ bool ItWindow::checkNumbering(ItAlignment * a, aligned_doc doc, bool allowLock, 
 {
     if (levels<0)
         levels = defaultNumberingLevels;
-  if (a->info.ver[doc].numLevels<1) {
-    /*numberingDialog * form = new numberingDialog(this, a, doc, allowLock);
-    form->setDefaultLevels(defaultLevels);
     if (a->info.ver[doc].numLevels<1) {
-        while (a->info.ver[doc].numLevels<1) form->exec();
-        //a->renumber(doc);
+        if (allowLock && askOnXmlImport && a->info.ver[doc].numLevels!=NO_IDS_IN_DOCUMENT) {
+            // this is only relevant when importing unknown XML files with some unknown IDs
+            numberingDialog * form = new numberingDialog(this, a, doc, allowLock);
+            int xmllevels = levels;
+            if (importXmlLock)
+                xmllevels = 0;
+            form->setDefaultLevels(xmllevels);
+            if (a->info.ver[doc].numLevels<1) {
+                while (a->info.ver[doc].numLevels<1) form->exec();
+                //a->renumber(doc);
+            }
+            delete form;
+        } else { // otherwise just use the defaults
+            if (allowLock && (importXmlLock || levels==0)) {
+                a->info.ver[doc].numLevels=1;
+                a->info.ver[doc].perm_chstruct=false;
+            } else if (levels==1) {
+                a->info.ver[doc].numLevels=1;
+            } else {
+                a->info.ver[doc].numLevels=2;
+                a->info.ver[doc].numPrefix=":";
+            }
+        }
+        return false;
     }
-    delete form;*/
-    if (allowLock && (importXmlLock || levels==0)) {
-      a->info.ver[doc].numLevels=1;
-      a->info.ver[doc].perm_chstruct=false;
-    } else if (levels==1) {
-      a->info.ver[doc].numLevels=1;
-    } else {
-      a->info.ver[doc].numLevels=2;
-      a->info.ver[doc].numPrefix=":";
-    }
-    return false;
-  }
-  return true;
+    return true;
 }
 
 bool ItWindow::setAlignmentNames(ItAlignment * a)

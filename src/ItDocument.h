@@ -25,6 +25,8 @@
 #include <QtXml>
 #include "ItElement.h"
 
+#define NO_IDS_IN_DOCUMENT -2
+
 class ItDocument
 {
 public:
@@ -61,7 +63,7 @@ private:
   QHash<QString,ItElement*> index;
   bool createIndex();
   bool scanNode(QDomNode node);
-  void setUnknownNumbering();
+  void setUnknownNumbering(int numbering = 0);
 	//QDomElement searchById(QDomElement &e, QString &id);
 };
 

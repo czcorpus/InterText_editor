@@ -178,11 +178,10 @@ void ItDocument::detectIdSystem(QStringList alignedIds) {
   id = alignedIds.takeFirst();
   ItElement * e = elementById(id);
   if (e==0) {
-    setUnknownNumbering();
+    setUnknownNumbering(NO_IDS_IN_DOCUMENT);
     return;
   }
   QString parent_id = e->getParentID(idNamespaceURI);
-  QString first_parent_id = parent_id;
   if (id.startsWith(parent_id)) {
     //qDebug() << "First ID starts with parent's ID: 2-level(?).";
     numbering_parent_prefix = parent_id;
@@ -255,8 +254,8 @@ void ItDocument::detectIdSystem(QStringList alignedIds) {
   }*/
 }
 
-void ItDocument::setUnknownNumbering() {
-  numbering_levels = 0;
+void ItDocument::setUnknownNumbering(int numbering) {
+  numbering_levels = numbering;
   numbering_prefix = "";
   numbering_parent_prefix = "";
 }
