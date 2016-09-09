@@ -483,7 +483,7 @@ void ItWindow::createNewAlignment() {
   int format = 0;
   bool noalign = false;
   for (int d=0; d<=1; d++) {
-      if (a->info.ver[d].source.startsWith("http")) {
+      if (a->info.ver[d].source.startsWith("http")) { // download text document from server
           ItServer s;
           QMapIterator<QString, ItServer> it(servers);
           while (it.hasNext()) {
@@ -509,7 +509,7 @@ void ItWindow::createNewAlignment() {
             a->renumber(d);
           a->syncDepsPermissions();
       } else if (a->loadDoc(d)) { // open existing text document from repository
-          if (askOnXmlImport) {
+          if (askOnXmlImport) { // TODO: you should find out yourself!
               ImportXmlDialog * xmld = new ImportXmlDialog(this);
               xmld->setAlignableOnlyMode();
               xmld->setAlElements(alignableElements);

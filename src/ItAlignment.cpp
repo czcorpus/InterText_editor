@@ -1398,7 +1398,8 @@ void ItAlignment::renumber(int document, bool updateCTime) {
           if (e.parentNode() != lastParent) {
               parCnt++; cnt = 1;
               lastParent = e.parentNode();
-              lastParentId = QString("%1%2").arg(info.ver[document].numParentPrefix, QString::number(parCnt));
+              id = QString("%1%2").arg(info.ver[document].numParentPrefix, QString::number(parCnt));
+              lastParentId = id;
               if (idNamespaceURI.isEmpty())
                   e.parentNode().toElement().setAttribute("id", id);
               else
