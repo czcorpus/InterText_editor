@@ -28,7 +28,7 @@
 class ItWindow;
 
 namespace Ui {
-    class NewAlignmentDialog;
+class NewAlignmentDialog;
 }
 
 class NewAlignmentDialog : public QDialog

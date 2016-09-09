@@ -35,27 +35,27 @@ class ItSegmentView;
 
 class ItAlignmentDelegate : public ItAbstractDelegate
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-  //ItSegmentView * segview;
-  ItAlignmentDelegate(QObject *parent = 0);
-  QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-  void setEditorData(QWidget *editor, const QModelIndex &index) const;
-	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
-  //void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-  //void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
-  QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+    //ItSegmentView * segview;
+    ItAlignmentDelegate(QObject *parent = 0);
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+    //void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    //void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+    QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 protected:
-  bool eventFilter(QObject *obj, QEvent *ev);
-  //bool validateXML(QWidget *editor);
-  //void registerSegView(ItSegmentView * view);
+    bool eventFilter(QObject *obj, QEvent *ev);
+    //bool validateXML(QWidget *editor);
+    //void registerSegView(ItSegmentView * view);
 protected slots:
-  //void editorSizeHintChanged(int height);
+    //void editorSizeHintChanged(int height);
 private:
-  ItAlignmentView * alview;
-  //ItPlainTextEdit * mytxtedit;
-  //void createContents(QTextDocument * doc, const QStyleOptionViewItem & option, const QModelIndex & index) const;
+    ItAlignmentView * alview;
+    //ItPlainTextEdit * mytxtedit;
+    //void createContents(QTextDocument * doc, const QStyleOptionViewItem & option, const QModelIndex & index) const;
 };
 
 #endif

@@ -200,14 +200,14 @@ void RemoteAttrDialog::apply()
     QString key = sd->alTitleFormat.arg(al.text, al.v1, al.v2);
     if (sd->alignments[key].status==ServerDialog::Remote && (al.status!=ServerDialog::Remote || al.remoteUser!=sd->alignments[key].remoteUser)) {
         if (QMessageBox::Ok != QMessageBox::question(this, tr("Changing remote alignment attributes"),
-                              tr("This change will disable the current remote editor to upload further updates to this alignment. Do you really want to continue?"),
-                              QMessageBox::Ok | QMessageBox::Cancel))
+                                                     tr("This change will disable the current remote editor to upload further updates to this alignment. Do you really want to continue?"),
+                                                     QMessageBox::Ok | QMessageBox::Cancel))
             return;
     }
     if (sd->updateAlAttributes(al)) {
         accept();
     } else
         reject();
-        //QMessageBox::critical(this, tr("Changing remote alignment attributes"), tr("Update failed...."));
+    //QMessageBox::critical(this, tr("Changing remote alignment attributes"), tr("Update failed...."));
 }
 

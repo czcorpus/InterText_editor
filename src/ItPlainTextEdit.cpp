@@ -23,27 +23,27 @@
 
 
 ItPlainTextEdit::ItPlainTextEdit(QWidget *parent, EditorKeys keys) : QPlainTextEdit(parent) {
-  this->fitting_height = 0;
-  haveAsked = AutoAsk;
-  insertNext = false;
-  index = QModelIndex();
-  QSizePolicy sp;
-  sp.setHeightForWidth(true);
-  sp.setHorizontalPolicy(QSizePolicy::Fixed);
-  sp.setVerticalPolicy(QSizePolicy::Preferred);
-  setSizePolicy(sp);
-  //connect(this, SIGNAL(textChanged()), this, SLOT(fitHeightToDocument()));
-  textChangeFlag = false; // FIXME: how about using undo stack?
-  connect(this, SIGNAL(textChanged()), this, SLOT(setTextChangeFlagTrue()));
+    this->fitting_height = 0;
+    haveAsked = AutoAsk;
+    insertNext = false;
+    index = QModelIndex();
+    QSizePolicy sp;
+    sp.setHeightForWidth(true);
+    sp.setHorizontalPolicy(QSizePolicy::Fixed);
+    sp.setVerticalPolicy(QSizePolicy::Preferred);
+    setSizePolicy(sp);
+    //connect(this, SIGNAL(textChanged()), this, SLOT(fitHeightToDocument()));
+    textChangeFlag = false; // FIXME: how about using undo stack?
+    connect(this, SIGNAL(textChanged()), this, SLOT(setTextChangeFlagTrue()));
 
-  splitAct = new QAction(tr("Split"), this);
-  //splitAct->setShortcut(Qt::CTRL|Qt::Key_S);
-  splitAct->setStatusTip(tr("Split element at this point."));
-  connect(splitAct, SIGNAL(triggered()), this, SLOT(splitAtCursor()));
-  addAction(splitAct);
+    splitAct = new QAction(tr("Split"), this);
+    //splitAct->setShortcut(Qt::CTRL|Qt::Key_S);
+    splitAct->setStatusTip(tr("Split element at this point."));
+    connect(splitAct, SIGNAL(triggered()), this, SLOT(splitAtCursor()));
+    addAction(splitAct);
 
-  setContextMenuPolicy(Qt::CustomContextMenu);
-  connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu(const QPoint &)));
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu(const QPoint &)));
 }
 
 void ItPlainTextEdit::showContextMenu(const QPoint &pt)
@@ -86,7 +86,7 @@ QSize ItPlainTextEdit::sizeHint() const {//qDebug()<<"Size hint asked.";
     QSize document_size(document()->size().toSize());qDebug()<<"Doc"<<document()->size().toSize()<<document()->pageSize().toSize()<<document()->lineCount();
     fitting_height = document_size.height() * (fontInfo().pixelSize()+3);
     qDebug()<<document_size.height()<<fitting_height<<childrenRegion().boundingRect().size();*/
-    /*QSize size(childrenRegion().boundingRect().size());
+/*QSize size(childrenRegion().boundingRect().size());
     int height = size.height() + contentsMargins().bottom() + contentsMargins().top();
     resize(width(), height);
     //emit sizeHintChanged(height);
@@ -154,18 +154,18 @@ void ItPlainTextEdit::setGeometry(const QRect &rect)
 
 //void ItPlainTextEdit::updateGeometry()
 //{//qDebug()<<"Update geometry";
-    /*QSize size(childrenRegion().boundingRect().size());
+/*QSize size(childrenRegion().boundingRect().size());
     int height = size.height() + contentsMargins().bottom() + contentsMargins().top();
 qDebug()<<size.height()<<contentsMargins().top()<<contentsMargins().bottom()<<contentsRect().height();
 QRect nrect(x(), y(), width(), height);
     QPlainTextEdit::setGeometry(nrect);*/ //*(fontInfo().pixelSize()+3));
-    /*int height = sizeHint().height();
+/*int height = sizeHint().height();
     int width = rect().width();
     qDebug()<<"Updating geometry"<<width<<height;
     resize(width, height);*/
-    //QPlainTextEdit::setGeometry(nrect);
-    /*QPlainTextEdit::updateGeometry();*/
-    //emit sizeHintChanged(index.row());
+//QPlainTextEdit::setGeometry(nrect);
+/*QPlainTextEdit::updateGeometry();*/
+//emit sizeHintChanged(index.row());
 //}
 
 /*bool ItPlainTextEdit::event( QEvent * e )

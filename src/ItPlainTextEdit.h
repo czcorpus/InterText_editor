@@ -27,39 +27,39 @@
 
 class ItPlainTextEdit : public QPlainTextEdit
 {
-  Q_OBJECT
-  int fitting_height;
+    Q_OBJECT
+    int fitting_height;
 
 public:
-  AutoState haveAsked;
-  bool insertNext;
-  QModelIndex index;
-  ItPlainTextEdit(QWidget *parent, EditorKeys keys);
-  ~ItPlainTextEdit();
-  QSize sizeHint() const;
-  bool hasBeenChanged();
-  void setGeometry(const QRect &rect);
-  QShortcut * saveExit;
-  QShortcut * discardExit;
-  QShortcut * saveNext;
-  QShortcut * savePrev;
+    AutoState haveAsked;
+    bool insertNext;
+    QModelIndex index;
+    ItPlainTextEdit(QWidget *parent, EditorKeys keys);
+    ~ItPlainTextEdit();
+    QSize sizeHint() const;
+    bool hasBeenChanged();
+    void setGeometry(const QRect &rect);
+    QShortcut * saveExit;
+    QShortcut * discardExit;
+    QShortcut * saveNext;
+    QShortcut * savePrev;
 public slots:
-  //void fitHeightToDocument();
-  void resetChangeFlag();
-  void showContextMenu(const QPoint &pt);
-  void splitAtCursor();
-  //void setPlainText(const QString &text);
-  //void updateGeometry();
+    //void fitHeightToDocument();
+    void resetChangeFlag();
+    void showContextMenu(const QPoint &pt);
+    void splitAtCursor();
+    //void setPlainText(const QString &text);
+    //void updateGeometry();
 signals:
-  void closeEditor(QWidget * editor, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint);
-  void sizeHintChanged(int row);
+    void closeEditor(QWidget * editor, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint);
+    void sizeHintChanged(int row);
 protected:
-  bool textChangeFlag;
-  void mousePressEvent(QMouseEvent *mouseEvent);
-  //bool event ( QEvent * e );
-  QAction * splitAct;
+    bool textChangeFlag;
+    void mousePressEvent(QMouseEvent *mouseEvent);
+    //bool event ( QEvent * e );
+    QAction * splitAct;
 protected slots:
-  void setTextChangeFlagTrue();
+    void setTextChangeFlagTrue();
 };
 
 #endif // ITPLAINTEXTEDIT_H

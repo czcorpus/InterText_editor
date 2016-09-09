@@ -24,35 +24,35 @@
 #include "ItWindow.h"
 
 ItCustomVarsDialog::ItCustomVarsDialog(ItWindow *parent, ExTextProfile &prof) :
-  QDialog(parent),
-  ui(new Ui::ItCustomVarsDialog)
+    QDialog(parent),
+    ui(new Ui::ItCustomVarsDialog)
 {
-  ui->setupUi(this);
-  window = parent;
-  QLineEdit * edit;
-  QString defaultVal;
-  for (int i=0; i<prof.customVars.size(); i++) {
-    defaultVal = prof.customVars.at(i).defaultVal;
-    defaultVal.replace("%t%", window->model->alignment->info.docId);
-    defaultVal.replace("%v1%", window->model->alignment->info.ver[0].name);
-    defaultVal.replace("%v2%", window->model->alignment->info.ver[1].name);
-    edit = new QLineEdit(defaultVal, this);
-    editors.append(edit);
-    ui->formLayout->addRow(prof.customVars.at(i).desc, edit);
-  }
+    ui->setupUi(this);
+    window = parent;
+    QLineEdit * edit;
+    QString defaultVal;
+    for (int i=0; i<prof.customVars.size(); i++) {
+        defaultVal = prof.customVars.at(i).defaultVal;
+        defaultVal.replace("%t%", window->model->alignment->info.docId);
+        defaultVal.replace("%v1%", window->model->alignment->info.ver[0].name);
+        defaultVal.replace("%v2%", window->model->alignment->info.ver[1].name);
+        edit = new QLineEdit(defaultVal, this);
+        editors.append(edit);
+        ui->formLayout->addRow(prof.customVars.at(i).desc, edit);
+    }
 }
 
 ItCustomVarsDialog::~ItCustomVarsDialog()
 {
-  delete ui;
-  qDeleteAll(editors);
+    delete ui;
+    qDeleteAll(editors);
 }
 
 QStringList ItCustomVarsDialog::getStringList()
 {
-  QStringList ret;
-  for (int i=0; i<editors.size(); i++) {
-    ret.append(editors.at(i)->text());
-  }
-  return ret;
+    QStringList ret;
+    for (int i=0; i<editors.size(); i++) {
+        ret.append(editors.at(i)->text());
+    }
+    return ret;
 }

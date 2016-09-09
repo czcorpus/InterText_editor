@@ -25,67 +25,67 @@
 
 ItSentenceSplitter::ItSentenceSplitter()
 {
-  selectedProfile = 0;
+    selectedProfile = 0;
 }
 
 QStringList ItSentenceSplitter::getProfileNames()
 {
-  QStringList list;
-  SplitterProfile p;
-  foreach(p, profiles) {
-    list << p.name;
-  }
-  return list;
+    QStringList list;
+    SplitterProfile p;
+    foreach(p, profiles) {
+        list << p.name;
+    }
+    return list;
 }
 
 QString ItSentenceSplitter::split(QString text, QString sep)
 {
-  SplitterProfile p = profiles.at(selectedProfile);
-  Replacement r;
-  // apply all rules (regular expressions)
-  foreach (r, p.expressions) {
-    text.replace(QRegularExpression(r.src, QRegularExpression::UseUnicodePropertiesOption), r.repl);
-  }
-  // remove break after abbreviations
-  QString abbr;
-  foreach (abbr, p.abbrevs) {
-    text.replace(QRegularExpression(QString("(\\b%1)#!#").arg(abbr.replace(".","\\.")), QRegularExpression::UseUnicodePropertiesOption),"\\1 ");
-    //text.replace(QRegularExpression(QString("(\\b%1)#!#").arg(QRegularExpression::escape(abbr))),"\\1 ");
-  }
-  // fix broken XML tags
-  text.replace("#!#", " #!# ");
-  int pos = 0;
-  int len;
-  QString open, body, close;
-  QRegExp re("(<([a-zA-Z]+)[^>]*>)(.*)(<\\/\\2>)");
-  re.setMinimal(true);
-  while ((pos=re.indexIn(text, pos))>=0) {
-    len = re.capturedTexts().at(0).length();
-    open = re.capturedTexts().at(1);
-    body = re.capturedTexts().at(3);
-    close = re.capturedTexts().at(4);
-    if (body.contains("#!#")) {
-      body.replace(QRegularExpression("((?:<\\/[^>]+>)*#!#(?:<[^\\/][^>]*>)*)"),QString("%1\\1%2").arg(close, open));
-      text.replace(pos, len, QString("%1%2%3").arg(open, body, close));
+    SplitterProfile p = profiles.at(selectedProfile);
+    Replacement r;
+    // apply all rules (regular expressions)
+    foreach (r, p.expressions) {
+        text.replace(QRegularExpression(r.src, QRegularExpression::UseUnicodePropertiesOption), r.repl);
     }
-    pos++;
-  }
-  text.replace(QRegularExpression("\\s*((?:<\\/[^>]+>)*#!#(?:<[^\\/][^>]*>)*)\\s*"), "\\1");
+    // remove break after abbreviations
+    QString abbr;
+    foreach (abbr, p.abbrevs) {
+        text.replace(QRegularExpression(QString("(\\b%1)#!#").arg(abbr.replace(".","\\.")), QRegularExpression::UseUnicodePropertiesOption),"\\1 ");
+        //text.replace(QRegularExpression(QString("(\\b%1)#!#").arg(QRegularExpression::escape(abbr))),"\\1 ");
+    }
+    // fix broken XML tags
+    text.replace("#!#", " #!# ");
+    int pos = 0;
+    int len;
+    QString open, body, close;
+    QRegExp re("(<([a-zA-Z]+)[^>]*>)(.*)(<\\/\\2>)");
+    re.setMinimal(true);
+    while ((pos=re.indexIn(text, pos))>=0) {
+        len = re.capturedTexts().at(0).length();
+        open = re.capturedTexts().at(1);
+        body = re.capturedTexts().at(3);
+        close = re.capturedTexts().at(4);
+        if (body.contains("#!#")) {
+            body.replace(QRegularExpression("((?:<\\/[^>]+>)*#!#(?:<[^\\/][^>]*>)*)"),QString("%1\\1%2").arg(close, open));
+            text.replace(pos, len, QString("%1%2%3").arg(open, body, close));
+        }
+        pos++;
+    }
+    text.replace(QRegularExpression("\\s*((?:<\\/[^>]+>)*#!#(?:<[^\\/][^>]*>)*)\\s*"), "\\1");
 
-  return text.replace("#!#", sep);
+    return text.replace("#!#", sep);
 }
 
 void ItSentenceSplitter::selectProfile(int n)
 {
-  selectedProfile = n;
+    selectedProfile = n;
 }
 
 void ItSentenceSplitter::setProfiles(QList<SplitterProfile> newprofiles)
 {
-  profiles = newprofiles;
+    profiles = newprofiles;
 }
 
 QList<ItSentenceSplitter::SplitterProfile> ItSentenceSplitter::getProfiles()
 {
-  return profiles;
+    return profiles;
 }

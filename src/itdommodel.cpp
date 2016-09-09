@@ -96,7 +96,7 @@ Qt::ItemFlags ItDomModel::flags(const QModelIndex &index) const
                 return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
         } else if (item->getType()==ItDomItem::Element) {
             //if (atomicElementNames.contains(item->parent()->node().nodeName()))
-                return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+            return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
             /*else
                 return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;*/
         } else
@@ -107,7 +107,7 @@ Qt::ItemFlags ItDomModel::flags(const QModelIndex &index) const
 }
 
 QVariant ItDomModel::headerData(int section, Qt::Orientation orientation,
-                              int role) const
+                                int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         switch (section) {

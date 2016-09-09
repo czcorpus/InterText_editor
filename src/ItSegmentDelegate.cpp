@@ -30,59 +30,59 @@ ItSegmentDelegate::ItSegmentDelegate(QObject *parent, ItAlignmentView *aview) : 
 
 QWidget *ItSegmentDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-  ItSegmentView * segview = static_cast<ItSegmentView*>(parent->parentWidget());
-  ItPlainTextEdit * editor = new ItPlainTextEdit(parent, alview->getEditorKeys());
-  editor->index = index;
-  //editor->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-  //editor->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-  segview->setEditor(editor);
-  editor->setFocusPolicy(Qt::StrongFocus);
-  connect(editor, SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this,
-          SLOT(editorCloseRequested(QWidget*,QAbstractItemDelegate::EndEditHint)), Qt::QueuedConnection);
-  connect(editor, SIGNAL(sizeHintChanged(int)), segview, SLOT(resizeRowToContents(int)));
-  return editor;
+    ItSegmentView * segview = static_cast<ItSegmentView*>(parent->parentWidget());
+    ItPlainTextEdit * editor = new ItPlainTextEdit(parent, alview->getEditorKeys());
+    editor->index = index;
+    //editor->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    //editor->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    segview->setEditor(editor);
+    editor->setFocusPolicy(Qt::StrongFocus);
+    connect(editor, SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this,
+            SLOT(editorCloseRequested(QWidget*,QAbstractItemDelegate::EndEditHint)), Qt::QueuedConnection);
+    connect(editor, SIGNAL(sizeHintChanged(int)), segview, SLOT(resizeRowToContents(int)));
+    return editor;
 }
 
 void ItSegmentDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-	QString text = index.model()->data(index, Qt::EditRole).toString();
+    QString text = index.model()->data(index, Qt::EditRole).toString();
     ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
-	texted->setPlainText(text);
+    texted->setPlainText(text);
     texted->resetChangeFlag();
 }
 
 void ItSegmentDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-	QPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
-  QString text = texted->toPlainText();
-	model->setData(index, text, Qt::EditRole);
+    QPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
+    QString text = texted->toPlainText();
+    model->setData(index, text, Qt::EditRole);
 }
 
 void ItSegmentDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-  ItPlainTextEdit * teditor = static_cast<ItPlainTextEdit*>(editor);
-  //QRect nrect(option.rect);
-  //nrect.setHeight(nrect.height()+18);
-  //teditor->setGeometry(option.rect);
-  QRect nrect(option.rect);
-  //nrect.setSize(teditor->sizeHint());
-  nrect.setHeight(nrect.height()+teditor->fontInfo().pixelSize()+3);
-  teditor->setGeometry(nrect);
-  //QWidget *myparent = static_cast<QWidget*>(parent());
-  //ItSegmentView * segview = static_cast<ItSegmentView*>(myparent->parentWidget());
-  //ItAlignmentModel * mymodel = static_cast<ItAlignmentModel*>(segview->model());
-  //mymodel->externalDataChange();
-  //QStyledItemDelegate::updateEditorGeometry(editor, option, index);
-  //ItSegmentView * segview = static_cast<ItSegmentView*>(parent());
-  //editor->setGeometry(option.rect.adjusted(0,0,0,16));
-  //segview->adjustSize();
+    ItPlainTextEdit * teditor = static_cast<ItPlainTextEdit*>(editor);
+    //QRect nrect(option.rect);
+    //nrect.setHeight(nrect.height()+18);
+    //teditor->setGeometry(option.rect);
+    QRect nrect(option.rect);
+    //nrect.setSize(teditor->sizeHint());
+    nrect.setHeight(nrect.height()+teditor->fontInfo().pixelSize()+3);
+    teditor->setGeometry(nrect);
+    //QWidget *myparent = static_cast<QWidget*>(parent());
+    //ItSegmentView * segview = static_cast<ItSegmentView*>(myparent->parentWidget());
+    //ItAlignmentModel * mymodel = static_cast<ItAlignmentModel*>(segview->model());
+    //mymodel->externalDataChange();
+    //QStyledItemDelegate::updateEditorGeometry(editor, option, index);
+    //ItSegmentView * segview = static_cast<ItSegmentView*>(parent());
+    //editor->setGeometry(option.rect.adjusted(0,0,0,16));
+    //segview->adjustSize();
 }
 
 bool ItSegmentDelegate::eventFilter(QObject *obj, QEvent *ev) {
-	QWidget *editor = qobject_cast<QWidget*>(obj);
-	if (!editor)
-			return false;
-	if (ev->type() == QEvent::KeyPress) {
+    QWidget *editor = qobject_cast<QWidget*>(obj);
+    if (!editor)
+        return false;
+    if (ev->type() == QEvent::KeyPress) {
         ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(ev);
         int keyInt = keyEvent->key();
@@ -137,13 +137,13 @@ bool ItSegmentDelegate::eventFilter(QObject *obj, QEvent *ev) {
             return true;
         } else {
             return false;
-		}
+        }
     } /*else if (ev->type() == QEvent::FocusOut) {
         emit closeEditor(editor, QAbstractItemDelegate::NoHint);
         return true;
     }*/ else
-      return false;
-		//	return QStyledItemDelegate::eventFilter(obj, ev);
+        return false;
+    //	return QStyledItemDelegate::eventFilter(obj, ev);
 }
 
 QSize ItSegmentDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const

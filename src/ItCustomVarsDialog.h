@@ -34,17 +34,17 @@ class ItCustomVarsDialog;
 
 class ItCustomVarsDialog : public QDialog
 {
-  Q_OBJECT
-  
+    Q_OBJECT
+
 public:
-  explicit ItCustomVarsDialog(ItWindow *parent, ExTextProfile &prof);
-  ~ItCustomVarsDialog();
-  QStringList getStringList();
-  
+    explicit ItCustomVarsDialog(ItWindow *parent, ExTextProfile &prof);
+    ~ItCustomVarsDialog();
+    QStringList getStringList();
+
 private:
-  Ui::ItCustomVarsDialog *ui;
-  ItWindow * window;
-  QList< QLineEdit* > editors;
+    Ui::ItCustomVarsDialog *ui;
+    ItWindow * window;
+    QList< QLineEdit* > editors;
 };
 
 #endif // ITCUSTOMVARSDIALOG_H

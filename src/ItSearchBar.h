@@ -29,7 +29,7 @@ class ItWindow;
 
 class ItSearchBar : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
     enum searchType { SubStr = 0, SubStrCS, RegExp, RegExpCS, ElementId, Bookmark, EmptySeg, Non1Seg, UnConfirmed };

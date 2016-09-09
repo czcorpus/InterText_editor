@@ -37,86 +37,86 @@ ImportXmlDialog::~ImportXmlDialog()
 
 void ImportXmlDialog::setAlignableOnlyMode(bool set)
 {
-  if (set) {
-    ui->label_alelements->setText(tr("Give a comma-separated list of names of all elements containing alignable text (e.g. \"head,s,verse\")."));
-    ui->label_textelements->hide();
-    ui->label_neweledit->hide();
-    ui->edit_newelname->hide();
-    ui->sel_textelements->hide();
-    ui->edit_textelements->hide();
-    ui->label_profilesel->hide();
-    ui->sel_profile->hide();
-    ui->label_txteledit->hide();
-    adjustSize();
-  }
+    if (set) {
+        ui->label_alelements->setText(tr("Give a comma-separated list of names of all elements containing alignable text (e.g. \"head,s,verse\")."));
+        ui->label_textelements->hide();
+        ui->label_neweledit->hide();
+        ui->edit_newelname->hide();
+        ui->sel_textelements->hide();
+        ui->edit_textelements->hide();
+        ui->label_profilesel->hide();
+        ui->sel_profile->hide();
+        ui->label_txteledit->hide();
+        adjustSize();
+    }
 }
 
 bool ImportXmlDialog::isSegmented()
 {
-  if (ui->sel_alelements->isChecked())
-    return true;
-  else
-    return false;
+    if (ui->sel_alelements->isChecked())
+        return true;
+    else
+        return false;
 }
 
 void ImportXmlDialog::setSplitter()
 {
-  ui->sel_textelements->setChecked(true);
+    ui->sel_textelements->setChecked(true);
 }
 
 bool ImportXmlDialog::getSplitter()
 {
-  return ui->sel_textelements->isChecked();
+    return ui->sel_textelements->isChecked();
 }
 
 void ImportXmlDialog::setAlElements(QStringList &list)
 {
-  ui->edit_alelements->setText(list.join(","));
+    ui->edit_alelements->setText(list.join(","));
 }
 
 void ImportXmlDialog::setTextElements(QStringList &list)
 {
-  ui->edit_textelements->setText(list.join(","));
+    ui->edit_textelements->setText(list.join(","));
 }
 
 void ImportXmlDialog::setProfiles(QStringList list)
 {
-  ui->sel_profile->insertItems(0, list);
+    ui->sel_profile->insertItems(0, list);
 }
 
 void ImportXmlDialog::setNewElName(QString name)
 {
-  ui->edit_newelname->setText(name);
+    ui->edit_newelname->setText(name);
 }
 
 QStringList ImportXmlDialog::getAlElements()
 {
-  QStringList list;
-  QString elname;
-  foreach (elname, ui->edit_alelements->text().split(",", QString::SkipEmptyParts)) {
-    list.append(elname.trimmed());
-  }
-  return list;
+    QStringList list;
+    QString elname;
+    foreach (elname, ui->edit_alelements->text().split(",", QString::SkipEmptyParts)) {
+        list.append(elname.trimmed());
+    }
+    return list;
 }
 
 QStringList ImportXmlDialog::getTextElements()
 {
-  QStringList list;
-  QString elname;
-  foreach (elname, ui->edit_textelements->text().split(",", QString::SkipEmptyParts)) {
-    list.append(elname.trimmed());
-  }
-  return list;
+    QStringList list;
+    QString elname;
+    foreach (elname, ui->edit_textelements->text().split(",", QString::SkipEmptyParts)) {
+        list.append(elname.trimmed());
+    }
+    return list;
 }
 
 int ImportXmlDialog::getProfile()
 {
-  return ui->sel_profile->currentIndex();
+    return ui->sel_profile->currentIndex();
 }
 
 QString ImportXmlDialog::getNewElName()
 {
-  return ui->edit_newelname->text();
+    return ui->edit_newelname->text();
 }
 
 bool ImportXmlDialog::dontAsk()

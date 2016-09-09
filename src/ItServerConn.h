@@ -47,7 +47,7 @@ public:
     bool netAvailable();
     bool login();
     int canMerge(int aid, QString text, QString ver, QString ver2, int n, int count, QDateTime lastsynced, QString * message = 0);
-        // 1=yes; 0=no; -1=don't know (cannot connect, etc.)
+    // 1=yes; 0=no; -1=don't know (cannot connect, etc.)
     void docGetLastChange(QString text, QString ver);
 
 signals:

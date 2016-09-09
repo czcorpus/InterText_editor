@@ -26,13 +26,13 @@ numberingDialog::numberingDialog(QWidget *parent, ItAlignment * a, int document,
     QDialog(parent),
     ui(new Ui::numberingDialog)
 {
-  ui->setupUi(this);
-  alignment = a;
-  doc = document;
-  ui->mainLabel->setText(tr("The document version '%1' uses uknown element numbering scheme. Choose how to treat it:").arg(a->info.ver[doc].name));
-  if (!allowLock)
-    ui->lockButton->hide();
-  adjustSize();
+    ui->setupUi(this);
+    alignment = a;
+    doc = document;
+    ui->mainLabel->setText(tr("The document version '%1' uses uknown element numbering scheme. Choose how to treat it:").arg(a->info.ver[doc].name));
+    if (!allowLock)
+        ui->lockButton->hide();
+    adjustSize();
 }
 
 numberingDialog::~numberingDialog()
@@ -41,24 +41,24 @@ numberingDialog::~numberingDialog()
 }
 
 void numberingDialog::accept() {
-  if (ui->lockButton->isChecked()) {
-    alignment->info.ver[doc].numLevels=1;
-    alignment->info.ver[doc].perm_chstruct=false;
-  } else if (ui->singleButton->isChecked()) {
-    alignment->info.ver[doc].numLevels=1;
-  } else {
-    alignment->info.ver[doc].numLevels=2;
-    alignment->info.ver[doc].numPrefix=":";
-  }
-  QDialog::accept();
+    if (ui->lockButton->isChecked()) {
+        alignment->info.ver[doc].numLevels=1;
+        alignment->info.ver[doc].perm_chstruct=false;
+    } else if (ui->singleButton->isChecked()) {
+        alignment->info.ver[doc].numLevels=1;
+    } else {
+        alignment->info.ver[doc].numLevels=2;
+        alignment->info.ver[doc].numPrefix=":";
+    }
+    QDialog::accept();
 }
 
 void numberingDialog::setDefaultLevels(int level)
 {
-  if (level==0)
-    ui->lockButton->setChecked(true);
-  else if (level==1)
-    ui->singleButton->setChecked(true);
-  else if (level==2)
-    ui->twolevelButton->setChecked(true);
+    if (level==0)
+        ui->lockButton->setChecked(true);
+    else if (level==1)
+        ui->singleButton->setChecked(true);
+    else if (level==2)
+        ui->twolevelButton->setChecked(true);
 }

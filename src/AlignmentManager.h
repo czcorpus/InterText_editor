@@ -27,80 +27,80 @@
 #include "AlignmentAttrDialog.h"
 
 namespace Ui {
-    class AlignmentManager;
+class AlignmentManager;
 }
 
 class ItWindow;
 
 class AlListModel : public QAbstractListModel
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
 
-  AlListModel(QString repository, QObject *parent);
-  ~AlListModel();
+    AlListModel(QString repository, QObject *parent);
+    ~AlListModel();
 
-  QVariant data(const QModelIndex &index, int role) const;
-  //bool setData(const QModelIndex &index, const QVariant &value, int role);
-  //Qt::ItemFlags flags(const QModelIndex &index) const;
-  //QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-  //QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-  //QModelIndex parent(const QModelIndex &index) const;
-  int rowCount(const QModelIndex &parent = QModelIndex()) const;
-  int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    //bool setData(const QModelIndex &index, const QVariant &value, int role);
+    //Qt::ItemFlags flags(const QModelIndex &index) const;
+    //QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    //QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+    //QModelIndex parent(const QModelIndex &index) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
-  QString getName(int i);
-  void deleteAl(QString al);
-  QStringList listTexts();
-  QStringList listVersions();
+    QString getName(int i);
+    void deleteAl(QString al);
+    QStringList listTexts();
+    QStringList listVersions();
 
 public slots:
 
-  void externalChange();
+    void externalChange();
 
 private:
-  QString repository_path;
+    QString repository_path;
 
 };
 
 
 class AlignmentManager : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit AlignmentManager(QString repository, QWidget *parent);
-  ~AlignmentManager();
-  QStringList listTexts();
-  QStringList listVersions();
+    explicit AlignmentManager(QString repository, QWidget *parent);
+    ~AlignmentManager();
+    QStringList listTexts();
+    QStringList listVersions();
 
 public slots:
-  void show(bool openonly=false);
-  void externalChange();
+    void show(bool openonly=false);
+    void externalChange();
 
 signals:
-  void alDeletedInRepo(QString alname);
+    void alDeletedInRepo(QString alname);
 
 private:
-  Ui::AlignmentManager *ui;
-  AlListModel * model;
-  ItWindow * window;
-  QString repository_path;
+    Ui::AlignmentManager *ui;
+    AlListModel * model;
+    ItWindow * window;
+    QString repository_path;
 
-  QPushButton * openButton;
-  QPushButton * newButton;
-  QPushButton * importButton;
-  QPushButton * delButton;
-  QPushButton * propButton;
+    QPushButton * openButton;
+    QPushButton * newButton;
+    QPushButton * importButton;
+    QPushButton * delButton;
+    QPushButton * propButton;
 
 private slots:
-  void alDelete();
-  void alOpen();
-  void alNew();
-  void alProp();
-  void alImport();
-  void curAlChanged(QModelIndex index);
+    void alDelete();
+    void alOpen();
+    void alNew();
+    void alProp();
+    void alImport();
+    void curAlChanged(QModelIndex index);
 };
 
 

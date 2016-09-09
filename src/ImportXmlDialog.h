@@ -25,7 +25,7 @@
 #include <QDialog>
 
 namespace Ui {
-    class ImportXmlDialog;
+class ImportXmlDialog;
 }
 
 class ImportXmlDialog : public QDialog
@@ -33,21 +33,21 @@ class ImportXmlDialog : public QDialog
     Q_OBJECT
 
 public:
-  explicit ImportXmlDialog(QWidget *parent = 0);
-  ~ImportXmlDialog();
-  void setAlignableOnlyMode(bool set = true);
-  bool isSegmented();
-  void setSplitter();
-  bool getSplitter();
-  void setAlElements(QStringList &list);
-  void setTextElements(QStringList &list);
-  void setProfiles(QStringList list);
-  void setNewElName(QString name);
-  QStringList getAlElements();
-  QStringList getTextElements();
-  int getProfile();
-  QString getNewElName();
-  bool dontAsk();
+    explicit ImportXmlDialog(QWidget *parent = 0);
+    ~ImportXmlDialog();
+    void setAlignableOnlyMode(bool set = true);
+    bool isSegmented();
+    void setSplitter();
+    bool getSplitter();
+    void setAlElements(QStringList &list);
+    void setTextElements(QStringList &list);
+    void setProfiles(QStringList list);
+    void setNewElName(QString name);
+    QStringList getAlElements();
+    QStringList getTextElements();
+    int getProfile();
+    QString getNewElName();
+    bool dontAsk();
 
 private:
     Ui::ImportXmlDialog *ui;

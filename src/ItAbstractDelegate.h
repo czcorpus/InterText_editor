@@ -32,32 +32,32 @@ class ItAbstractDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-  //static AutoState autoSaveElement;
-  explicit ItAbstractDelegate(QObject *parent = 0);
-  //ItSegmentView * segview;
-  //QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-  //void setEditorData(QWidget *editor, const QModelIndex &index) const;
-  //void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
-  void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-  void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
-  QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
-  bool getHtmlView() const;
-  void setHtmlView(bool set);
-  //static void setAutoSaveElement(AutoState value);
-  //static AutoState getAutoSaveElement();
+    //static AutoState autoSaveElement;
+    explicit ItAbstractDelegate(QObject *parent = 0);
+    //ItSegmentView * segview;
+    //QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    //void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    //void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+    QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+    bool getHtmlView() const;
+    void setHtmlView(bool set);
+    //static void setAutoSaveElement(AutoState value);
+    //static AutoState getAutoSaveElement();
 signals:
     void commitData(QWidget *editor, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint);
     void insertNextRequested();
 public slots:
-  //void onClose ( QWidget * editor, QAbstractItemDelegate::EndEditHint hint = NoHint );
-  void editorCloseRequested(QWidget * editor, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint, bool insertNext = false);
+    //void onClose ( QWidget * editor, QAbstractItemDelegate::EndEditHint hint = NoHint );
+    void editorCloseRequested(QWidget * editor, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint, bool insertNext = false);
 protected:
-  QWidget * myparent;
-  //bool eventFilter(QObject *obj, QEvent *ev);
-  //void registerSegView(ItSegmentView * view);
+    QWidget * myparent;
+    //bool eventFilter(QObject *obj, QEvent *ev);
+    //void registerSegView(ItSegmentView * view);
 private:
-  bool htmlView;
-  void createContents(QTextDocument * doc, const QStyleOptionViewItem & option, const QModelIndex & index) const;
+    bool htmlView;
+    void createContents(QTextDocument * doc, const QStyleOptionViewItem & option, const QModelIndex & index) const;
 private slots:
 };
 

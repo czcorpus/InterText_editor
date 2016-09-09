@@ -50,137 +50,137 @@ ImportTxtDialog::~ImportTxtDialog()
 
 void ImportTxtDialog::setHeaderFooterModeOnly(bool set)
 {
-  if (set) {
-    ui->parBox->hide();
-    ui->sentBox->hide();
-    adjustSize();
-  }
+    if (set) {
+        ui->parBox->hide();
+        ui->sentBox->hide();
+        adjustSize();
+    }
 }
 
 void ImportTxtDialog::setXmlHeader(QString text)
 {
-  importXmlHeader = text;
+    importXmlHeader = text;
 }
 
 QString ImportTxtDialog::getXmlHeader()
 {
-  return importXmlHeader;
+    return importXmlHeader;
 }
 
 void ImportTxtDialog::setParSep(QString sep)
 {
-  QStringList items;
-  items << tr("line break") << tr("empty line");
-  int set;
-  if (sep=="\n")
-    set = 0;
-  else if (sep=="\n\n")
-    set = 1;
-  else {
-    items << sep;
-    set = 2;
-  }
-  ui->parSepBox->addItems(items);
-  ui->parSepBox->setCurrentIndex(set);
+    QStringList items;
+    items << tr("line break") << tr("empty line");
+    int set;
+    if (sep=="\n")
+        set = 0;
+    else if (sep=="\n\n")
+        set = 1;
+    else {
+        items << sep;
+        set = 2;
+    }
+    ui->parSepBox->addItems(items);
+    ui->parSepBox->setCurrentIndex(set);
 }
 
 QString ImportTxtDialog::getParSep()
 {
-  QString ret = ui->parSepBox->currentText();
-  if (ret==tr("line break"))
-    return "\n";
-  else if (ret==tr("empty line"))
-    return "\n\n";
-  else
-    return ret;
+    QString ret = ui->parSepBox->currentText();
+    if (ret==tr("line break"))
+        return "\n";
+    else if (ret==tr("empty line"))
+        return "\n\n";
+    else
+        return ret;
 }
 
 void ImportTxtDialog::setParEl(QString name)
 {
-  ui->parElEdit->setText(name);
+    ui->parElEdit->setText(name);
 }
 
 QString ImportTxtDialog::getParEl()
 {
-  return ui->parElEdit->text();
+    return ui->parElEdit->text();
 }
 
 void ImportTxtDialog::setSplit(bool set)
 {
-  ui->sel_autoSep->setChecked(set);
+    ui->sel_autoSep->setChecked(set);
 }
 
 bool ImportTxtDialog::getSplit()
 {
-  return ui->sel_autoSep->isChecked();
+    return ui->sel_autoSep->isChecked();
 }
 
 void ImportTxtDialog::setSentEl(QString name)
 {
-  ui->sentElEdit->setText(name);
+    ui->sentElEdit->setText(name);
 }
 
 QString ImportTxtDialog::getSentEl()
 {
-  return ui->sentElEdit->text();
+    return ui->sentElEdit->text();
 }
 
 void ImportTxtDialog::setSentSep(QString sep)
 {
-  QStringList items;
-  items << tr("line break") << tr("empty line");
-  int set;
-  if (sep=="\n")
-    set = 0;
-  else if (sep=="\n\n")
-    set = 1;
-  else {
-    items << sep;
-    set = 2;
-  }
-  ui->sentSepEdit->addItems(items);
-  ui->sentSepEdit->setCurrentIndex(set);
+    QStringList items;
+    items << tr("line break") << tr("empty line");
+    int set;
+    if (sep=="\n")
+        set = 0;
+    else if (sep=="\n\n")
+        set = 1;
+    else {
+        items << sep;
+        set = 2;
+    }
+    ui->sentSepEdit->addItems(items);
+    ui->sentSepEdit->setCurrentIndex(set);
 }
 
 QString ImportTxtDialog::getSentSep()
 {
-  QString ret = ui->sentSepEdit->currentText();
-  if (ret==tr("line break"))
-    return "\n";
-  else if (ret==tr("empty line"))
-    return "\n\n";
-  else
-    return ret;
+    QString ret = ui->sentSepEdit->currentText();
+    if (ret==tr("line break"))
+        return "\n";
+    else if (ret==tr("empty line"))
+        return "\n\n";
+    else
+        return ret;
 }
 
 void ImportTxtDialog::setSplitProfiles(QStringList list)
 {
-  ui->profileBox->insertItems(0, list);
+    ui->profileBox->insertItems(0, list);
 }
 
 int ImportTxtDialog::getSplitProfile()
 {
-  return ui->profileBox->currentIndex();
+    return ui->profileBox->currentIndex();
 }
 
 void ImportTxtDialog::setXmlFooter(QString text)
 {
-  importXmlFooter = text;
+    importXmlFooter = text;
 }
 
 QString ImportTxtDialog::getXmlFooter()
 {
-  return importXmlFooter;
+    return importXmlFooter;
 }
 
 void ImportTxtDialog::setKeepMarkup(bool set)
 {
-  ui->keepMarkup->setChecked(set);
+    ui->keepMarkup->setChecked(set);
 }
 
 bool ImportTxtDialog::getKeepMarkup()
 {
-  return ui->keepMarkup->isChecked();
+    return ui->keepMarkup->isChecked();
 }
 
 void ImportTxtDialog::setEncoding(QString text)

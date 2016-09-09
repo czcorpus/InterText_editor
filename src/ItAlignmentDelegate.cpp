@@ -24,68 +24,68 @@
 
 ItAlignmentDelegate::ItAlignmentDelegate(QObject *parent) : ItAbstractDelegate(parent) {
     alview = static_cast<ItAlignmentView*>(parent);
-  //segview = 0;
+    //segview = 0;
     //mytxtedit = 0;
     //connect(this, SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(onClose(QWidget*,QAbstractItemDelegate::EndEditHint)));
 }
 
 QWidget *ItAlignmentDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-  if (!index.isValid() || (!index.parent().isValid() && (index.column()!=1 && index.column()!=2)))
-      return 0;
-  //ItAlignmentView * alview = static_cast<ItAlignmentView*>(parent->parentWidget());
-  if (index.model()->rowCount(index)==1) {
-    //alview->setRowHeight(index.row(), alview->rowHeight(index.row())+16);
-      alview->nexthint = QAbstractItemDelegate::NoHint;
-      ItPlainTextEdit * editor = new ItPlainTextEdit(parent, alview->getEditorKeys());
-    //editor->setFocusPolicy(Qt::StrongFocus); // opening within segview does not work
-    editor->index = index;
-    connect(editor, SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)),
-            this, SLOT(editorCloseRequested(QWidget*,QAbstractItemDelegate::EndEditHint)));
-    connect(editor, SIGNAL(sizeHintChanged(int)), alview, SLOT(resizeRowToContents(int)));
-/*    connect(editor->saveExit, SIGNAL(activated()), this, SLOT(slotSaveExit()));
+    if (!index.isValid() || (!index.parent().isValid() && (index.column()!=1 && index.column()!=2)))
+        return 0;
+    //ItAlignmentView * alview = static_cast<ItAlignmentView*>(parent->parentWidget());
+    if (index.model()->rowCount(index)==1) {
+        //alview->setRowHeight(index.row(), alview->rowHeight(index.row())+16);
+        alview->nexthint = QAbstractItemDelegate::NoHint;
+        ItPlainTextEdit * editor = new ItPlainTextEdit(parent, alview->getEditorKeys());
+        //editor->setFocusPolicy(Qt::StrongFocus); // opening within segview does not work
+        editor->index = index;
+        connect(editor, SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)),
+                this, SLOT(editorCloseRequested(QWidget*,QAbstractItemDelegate::EndEditHint)));
+        connect(editor, SIGNAL(sizeHintChanged(int)), alview, SLOT(resizeRowToContents(int)));
+        /*    connect(editor->saveExit, SIGNAL(activated()), this, SLOT(slotSaveExit()));
     connect(editor->discardExit, SIGNAL(activated()), this, SLOT(slotDiscardExit()));
     connect(editor->saveNext, SIGNAL(activated()), this, SLOT(slotSaveNext()));
     connect(editor->savePrev, SIGNAL(activated()), this, SLOT(slotSavePrev()));*/
-    //mytxtedit = editor;
-    alview->setEditor(editor);
-    return editor;
-  } else {
-		//qDebug() << "Creating editor";
-    ItAlignmentModel * model = static_cast<ItAlignmentModel*>(alview->model());
-    //int add=(model->rowCount(index))*16;
-    //alview->setRowHeight(index.row(), alview->rowHeight(index.row())+add);
-    ItSegmentView * view = new ItSegmentView(parent, alview);
-    //registerSegView(view);
-    view->index = index;
-    view->setModel(model);
-    view->setHtmlView(getHtmlView());
-    view->setFont(alview->font());
-    view->setRootIndex(model->index(index.row(),index.column(),QModelIndex()));
-    //int add=(view->model()->rowCount(view->rootIndex()))*8;
-    //view->setGeometry(option.rect.adjusted(0,0,0,add));
-    view->setWordWrap(true);
-    view->setSelectionMode(QAbstractItemView::SingleSelection);
-    //view->horizontalHeader()->setResizeMode(0,QHeaderView::ResizeToContents);
-    //view->verticalHeader()->setResizeMode(0,QHeaderView::ResizeToContents);
-    //view->horizontalHeader()->setHidden(true);
-    //view->verticalHeader()->setHidden(true);
-    view->setFocusPolicy(Qt::StrongFocus);
-    //alview->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    view->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed);
-    view->setCurrentIndex(model->index(0,0,index));
-    //if (model->rowCount(index)==1)
-    //	view->edit(model->index(0,0,index));
-    alview->setSegView(view);
-    //alview->resizeRowToContents(index.row());
-    connect(view, SIGNAL(sizeHintChanged(int)), alview, SLOT(resizeRowToContents(int)));
-    connect(view, SIGNAL(wantBeClosed(QWidget*,QAbstractItemDelegate::EndEditHint, bool)),
-            this, SLOT(editorCloseRequested(QWidget*,QAbstractItemDelegate::EndEditHint, bool)));
-    if (alview->nexthint != QAbstractItemDelegate::NoHint)
-        view->autoOpenEditor(alview->nexthint);
-    alview->nexthint = QAbstractItemDelegate::NoHint;
-    return view;
-  }
+        //mytxtedit = editor;
+        alview->setEditor(editor);
+        return editor;
+    } else {
+        //qDebug() << "Creating editor";
+        ItAlignmentModel * model = static_cast<ItAlignmentModel*>(alview->model());
+        //int add=(model->rowCount(index))*16;
+        //alview->setRowHeight(index.row(), alview->rowHeight(index.row())+add);
+        ItSegmentView * view = new ItSegmentView(parent, alview);
+        //registerSegView(view);
+        view->index = index;
+        view->setModel(model);
+        view->setHtmlView(getHtmlView());
+        view->setFont(alview->font());
+        view->setRootIndex(model->index(index.row(),index.column(),QModelIndex()));
+        //int add=(view->model()->rowCount(view->rootIndex()))*8;
+        //view->setGeometry(option.rect.adjusted(0,0,0,add));
+        view->setWordWrap(true);
+        view->setSelectionMode(QAbstractItemView::SingleSelection);
+        //view->horizontalHeader()->setResizeMode(0,QHeaderView::ResizeToContents);
+        //view->verticalHeader()->setResizeMode(0,QHeaderView::ResizeToContents);
+        //view->horizontalHeader()->setHidden(true);
+        //view->verticalHeader()->setHidden(true);
+        view->setFocusPolicy(Qt::StrongFocus);
+        //alview->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        view->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed);
+        view->setCurrentIndex(model->index(0,0,index));
+        //if (model->rowCount(index)==1)
+        //	view->edit(model->index(0,0,index));
+        alview->setSegView(view);
+        //alview->resizeRowToContents(index.row());
+        connect(view, SIGNAL(sizeHintChanged(int)), alview, SLOT(resizeRowToContents(int)));
+        connect(view, SIGNAL(wantBeClosed(QWidget*,QAbstractItemDelegate::EndEditHint, bool)),
+                this, SLOT(editorCloseRequested(QWidget*,QAbstractItemDelegate::EndEditHint, bool)));
+        if (alview->nexthint != QAbstractItemDelegate::NoHint)
+            view->autoOpenEditor(alview->nexthint);
+        alview->nexthint = QAbstractItemDelegate::NoHint;
+        return view;
+    }
 }
 
 /*void ItAlignmentDelegate::registerSegView(ItSegmentView * view) {
@@ -104,11 +104,11 @@ void ItAlignmentDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 
 void ItAlignmentDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-	if (QString(editor->metaObject()->className()) == "ItPlainTextEdit") {
-    ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
-		QString text = texted->toPlainText();
-		model->setData(model->index(0,0,index), text, Qt::EditRole);
-	}
+    if (QString(editor->metaObject()->className()) == "ItPlainTextEdit") {
+        ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
+        QString text = texted->toPlainText();
+        model->setData(model->index(0,0,index), text, Qt::EditRole);
+    }
 }
 
 bool ItAlignmentDelegate::eventFilter(QObject *obj, QEvent *ev) {
@@ -147,37 +147,37 @@ bool ItAlignmentDelegate::eventFilter(QObject *obj, QEvent *ev) {
 
         if (keycode == alview->getEditorKeys().saveExit) { //: //Qt::Key_F2:
             if (QString(editor->metaObject()->className()) == "ItPlainTextEdit") {
-              ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
-              texted->haveAsked = AutoYes;
+                ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
+                texted->haveAsked = AutoYes;
             }
             emit commitData(editor);
             return true;
         } else if (keycode == alview->getEditorKeys().discardExit) {//: //Qt::Key_Escape:
             if (QString(editor->metaObject()->className()) == "ItPlainTextEdit") {
-              ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
-              texted->haveAsked = AutoNo;
+                ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
+                texted->haveAsked = AutoNo;
             }
             emit closeEditor(editor, QAbstractItemDelegate::NoHint);
             return true;
         } else if (keycode == alview->getEditorKeys().saveNext) { //: //Qt::Key_Tab:
             if (QString(editor->metaObject()->className()) == "ItPlainTextEdit") {
-              ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
-              texted->haveAsked = AutoYes;
+                ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
+                texted->haveAsked = AutoYes;
             }
             emit commitData(editor, QAbstractItemDelegate::EditNextItem);
             return true;
         } else if (keycode == alview->getEditorKeys().savePrev) {//: //Qt::Key_Backtab:
             if (QString(editor->metaObject()->className()) == "ItPlainTextEdit") {
-              ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
-              texted->haveAsked = AutoYes;
+                ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
+                texted->haveAsked = AutoYes;
             }
             emit commitData(editor, QAbstractItemDelegate::EditPreviousItem);
             return true;
         } else if (keycode == alview->getEditorKeys().saveInsertNext) { //: //Ctrl+Tab:
             if (QString(editor->metaObject()->className()) == "ItPlainTextEdit") {
-              ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
-              texted->haveAsked = AutoYes;
-              texted->insertNext = true;
+                ItPlainTextEdit *texted = static_cast<ItPlainTextEdit*>(editor);
+                texted->haveAsked = AutoYes;
+                texted->insertNext = true;
             }
             emit commitData(editor, QAbstractItemDelegate::EditNextItem);
             return true;

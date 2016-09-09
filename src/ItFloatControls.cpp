@@ -123,14 +123,14 @@ void ItFloatControls::setEnabledRight(bool set)
 
 QIcon ItFloatControls::composeIcon(QString fname)
 {
-  QIcon i = QIcon();
-  i.addFile(QString(":/images/").append(fname));
-  i.addFile(QString(":/images/16/").append(fname));
-  i.addFile(QString(":/images/22/").append(fname));
-  i.addFile(QString(":/images/32/").append(fname));
-  i.addFile(QString(":/images/48/").append(fname));
-  i.addFile(QString(":/images/svg/").append(fname.replace(".png",".svgz")));
-  return i;
+    QIcon i = QIcon();
+    i.addFile(QString(":/images/").append(fname));
+    i.addFile(QString(":/images/16/").append(fname));
+    i.addFile(QString(":/images/22/").append(fname));
+    i.addFile(QString(":/images/32/").append(fname));
+    i.addFile(QString(":/images/48/").append(fname));
+    i.addFile(QString(":/images/svg/").append(fname.replace(".png",".svgz")));
+    return i;
 }
 
 void ItFloatControls::setIconSize(int size)

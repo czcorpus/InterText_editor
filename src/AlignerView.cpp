@@ -51,62 +51,62 @@ void AlignerView::run_aligner()
     show();
     my_proc->start(QString("\"%1\" %2").arg(command, args));
     if (!my_proc->waitForStarted()) {
-      QMessageBox::critical(this, tr("Automatic alignment"), tr("Error: Cannot execute external aligner (%1). Please, check your settings.").arg(command.split(" ").first()));
-      QFile::remove(filename1);
-      QFile::remove(filename2);
-      close();
+        QMessageBox::critical(this, tr("Automatic alignment"), tr("Error: Cannot execute external aligner (%1). Please, check your settings.").arg(command.split(" ").first()));
+        QFile::remove(filename1);
+        QFile::remove(filename2);
+        close();
     }
 }
 
 AlignerView::~AlignerView()
 {
-  delete my_proc;
-  delete ui;
+    delete my_proc;
+    delete ui;
 }
 
 void AlignerView::readProc()
 {
-  QTextCursor c = ui->textView->textCursor();
-  c.insertText(my_proc->readAll());
-  QScrollBar * sb = ui->textView->verticalScrollBar();
-  sb->setValue(sb->maximum());
+    QTextCursor c = ui->textView->textCursor();
+    c.insertText(my_proc->readAll());
+    QScrollBar * sb = ui->textView->verticalScrollBar();
+    sb->setValue(sb->maximum());
 }
 
 void AlignerView::buttonPressed(QAbstractButton * button)
 {
-  if (ui->buttonBox->standardButton(button)==QDialogButtonBox::Abort) {
-    bool tempClose = close_me;
-    close_me = false;
-    QMessageBox::StandardButton resp = QMessageBox::question(this, tr("Automatic alignment"), tr("Do you really want to cancel the automatic alignment?"),
-                                                             QMessageBox::Ok | QMessageBox::Cancel);
-    if (resp==QMessageBox::Ok) {
-      userAbort = true;
-      my_proc->terminate();
-      if (!my_proc->waitForFinished(10000))
-        my_proc->kill();
+    if (ui->buttonBox->standardButton(button)==QDialogButtonBox::Abort) {
+        bool tempClose = close_me;
+        close_me = false;
+        QMessageBox::StandardButton resp = QMessageBox::question(this, tr("Automatic alignment"), tr("Do you really want to cancel the automatic alignment?"),
+                                                                 QMessageBox::Ok | QMessageBox::Cancel);
+        if (resp==QMessageBox::Ok) {
+            userAbort = true;
+            my_proc->terminate();
+            if (!my_proc->waitForFinished(10000))
+                my_proc->kill();
+        }
+        close_me = tempClose;
     }
-    close_me = tempClose;
-  }
 }
 
 void AlignerView::proc_finished(int ret, QProcess::ExitStatus stat)
 {
-  QFile::remove(filename1);
-  QFile::remove(filename2);
+    QFile::remove(filename1);
+    QFile::remove(filename2);
 
-  if (!userAbort) {
-    if (stat!=QProcess::NormalExit) {
-      close_me = false;
-      QMessageBox::critical(this, tr("Automatic alignment"), tr("Error: External aligner failed."));
-    } else {
-      emit result(my_proc->readAllStandardOutput(), startPos, endPos);
+    if (!userAbort) {
+        if (stat!=QProcess::NormalExit) {
+            close_me = false;
+            QMessageBox::critical(this, tr("Automatic alignment"), tr("Error: External aligner failed."));
+        } else {
+            emit result(my_proc->readAllStandardOutput(), startPos, endPos);
+        }
     }
-  }
 
-  if (close_me)
-    close();
-  else {
-    ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
-    connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(close()));
-  }
+    if (close_me)
+        close();
+    else {
+        ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
+        connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(close()));
+    }
 }

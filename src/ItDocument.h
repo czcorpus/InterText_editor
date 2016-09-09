@@ -30,41 +30,41 @@
 class ItDocument
 {
 public:
-  ItDocument();
-  ~ItDocument();
-	bool load(const QString &filename);
-  bool setXml(QByteArray &xml);
-  bool setXml(QString &xml);
-  QString getXml();
-  bool save(const QString &filename);
-  bool hasIndex();
-  void destroyIndex(QStringList alignedIds);
-  int numLevels();
-  QString numPrefix();
-  QString numParentPrefix();
-  void setNumLevels(int &value);
-  void setNumPrefix(QString &prefix);
-  void setNumParentPrefix(QString &prefix);
-  void setIdNamespaceURI(QString &uri);
-	ItElement* elementById(QString &id);
-  void detectIdSystem(QStringList alignedIds);
-  void collectElements(QList<ItElement*> * elements, QStringList &elNames, QDomNode node = QDomNode());
-  QString errorMessage;
-  QDomDocument getDomDoc();
-	
+    ItDocument();
+    ~ItDocument();
+    bool load(const QString &filename);
+    bool setXml(QByteArray &xml);
+    bool setXml(QString &xml);
+    QString getXml();
+    bool save(const QString &filename);
+    bool hasIndex();
+    void destroyIndex(QStringList alignedIds);
+    int numLevels();
+    QString numPrefix();
+    QString numParentPrefix();
+    void setNumLevels(int &value);
+    void setNumPrefix(QString &prefix);
+    void setNumParentPrefix(QString &prefix);
+    void setIdNamespaceURI(QString &uri);
+    ItElement* elementById(QString &id);
+    void detectIdSystem(QStringList alignedIds);
+    void collectElements(QList<ItElement*> * elements, QStringList &elNames, QDomNode node = QDomNode());
+    QString errorMessage;
+    QDomDocument getDomDoc();
+
 private:
-  int numbering_levels;
-  QString numbering_prefix;
-  QString numbering_parent_prefix;
-  QString idNamespaceURI;
-	QString filename;
-	QString alignables;
+    int numbering_levels;
+    QString numbering_prefix;
+    QString numbering_parent_prefix;
+    QString idNamespaceURI;
+    QString filename;
+    QString alignables;
     QDomDocument doc;
-  QHash<QString,ItElement*> index;
-  bool createIndex();
-  bool scanNode(QDomNode node);
-  void setUnknownNumbering(int numbering = 0);
-	//QDomElement searchById(QDomElement &e, QString &id);
+    QHash<QString,ItElement*> index;
+    bool createIndex();
+    bool scanNode(QDomNode node);
+    void setUnknownNumbering(int numbering = 0);
+    //QDomElement searchById(QDomElement &e, QString &id);
 };
 
 #endif

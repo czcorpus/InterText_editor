@@ -78,100 +78,100 @@ NewAlignmentDialog::~NewAlignmentDialog()
 }
 
 void NewAlignmentDialog::accept() {
-  if (ui->docNameEdit->currentText().isEmpty()) {
-      QMessageBox::critical(this, tr("New alignment"), tr("Document name cannot be empty."));
-      return;
-  }
-  if (ui->ver1nameEdit->currentText().isEmpty() || ui->ver2nameEdit->currentText().isEmpty()) {
-      QMessageBox::critical(this, tr("New alignment"), tr("Version name cannot be empty."));
-      return;
-  }
-  if (ui->ver1nameEdit->currentText()==ui->ver2nameEdit->currentText()) {
-      QMessageBox::critical(this, tr("New alignment"), tr("Version names cannot be identical."));
-      return;
-  }
-  alignment->info.docId = ui->docNameEdit->currentText();
-  alignment->info.ver[0].name = ui->ver1nameEdit->currentText();
-  alignment->info.ver[1].name = ui->ver2nameEdit->currentText();
-  if (ui->selSource1->currentIndex()>0)
-      alignment->info.ver[0].source = ui->selSource1->currentData().toString();
-  if (ui->selSource2->currentIndex()>0)
-      alignment->info.ver[1].source = ui->selSource2->currentData().toString();
-  if (alignment->info.ver[0].source.startsWith("http") && alignment->info.ver[1].source==alignment->info.ver[0].source) {
-      ItServer s = window->servers.value(ui->selSource2->currentText());
-      ServerDialog * sd = new ServerDialog(window, window->storagePath, s.url, s.username, s.passwd, true);
-      sd->connectToServer();
-      if (!sd->canUploadAlignment(alignment->info.docId, alignment->info.ver[0].name, alignment->info.ver[1].name)
-          && sd->lastErrCode!=ERR_PERM_DENIED
-          && (QMessageBox::Abort == QMessageBox::question(this,
-                                                          tr("New alignment"),
-                                                          tr("Such alignment already exists on the server. Do you want to continue?")
-                                                          ,QMessageBox::Ok|QMessageBox::Abort))) {
-          delete sd;
-          return;
-      }
-      delete sd;
-  }
-  //QString t1 = sd->alTitleFormat.arg(alignment->info.docId, alignment->info.ver[0].name, alignment->info.ver[1].name);
-  //QString t2 = sd->alTitleFormat.arg(alignment->info.docId, alignment->info.ver[1].name, alignment->info.ver[0].name);
-  if (alignment->info.ver[0].source=="" && alignment->info.ver[1].source.startsWith("http")) {
-    ItServer s = window->servers.value(alignment->info.ver[1].source);
-    ServerDialog * sd = new ServerDialog(window, window->storagePath, s.url, s.username, s.passwd, true);
-    sd->connectToServer();
-    if (!sd->canUploadDoc(alignment->info.docId, alignment->info.ver[0].name)
-       && sd->lastErrCode!=ERR_PERM_DENIED
-       && (QMessageBox::Abort == QMessageBox::question(this,
-                                                       tr("New alignment"),
-                                                       tr("Version '%1' of this text already exists on the same server as version '%2'. Do you want to continue?")
-                                                       .arg(alignment->info.ver[0].name, alignment->info.ver[1].name),QMessageBox::Ok|QMessageBox::Abort))) {
-      delete sd;
-      return;
+    if (ui->docNameEdit->currentText().isEmpty()) {
+        QMessageBox::critical(this, tr("New alignment"), tr("Document name cannot be empty."));
+        return;
     }
-    delete sd;
-  }
-  if (alignment->info.ver[1].source=="" && alignment->info.ver[0].source.startsWith("http")) {
-    ItServer s = window->servers.value(alignment->info.ver[0].source);
-    ServerDialog * sd = new ServerDialog(window, window->storagePath, s.url, s.username, s.passwd, true);
-    sd->connectToServer();
-    if (!sd->canUploadDoc(alignment->info.docId, alignment->info.ver[1].name)
-       && sd->lastErrCode!=ERR_PERM_DENIED
-       && (QMessageBox::Abort == QMessageBox::question(this,
-                                                       tr("New alignment"),
-                                                       tr("Version '%1' of this text already exists on the same server as version '%2'. Do you want to continue?")
-                                                       .arg(alignment->info.ver[1].name, alignment->info.ver[0].name),QMessageBox::Ok|QMessageBox::Abort))) {
-      delete sd;
-      return;
+    if (ui->ver1nameEdit->currentText().isEmpty() || ui->ver2nameEdit->currentText().isEmpty()) {
+        QMessageBox::critical(this, tr("New alignment"), tr("Version name cannot be empty."));
+        return;
     }
-    delete sd;
-  }
-  QDialog::accept();
+    if (ui->ver1nameEdit->currentText()==ui->ver2nameEdit->currentText()) {
+        QMessageBox::critical(this, tr("New alignment"), tr("Version names cannot be identical."));
+        return;
+    }
+    alignment->info.docId = ui->docNameEdit->currentText();
+    alignment->info.ver[0].name = ui->ver1nameEdit->currentText();
+    alignment->info.ver[1].name = ui->ver2nameEdit->currentText();
+    if (ui->selSource1->currentIndex()>0)
+        alignment->info.ver[0].source = ui->selSource1->currentData().toString();
+    if (ui->selSource2->currentIndex()>0)
+        alignment->info.ver[1].source = ui->selSource2->currentData().toString();
+    if (alignment->info.ver[0].source.startsWith("http") && alignment->info.ver[1].source==alignment->info.ver[0].source) {
+        ItServer s = window->servers.value(ui->selSource2->currentText());
+        ServerDialog * sd = new ServerDialog(window, window->storagePath, s.url, s.username, s.passwd, true);
+        sd->connectToServer();
+        if (!sd->canUploadAlignment(alignment->info.docId, alignment->info.ver[0].name, alignment->info.ver[1].name)
+                && sd->lastErrCode!=ERR_PERM_DENIED
+                && (QMessageBox::Abort == QMessageBox::question(this,
+                                                                tr("New alignment"),
+                                                                tr("Such alignment already exists on the server. Do you want to continue?")
+                                                                ,QMessageBox::Ok|QMessageBox::Abort))) {
+            delete sd;
+            return;
+        }
+        delete sd;
+    }
+    //QString t1 = sd->alTitleFormat.arg(alignment->info.docId, alignment->info.ver[0].name, alignment->info.ver[1].name);
+    //QString t2 = sd->alTitleFormat.arg(alignment->info.docId, alignment->info.ver[1].name, alignment->info.ver[0].name);
+    if (alignment->info.ver[0].source=="" && alignment->info.ver[1].source.startsWith("http")) {
+        ItServer s = window->servers.value(alignment->info.ver[1].source);
+        ServerDialog * sd = new ServerDialog(window, window->storagePath, s.url, s.username, s.passwd, true);
+        sd->connectToServer();
+        if (!sd->canUploadDoc(alignment->info.docId, alignment->info.ver[0].name)
+                && sd->lastErrCode!=ERR_PERM_DENIED
+                && (QMessageBox::Abort == QMessageBox::question(this,
+                                                                tr("New alignment"),
+                                                                tr("Version '%1' of this text already exists on the same server as version '%2'. Do you want to continue?")
+                                                                .arg(alignment->info.ver[0].name, alignment->info.ver[1].name),QMessageBox::Ok|QMessageBox::Abort))) {
+            delete sd;
+            return;
+        }
+        delete sd;
+    }
+    if (alignment->info.ver[1].source=="" && alignment->info.ver[0].source.startsWith("http")) {
+        ItServer s = window->servers.value(alignment->info.ver[0].source);
+        ServerDialog * sd = new ServerDialog(window, window->storagePath, s.url, s.username, s.passwd, true);
+        sd->connectToServer();
+        if (!sd->canUploadDoc(alignment->info.docId, alignment->info.ver[1].name)
+                && sd->lastErrCode!=ERR_PERM_DENIED
+                && (QMessageBox::Abort == QMessageBox::question(this,
+                                                                tr("New alignment"),
+                                                                tr("Version '%1' of this text already exists on the same server as version '%2'. Do you want to continue?")
+                                                                .arg(alignment->info.ver[1].name, alignment->info.ver[0].name),QMessageBox::Ok|QMessageBox::Abort))) {
+            delete sd;
+            return;
+        }
+        delete sd;
+    }
+    QDialog::accept();
 }
 
 void NewAlignmentDialog::enableOnly(int ver) {
-  if (ver==0) {
-    ui->docNameEdit->setEnabled(true);
-    ui->ver1nameEdit->setEnabled(true);
-    ui->ver2nameEdit->setEnabled(true);
-  } else if (ver==1) {
-    ui->docNameEdit->setEnabled(false);
-    ui->ver1nameEdit->setEnabled(true);
-    ui->ver2nameEdit->setEnabled(false);
-  } else if (ver==2) {
-    ui->docNameEdit->setEnabled(false);
-    ui->ver1nameEdit->setEnabled(false);
-    ui->ver2nameEdit->setEnabled(true);
-  }
+    if (ver==0) {
+        ui->docNameEdit->setEnabled(true);
+        ui->ver1nameEdit->setEnabled(true);
+        ui->ver2nameEdit->setEnabled(true);
+    } else if (ver==1) {
+        ui->docNameEdit->setEnabled(false);
+        ui->ver1nameEdit->setEnabled(true);
+        ui->ver2nameEdit->setEnabled(false);
+    } else if (ver==2) {
+        ui->docNameEdit->setEnabled(false);
+        ui->ver1nameEdit->setEnabled(false);
+        ui->ver2nameEdit->setEnabled(true);
+    }
 }
 
 void NewAlignmentDialog::textNameChanged(QString val)
 {
     if (ui->selSource1->currentIndex()>1) {
-       ui->ver1nameEdit->clear();
-       ui->ver1nameEdit->addItems(filterDocs(0, val));
+        ui->ver1nameEdit->clear();
+        ui->ver1nameEdit->addItems(filterDocs(0, val));
     }
     if (ui->selSource2->currentIndex()>1) {
-       ui->ver2nameEdit->clear();
-       ui->ver2nameEdit->addItems(filterDocs(1, val));
+        ui->ver2nameEdit->clear();
+        ui->ver2nameEdit->addItems(filterDocs(1, val));
     }
 }
 
@@ -207,7 +207,7 @@ void NewAlignmentDialog::src1Changed(int val)
                 QString txt = remoteDocs[0].at(i);
                 txt.remove(QRegExp(":.*$"));
                 if (ui->docNameEdit->findText(txt)==-1)
-                   ui->docNameEdit->addItem(txt);
+                    ui->docNameEdit->addItem(txt);
             }
         } else {
             ui->ver1nameEdit->clear();
@@ -248,7 +248,7 @@ void NewAlignmentDialog::src2Changed(int val)
                 QString txt = remoteDocs[1].at(i);
                 txt.remove(QRegExp(":.*$"));
                 if (ui->docNameEdit->findText(txt)==-1)
-                   ui->docNameEdit->addItem(txt);
+                    ui->docNameEdit->addItem(txt);
             }
         } else {
             ui->ver2nameEdit->clear();

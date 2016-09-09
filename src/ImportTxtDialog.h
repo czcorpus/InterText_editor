@@ -26,7 +26,7 @@
 #include <QTextCodec>
 
 namespace Ui {
-    class ImportTxtDialog;
+class ImportTxtDialog;
 }
 
 class ImportTxtDialog : public QDialog
@@ -34,30 +34,30 @@ class ImportTxtDialog : public QDialog
     Q_OBJECT
 
 public:
-  explicit ImportTxtDialog(QWidget *parent = 0);
-  ~ImportTxtDialog();
-  void setHeaderFooterModeOnly(bool set = true);
-  void setEncoding(QString text);
-  QString getEncoding();
-  void setXmlHeader(QString text);
-  QString getXmlHeader();
-  void setParSep(QString sep);
-  QString getParSep();
-  void setParEl(QString name);
-  QString getParEl();
-  void setSplit(bool set);
-  bool getSplit();
-  void setSentEl(QString name);
-  QString getSentEl();
-  void setSentSep(QString sep);
-  QString getSentSep();
-  void setSplitProfiles(QStringList list);
-  int getSplitProfile();
-  void setXmlFooter(QString text);
-  QString getXmlFooter();
-  void setKeepMarkup(bool set);
-  bool getKeepMarkup();
-  bool dontAsk();
+    explicit ImportTxtDialog(QWidget *parent = 0);
+    ~ImportTxtDialog();
+    void setHeaderFooterModeOnly(bool set = true);
+    void setEncoding(QString text);
+    QString getEncoding();
+    void setXmlHeader(QString text);
+    QString getXmlHeader();
+    void setParSep(QString sep);
+    QString getParSep();
+    void setParEl(QString name);
+    QString getParEl();
+    void setSplit(bool set);
+    bool getSplit();
+    void setSentEl(QString name);
+    QString getSentEl();
+    void setSentSep(QString sep);
+    QString getSentSep();
+    void setSplitProfiles(QStringList list);
+    int getSplitProfile();
+    void setXmlFooter(QString text);
+    QString getXmlFooter();
+    void setKeepMarkup(bool set);
+    bool getKeepMarkup();
+    bool dontAsk();
 
 private:
     Ui::ImportTxtDialog *ui;

@@ -28,33 +28,33 @@
 class ItElement
 {
 public:
-  QDomElement element;
-	ItElement(QDomElement el);
-	QString getContents(bool prepend = true);
-  bool updateContents(QString &string, bool trackChanges = false);
-  ItElement * clone(QString &newcontents, bool trackChanges = false);
+    QDomElement element;
+    ItElement(QDomElement el);
+    QString getContents(bool prepend = true);
+    bool updateContents(QString &string, bool trackChanges = false);
+    ItElement * clone(QString &newcontents, bool trackChanges = false);
     QString getID(QString &namespaceURI);
-  QString getParentID(QString &namespaceURI);
-  QDomElement getParent();
-  int num;
-  void setID(const QString &id, QString &namespaceURI);
-  void setParentID(const QString &id, QString &namespaceURI);
-	bool first();
-  // tracking changes
-  int repl();
-  void setRepl(int val);
-  void delRepl();
-  QString parbr();
-  void setParbr(QString val);
-  bool isVirgin();
-  void setVirgin();
+    QString getParentID(QString &namespaceURI);
+    QDomElement getParent();
+    int num;
+    void setID(const QString &id, QString &namespaceURI);
+    void setParentID(const QString &id, QString &namespaceURI);
+    bool first();
+    // tracking changes
+    int repl();
+    void setRepl(int val);
+    void delRepl();
+    QString parbr();
+    void setParbr(QString val);
+    bool isVirgin();
+    void setVirgin();
     QList<QDomElement> getDomElPath();
 
 private:
-  QDomElement makeDuplicate(QString &newcontents);
-  // tracking changes
-  void replEnsure();
-  void replInc();
+    QDomElement makeDuplicate(QString &newcontents);
+    // tracking changes
+    void replEnsure();
+    void replInc();
 };
 
 #endif

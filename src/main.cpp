@@ -24,15 +24,15 @@
 
 int main (int argc, char *argv[])
 {
-  //QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-  //QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
-  //QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-  QApplication itApp(argc, argv);
-  itApp.setApplicationName("InterText");
-  //itApp.setAttribute(Qt::AA_DontShowIconsInMenus);
+    //QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+    //QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+    //QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    QApplication itApp(argc, argv);
+    itApp.setApplicationName("InterText");
+    //itApp.setAttribute(Qt::AA_DontShowIconsInMenus);
 #ifndef Q_OS_MAC
-  itApp.setWindowIcon(QIcon(":/images/16/InterText.ico"));
+    itApp.setWindowIcon(QIcon(":/images/16/InterText.ico"));
 #endif
-  ItWindow itWin;
-  return itApp.exec();
+    ItWindow itWin;
+    return itApp.exec();
 }

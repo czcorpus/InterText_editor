@@ -23,111 +23,111 @@
 #include "ItAlignmentView.h"
 
 ItSegmentView::ItSegmentView(QWidget * parent, ItAlignmentView *parAlView) : QListView(parent) {
-  delegate = new ItSegmentDelegate(this, parAlView);
-  alView = parAlView;
-  myeditor = 0;
-  autoEditHint = QAbstractItemDelegate::NoHint;
-  setItemDelegate(delegate);
-  disconnect(delegate, SIGNAL(commitData(QWidget*)), this, SLOT(commitData(QWidget*)));
-  connect(delegate, SIGNAL(commitData(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(commitData(QWidget*,QAbstractItemDelegate::EndEditHint)));
-  setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-  setResizeMode(QListView::Adjust);
+    delegate = new ItSegmentDelegate(this, parAlView);
+    alView = parAlView;
+    myeditor = 0;
+    autoEditHint = QAbstractItemDelegate::NoHint;
+    setItemDelegate(delegate);
+    disconnect(delegate, SIGNAL(commitData(QWidget*)), this, SLOT(commitData(QWidget*)));
+    connect(delegate, SIGNAL(commitData(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(commitData(QWidget*,QAbstractItemDelegate::EndEditHint)));
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    setResizeMode(QListView::Adjust);
 }
 
 ItSegmentView::~ItSegmentView() {
     //qDebug() << rectForIndex(model()->index(0,0,rootIndex()));
-	delete this->itemDelegate();
+    delete this->itemDelegate();
 }
 
 void ItSegmentView::keyPressEvent(QKeyEvent * event)
 {
-  //qDebug() << "Segment key" << event->key();
-	
-	/*if ((event->key() == Qt::Key_E) || (event->key() == Qt::Key_Return) || (event->key() == Qt::Key_Enter))
+    //qDebug() << "Segment key" << event->key();
+
+    /*if ((event->key() == Qt::Key_E) || (event->key() == Qt::Key_Return) || (event->key() == Qt::Key_Enter))
     edit(currentIndex(),QAbstractItemView::EditKeyPressed,event);
-	else if (event->key() == Qt::Key_Backspace) {
-		QModelIndex previndex = model()->index(currentIndex().row()-1, currentIndex().column(), currentIndex().parent());
-		if (!previndex.isValid()) return;
-		ItAlignmentModel * almodel = static_cast<ItAlignmentModel*>(model());
-		if (!almodel->canMerge(previndex)) return;
-		if (QMessageBox::question(this, tr("Merging elements"), tr("Are you sure you want to merge the element with the previous one?"), QMessageBox::Ok|QMessageBox::Abort)==QMessageBox::Ok) {
-			ItAlignmentModel * almodel = static_cast<ItAlignmentModel*>(model());
-			setCurrentIndex(previndex);
-			MergeCommand * merge = new MergeCommand(almodel, previndex);
-			almodel->undoStack->push(merge);
-		}
-	} else if (event->key() == Qt::Key_P) {
-		ItAlignmentModel * almodel = static_cast<ItAlignmentModel*>(model());
-		if (!almodel->canSplitParent(currentIndex()))
-			return;
-		if (QMessageBox::question(this, tr("Splitting parents"), tr("Are you sure you want to create a new parent (paragraph) at the current element? (New paragraph break will be added.)"), QMessageBox::Ok|QMessageBox::Abort)==QMessageBox::Ok) {
-			SplitParentCommand * split = new SplitParentCommand(almodel, currentIndex());
-			almodel->undoStack->push(split);
-		}
-	} else if (event->key() == Qt::Key_D) {
-		ItAlignmentModel * almodel = static_cast<ItAlignmentModel*>(model());
-		if (!almodel->canMergeParent(currentIndex()))
-			return;
-		if (QMessageBox::question(this, tr("Merging parents"), tr("Are you sure you want to merge the parent (paragraph) of the current element to the previous one? (Last paragraph break will be deleted.)"), QMessageBox::Ok|QMessageBox::Abort)==QMessageBox::Ok) {
-			MergeParentCommand * merge = new MergeParentCommand(almodel, currentIndex());
-			almodel->undoStack->push(merge);
-		}
-	} else*/
-		QListView::keyPressEvent(event);
+    else if (event->key() == Qt::Key_Backspace) {
+        QModelIndex previndex = model()->index(currentIndex().row()-1, currentIndex().column(), currentIndex().parent());
+        if (!previndex.isValid()) return;
+        ItAlignmentModel * almodel = static_cast<ItAlignmentModel*>(model());
+        if (!almodel->canMerge(previndex)) return;
+        if (QMessageBox::question(this, tr("Merging elements"), tr("Are you sure you want to merge the element with the previous one?"), QMessageBox::Ok|QMessageBox::Abort)==QMessageBox::Ok) {
+            ItAlignmentModel * almodel = static_cast<ItAlignmentModel*>(model());
+            setCurrentIndex(previndex);
+            MergeCommand * merge = new MergeCommand(almodel, previndex);
+            almodel->undoStack->push(merge);
+        }
+    } else if (event->key() == Qt::Key_P) {
+        ItAlignmentModel * almodel = static_cast<ItAlignmentModel*>(model());
+        if (!almodel->canSplitParent(currentIndex()))
+            return;
+        if (QMessageBox::question(this, tr("Splitting parents"), tr("Are you sure you want to create a new parent (paragraph) at the current element? (New paragraph break will be added.)"), QMessageBox::Ok|QMessageBox::Abort)==QMessageBox::Ok) {
+            SplitParentCommand * split = new SplitParentCommand(almodel, currentIndex());
+            almodel->undoStack->push(split);
+        }
+    } else if (event->key() == Qt::Key_D) {
+        ItAlignmentModel * almodel = static_cast<ItAlignmentModel*>(model());
+        if (!almodel->canMergeParent(currentIndex()))
+            return;
+        if (QMessageBox::question(this, tr("Merging parents"), tr("Are you sure you want to merge the parent (paragraph) of the current element to the previous one? (Last paragraph break will be deleted.)"), QMessageBox::Ok|QMessageBox::Abort)==QMessageBox::Ok) {
+            MergeParentCommand * merge = new MergeParentCommand(almodel, currentIndex());
+            almodel->undoStack->push(merge);
+        }
+    } else*/
+    QListView::keyPressEvent(event);
 }
 
 /*int ItSegmentView::heightHint() {
-	int height=0;
-	for (int i=0; i<index.model()->rowCount(index); i++) {
-		height = height + rectForIndex(model()->index(i,0,rootIndex())).height();
-		//qDebug() << i << rectForIndex(model()->index(i,0,rootIndex())).height();
-	}
+    int height=0;
+    for (int i=0; i<index.model()->rowCount(index); i++) {
+        height = height + rectForIndex(model()->index(i,0,rootIndex())).height();
+        //qDebug() << i << rectForIndex(model()->index(i,0,rootIndex())).height();
+    }
     //qDebug() << "sum " << height;
-	return  height;
+    return  height;
 }*/
 
 
 void ItSegmentView::currentChanged ( const QModelIndex & current, const QModelIndex & previous )
 {
-	QAbstractItemView::currentChanged(current, previous);
+    QAbstractItemView::currentChanged(current, previous);
     emit cursorChanged();
 }
 
 void ItSegmentView::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight) {
-	QListView::dataChanged(topLeft, bottomRight);
+    QListView::dataChanged(topLeft, bottomRight);
 }
 
 void ItSegmentView::focusOutEvent( QFocusEvent * event )
 {
-  QWidget::focusOutEvent(event);
-  emit focusChanged();
+    QWidget::focusOutEvent(event);
+    emit focusChanged();
 }
 
 void ItSegmentView::focusInEvent( QFocusEvent * event )
 {
-  QWidget::focusInEvent(event);
-  emit focusChanged();
-  if (autoEditHint == QAbstractItemDelegate::EditNextItem) {
-      autoEditHint = QAbstractItemDelegate::NoHint;
-      QModelIndex first = model()->index(0,0,rootIndex());
-      if (first.isValid()) {
-          setCurrentIndex(first);
-          edit(first);
-      }
-  } else if (autoEditHint == QAbstractItemDelegate::EditPreviousItem) {
-      autoEditHint = QAbstractItemDelegate::NoHint;
-      int lastR = model()->rowCount(rootIndex()) - 1;
-      QModelIndex last = model()->index(lastR,0,rootIndex());
-      if (last.isValid()) {
-          setCurrentIndex(last);
-          edit(last);
-      }
-  }
+    QWidget::focusInEvent(event);
+    emit focusChanged();
+    if (autoEditHint == QAbstractItemDelegate::EditNextItem) {
+        autoEditHint = QAbstractItemDelegate::NoHint;
+        QModelIndex first = model()->index(0,0,rootIndex());
+        if (first.isValid()) {
+            setCurrentIndex(first);
+            edit(first);
+        }
+    } else if (autoEditHint == QAbstractItemDelegate::EditPreviousItem) {
+        autoEditHint = QAbstractItemDelegate::NoHint;
+        int lastR = model()->rowCount(rootIndex()) - 1;
+        QModelIndex last = model()->index(lastR,0,rootIndex());
+        if (last.isValid()) {
+            setCurrentIndex(last);
+            edit(last);
+        }
+    }
 }
 
 void ItSegmentView::setHtmlView(bool set)
 {
-  delegate->setHtmlView(set);
+    delegate->setHtmlView(set);
 }
 
 void ItSegmentView::autoOpenEditor(QAbstractItemDelegate::EndEditHint hint)
@@ -137,23 +137,23 @@ void ItSegmentView::autoOpenEditor(QAbstractItemDelegate::EndEditHint hint)
 
 void ItSegmentView::closeEditor(QWidget* editor, QAbstractItemDelegate::EndEditHint hint)
 {
-  // override Qt's strange decisions -> the user decides!
-  mayCloseEditor(editor, hint);
-  /*for (int i=0; i<model()->rowCount(rootIndex()); i++) {
+    // override Qt's strange decisions -> the user decides!
+    mayCloseEditor(editor, hint);
+    /*for (int i=0; i<model()->rowCount(rootIndex()); i++) {
       resizeRowToContents(i);
   }*/
 }
 
 void ItSegmentView::commitData ( QWidget * editor )
 {
-  // override Qt's strange decisions -> the user decides!
-  mayCloseEditor(editor);
+    // override Qt's strange decisions -> the user decides!
+    mayCloseEditor(editor);
 }
 
 void ItSegmentView::commitData ( QWidget * editor, QAbstractItemDelegate::EndEditHint hint  )
 {
-  // override Qt's strange decisions -> the user decides!
-  mayCloseEditor(editor, hint);
+    // override Qt's strange decisions -> the user decides!
+    mayCloseEditor(editor, hint);
 }
 
 // override Qt's strange decisions -> the user decides!
@@ -227,7 +227,7 @@ void ItSegmentView::handleCloseHint(QAbstractItemDelegate::EndEditHint hint)
             //d->selectionModel->setCurrentIndex(persistent, flags);
             // currentChanged signal would have already started editing
             if (index.flags() & Qt::ItemIsEditable
-                && (!(editTriggers() & QAbstractItemView::CurrentChanged)))
+                    && (!(editTriggers() & QAbstractItemView::CurrentChanged)))
                 edit(persistent);
         } break; }
     case QAbstractItemDelegate::EditPreviousItem: {
@@ -238,7 +238,7 @@ void ItSegmentView::handleCloseHint(QAbstractItemDelegate::EndEditHint hint)
             //d->selectionModel->setCurrentIndex(persistent, flags);
             // currentChanged signal would have already started editing
             if (index.flags() & Qt::ItemIsEditable
-                && (!(editTriggers() & QAbstractItemView::CurrentChanged)))
+                    && (!(editTriggers() & QAbstractItemView::CurrentChanged)))
                 edit(persistent);
         } break; }
     case QAbstractItemDelegate::SubmitModelCache:
@@ -261,8 +261,8 @@ void ItSegmentView::setEditor(ItPlainTextEdit * editor)
 
 void ItSegmentView::closeAnyEditor()
 {
-  if (myeditor)
-    closeEditor(myeditor, QAbstractItemDelegate::NoHint);
+    if (myeditor)
+        closeEditor(myeditor, QAbstractItemDelegate::NoHint);
 }
 
 QSize ItSegmentView::sizeHint() const
@@ -295,9 +295,9 @@ void ItSegmentView::adjustGeometry()
     QSize nsize(size());
     nsize.setHeight(height);
     resize(nsize);
-        //newrect.setHeight(height);
-        //qDebug()<<"Updating geometry";
-        //QListView::setGeometry(newrect);
+    //newrect.setHeight(height);
+    //qDebug()<<"Updating geometry";
+    //QListView::setGeometry(newrect);
     //}
     //qDebug()<<"Emitting size hint change";
     emit sizeHintChanged(index.row());

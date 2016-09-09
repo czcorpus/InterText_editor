@@ -55,8 +55,8 @@ struct EditorKeys
 
 struct Replacement
 {
-  QString src;
-  QString repl;
+    QString src;
+    QString repl;
 };
 
 #endif // ITCOMMON_H

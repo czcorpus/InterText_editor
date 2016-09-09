@@ -25,24 +25,24 @@
 #include <QDialog>
 
 namespace Ui {
-  class AlignerProfileDialog;
+class AlignerProfileDialog;
 }
 
 class AlignerProfileDialog : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit AlignerProfileDialog(QWidget *parent = 0, QString name = QString(), QString params = QString());
-  ~AlignerProfileDialog();
-  QString getName();
-  QString getParams();
+    explicit AlignerProfileDialog(QWidget *parent = 0, QString name = QString(), QString params = QString());
+    ~AlignerProfileDialog();
+    QString getName();
+    QString getParams();
 
 private:
-  Ui::AlignerProfileDialog *ui;
+    Ui::AlignerProfileDialog *ui;
 
 private slots:
-  void validate(QString text);
+    void validate(QString text);
 
 };
 

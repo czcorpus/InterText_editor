@@ -26,7 +26,7 @@
 #include "ItAlignment.h"
 
 namespace Ui {
-    class numberingDialog;
+class numberingDialog;
 }
 
 class numberingDialog : public QDialog

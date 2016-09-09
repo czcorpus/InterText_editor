@@ -28,28 +28,28 @@ class ItSentenceSplitter
 {
 public:
 
-  struct Replacement
-  {
-    QString src;
-    QString repl;
-  };
+    struct Replacement
+    {
+        QString src;
+        QString repl;
+    };
 
-  struct SplitterProfile
-  {
-    QString name;
-    QList<Replacement> expressions;
-    QStringList abbrevs;
-  };
+    struct SplitterProfile
+    {
+        QString name;
+        QList<Replacement> expressions;
+        QStringList abbrevs;
+    };
 
-  QList<SplitterProfile> profiles;
-  int selectedProfile;
+    QList<SplitterProfile> profiles;
+    int selectedProfile;
 
-  ItSentenceSplitter();
-  QStringList getProfileNames();
-  QString split(QString text, QString sep);
-  void selectProfile(int n);
-  void setProfiles(QList<SplitterProfile> newprofiles);
-  QList<SplitterProfile> getProfiles();
+    ItSentenceSplitter();
+    QStringList getProfileNames();
+    QString split(QString text, QString sep);
+    void selectProfile(int n);
+    void setProfiles(QList<SplitterProfile> newprofiles);
+    QList<SplitterProfile> getProfiles();
 
 };
 

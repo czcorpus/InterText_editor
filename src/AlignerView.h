@@ -27,7 +27,7 @@
 #include <QProcess>
 
 namespace Ui {
-    class AlignerView;
+class AlignerView;
 }
 
 class AlignerView : public QDialog
@@ -35,12 +35,12 @@ class AlignerView : public QDialog
     Q_OBJECT
 
 public:
-  explicit AlignerView(QString cmd, QString params, QString &fname1, QString &fname2, int fromPos, int toPos, bool autoClose, QWidget *parent);
-  ~AlignerView();
-  void run_aligner();
+    explicit AlignerView(QString cmd, QString params, QString &fname1, QString &fname2, int fromPos, int toPos, bool autoClose, QWidget *parent);
+    ~AlignerView();
+    void run_aligner();
 
 signals:
-  void result(QString res, int fromPos, int toPos);
+    void result(QString res, int fromPos, int toPos);
 
 private:
     Ui::AlignerView *ui;
@@ -51,9 +51,9 @@ private:
     bool userAbort, close_me;
 
 private slots:
-  void buttonPressed(QAbstractButton * button);
-  void readProc();
-  void proc_finished(int ret, QProcess::ExitStatus stat);
+    void buttonPressed(QAbstractButton * button);
+    void readProc();
+    void proc_finished(int ret, QProcess::ExitStatus stat);
 };
 
 #endif // ALIGNERVIEW_H

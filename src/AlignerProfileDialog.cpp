@@ -42,18 +42,18 @@ AlignerProfileDialog::~AlignerProfileDialog()
 
 QString AlignerProfileDialog::getName()
 {
-  return ui->edit_name->text();
+    return ui->edit_name->text();
 }
 
 QString AlignerProfileDialog::getParams()
 {
-  return ui->edit_params->text();
+    return ui->edit_params->text();
 }
 
 void AlignerProfileDialog::validate(QString text)
 {
-  if (text.isEmpty())
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-  else
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+    if (text.isEmpty())
+        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    else
+        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 }

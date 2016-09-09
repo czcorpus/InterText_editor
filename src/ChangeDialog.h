@@ -30,50 +30,50 @@ class ServerDialog;
 class ItWindow;
 
 namespace Ui {
-  class ChangeDialog;
+class ChangeDialog;
 }
 
 class ChangeDialog : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit ChangeDialog(ServerDialog *parent, ItWindow * win, ItAlignment * a, aligned_doc d, QDomNodeList &changes, bool * mark, bool acceptonly=false);
-  ~ChangeDialog();
-  void setCounter(QString num, QString total);
-  void setTextFont(const QFont &font);
+    explicit ChangeDialog(ServerDialog *parent, ItWindow * win, ItAlignment * a, aligned_doc d, QDomNodeList &changes, bool * mark, bool acceptonly=false);
+    ~ChangeDialog();
+    void setCounter(QString num, QString total);
+    void setTextFont(const QFont &font);
 public slots:
-  void updateRStrings(QDomNodeList nodelist);
+    void updateRStrings(QDomNodeList nodelist);
 
 private:
-  ServerDialog * server;
-  ItWindow * window;
-  ItAlignment * alignment;
-  QPushButton * appendButton;
-  QPushButton * detachButton;
-  aligned_doc doc;
-  QDomNodeList changeList;
-  int changenum, nextChangeNum, startnum, lstartnum, lcount;
-  QStringList rstringlist;
-  QList<bool> rparbreaks;
-  bool autoAccept;
-  int joinConsChanges;
-  Ui::ChangeDialog * ui;
-  //QStringList * m_rstrings;
-  //QList<bool> * m_rparbr;
-  //int m_rstartnum;
-  bool * markState;
-  void nextChange();
-  void commitChange();
-  void rejectChange();
-  void syncFailure(QString text);
-  void showChange(QStringList &lstrings, QList<bool> &lparbr);
+    ServerDialog * server;
+    ItWindow * window;
+    ItAlignment * alignment;
+    QPushButton * appendButton;
+    QPushButton * detachButton;
+    aligned_doc doc;
+    QDomNodeList changeList;
+    int changenum, nextChangeNum, startnum, lstartnum, lcount;
+    QStringList rstringlist;
+    QList<bool> rparbreaks;
+    bool autoAccept;
+    int joinConsChanges;
+    Ui::ChangeDialog * ui;
+    //QStringList * m_rstrings;
+    //QList<bool> * m_rparbr;
+    //int m_rstartnum;
+    bool * markState;
+    void nextChange();
+    void commitChange();
+    void rejectChange();
+    void syncFailure(QString text);
+    void showChange(QStringList &lstrings, QList<bool> &lparbr);
 private slots:
-  void action(QAbstractButton * button);
-  void changeMark(int state);
-  void renderRStrings();
-  void appendChange();
-  void detachChange();
+    void action(QAbstractButton * button);
+    void changeMark(int state);
+    void renderRStrings();
+    void appendChange();
+    void detachChange();
 };
 
 #endif // CHANGEDIALOG_H

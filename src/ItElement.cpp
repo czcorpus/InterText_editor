@@ -23,117 +23,117 @@
 
 ItElement::ItElement(QDomElement el)
 {
-  element = el;
+    element = el;
 }
 
 QString ItElement::getContents(bool prepend)
 {
-	QString string;
-	QTextStream* str = new QTextStream(&string);
-	element.save(*str,-1);
-	delete str;
-	string.remove(QRegExp("^<[^>]+>"));
-  string.remove(QRegExp("</[^>]+>$"));
-	if (prepend) {
-		string = ' ' + string;
-		if (first()) string = QString(QChar(0x25BA))+string;
-		else string = QString(QChar(0x25A0))+string;
-		//if (first()) string = QString::fromUtf8("‣‣")+string;
-		//else string = QString::fromUtf8("‣")+string;
-	}
-	return string;
+    QString string;
+    QTextStream* str = new QTextStream(&string);
+    element.save(*str,-1);
+    delete str;
+    string.remove(QRegExp("^<[^>]+>"));
+    string.remove(QRegExp("</[^>]+>$"));
+    if (prepend) {
+        string = ' ' + string;
+        if (first()) string = QString(QChar(0x25BA))+string;
+        else string = QString(QChar(0x25A0))+string;
+        //if (first()) string = QString::fromUtf8("‣‣")+string;
+        //else string = QString::fromUtf8("‣")+string;
+    }
+    return string;
 }
 
 bool ItElement::updateContents(QString &string, bool trackChanges)
 {
-	QDomElement replacement = makeDuplicate(string);
-	if (replacement.nodeName().isEmpty())
-		return false;
-	element.parentNode().replaceChild(replacement,element);
-	element = replacement;
-  if (trackChanges)
-    replEnsure();
-	return true;
+    QDomElement replacement = makeDuplicate(string);
+    if (replacement.nodeName().isEmpty())
+        return false;
+    element.parentNode().replaceChild(replacement,element);
+    element = replacement;
+    if (trackChanges)
+        replEnsure();
+    return true;
 }
 
 void ItElement::replEnsure()
 {
-  if (!element.hasAttribute("it_tc_repl"))
-    element.setAttribute("it_tc_repl", 1);
+    if (!element.hasAttribute("it_tc_repl"))
+        element.setAttribute("it_tc_repl", 1);
 }
 
 void ItElement::replInc()
 {
-  if (!element.hasAttribute("it_tc_repl"))
-    element.setAttribute("it_tc_repl", 2);
-  else
-    element.setAttribute("it_tc_repl", element.attribute("it_tc_repl").toInt()+1);
+    if (!element.hasAttribute("it_tc_repl"))
+        element.setAttribute("it_tc_repl", 2);
+    else
+        element.setAttribute("it_tc_repl", element.attribute("it_tc_repl").toInt()+1);
 }
 
 int ItElement::repl()
 {
-  return element.attribute("it_tc_repl", "1").toInt();
+    return element.attribute("it_tc_repl", "1").toInt();
 }
 
 void ItElement::setRepl(int val)
 {
-  element.setAttribute("it_tc_repl", val);
+    element.setAttribute("it_tc_repl", val);
 }
 
 void ItElement::delRepl()
 {
-  if (element.hasAttribute("it_tc_repl"))
-    element.removeAttribute("it_tc_repl");
+    if (element.hasAttribute("it_tc_repl"))
+        element.removeAttribute("it_tc_repl");
 }
 
 QString ItElement::parbr()
 {
-  return element.attribute("it_tc_parbr","");
+    return element.attribute("it_tc_parbr","");
 }
 
 void ItElement::setParbr(QString val)
 {
-  if (val.isEmpty()) {
-    if (element.hasAttribute("it_tc_parbr"))
-      element.removeAttribute("it_tc_parbr");
-  } else
-    element.setAttribute("it_tc_parbr", val);
+    if (val.isEmpty()) {
+        if (element.hasAttribute("it_tc_parbr"))
+            element.removeAttribute("it_tc_parbr");
+    } else
+        element.setAttribute("it_tc_parbr", val);
 }
 
 bool ItElement::isVirgin()
 {
-  return !element.hasAttribute("it_tc_repl");
+    return !element.hasAttribute("it_tc_repl");
 }
 
 void ItElement::setVirgin()
 {
-  element.removeAttribute("it_tc_repl");
+    element.removeAttribute("it_tc_repl");
 }
 
 ItElement * ItElement::clone(QString &newcontents, bool trackChanges) {
-	QDomElement copy = makeDuplicate(newcontents);
-  if (copy.isNull())
-		return 0;
-  if (trackChanges) {
-    copy.setAttribute("it_tc_repl",0);
-    copy.removeAttribute("it_tc_parbr");
-  }
-	element.parentNode().insertAfter(copy,element);
-	return new ItElement(copy);
+    QDomElement copy = makeDuplicate(newcontents);
+    if (copy.isNull())
+        return 0;
+    if (trackChanges) {
+        copy.setAttribute("it_tc_repl",0);
+        copy.removeAttribute("it_tc_parbr");
+    }
+    element.parentNode().insertAfter(copy,element);
+    return new ItElement(copy);
 }
 
 QDomElement ItElement::makeDuplicate(QString &newcontents) {
-	QDomDocument tmp;
-	QString string = QString("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<text>%1</text>\n").arg(newcontents.trimmed());
-	if (!tmp.setContent(string)) return QDomElement();
-	QDomElement newel = tmp.documentElement();
-	// make newel have the same name and attributes as the original node
-	newel.setTagName(element.tagName());
-	QDomNamedNodeMap atts = element.attributes();
-	for (int i = 0; i < atts.count(); i++) {
-		newel.setAttribute(atts.item(i).toAttr().name(), atts.item(i).toAttr().value());
-	}
-	return element.ownerDocument().importNode(newel,true).toElement();
+    QDomDocument tmp;
+    QString string = QString("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<text>%1</text>\n").arg(newcontents.trimmed());
+    if (!tmp.setContent(string)) return QDomElement();
+    QDomElement newel = tmp.documentElement();
+    // make newel have the same name and attributes as the original node
+    newel.setTagName(element.tagName());
+    QDomNamedNodeMap atts = element.attributes();
+    for (int i = 0; i < atts.count(); i++) {
+        newel.setAttribute(atts.item(i).toAttr().name(), atts.item(i).toAttr().value());
+    }
+    return element.ownerDocument().importNode(newel,true).toElement();
 }
 
 QString ItElement::getID(QString &namespaceURI)
@@ -172,12 +172,12 @@ QString ItElement::getParentID(QString &namespaceURI)
 
 bool ItElement::first()
 {
-	if (element==element.parentNode().firstChildElement()) return true;
-	else return false;
+    if (element==element.parentNode().firstChildElement()) return true;
+    else return false;
 }
 
 QDomElement ItElement::getParent() {
-  return element.parentNode().toElement();
+    return element.parentNode().toElement();
 }
 
 QList<QDomElement> ItElement::getDomElPath()

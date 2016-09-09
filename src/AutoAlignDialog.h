@@ -26,7 +26,7 @@
 #include <QIntValidator>
 
 namespace Ui {
-    class AutoAlignDialog;
+class AutoAlignDialog;
 }
 
 class AutoAlignDialog : public QDialog
@@ -36,14 +36,14 @@ class AutoAlignDialog : public QDialog
 public:
     explicit AutoAlignDialog(QWidget *parent = 0, int max = 0);
     ~AutoAlignDialog();
-  void addAligner(QString name, QStringList a_profiles);
-  void setStartPos(int pos);
-  void setEndPos(int pos);
-  int getStartPos();
-  int getEndPos();
-  int getAligner();
-  int getProfile();
-  bool getAutoClose();
+    void addAligner(QString name, QStringList a_profiles);
+    void setStartPos(int pos);
+    void setEndPos(int pos);
+    int getStartPos();
+    int getEndPos();
+    int getAligner();
+    int getProfile();
+    bool getAutoClose();
 
 private:
     Ui::AutoAlignDialog *ui;

@@ -31,45 +31,45 @@ class ItAlignmentView;
 
 class ItSegmentView : public QListView
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-  QModelIndex index;
-  ItPlainTextEdit * myeditor;
-  ItSegmentView(QWidget * parent, ItAlignmentView * parAlView);
-	~ItSegmentView();
+    QModelIndex index;
+    ItPlainTextEdit * myeditor;
+    ItSegmentView(QWidget * parent, ItAlignmentView * parAlView);
+    ~ItSegmentView();
     //int heightHint();
-  void setHtmlView(bool set);
-  bool isEditing();
-  void setEditor(ItPlainTextEdit * editor);
-  QSize sizeHint() const;
-  void 	setGeometry(const QRect &rect);
-  void adjustGeometry();
+    void setHtmlView(bool set);
+    bool isEditing();
+    void setEditor(ItPlainTextEdit * editor);
+    QSize sizeHint() const;
+    void 	setGeometry(const QRect &rect);
+    void adjustGeometry();
 public slots:
-  void closeAnyEditor();
-  void closeEditor(QWidget* editor,QAbstractItemDelegate::EndEditHint hint);
-  void resizeRowToContents(int row);
-  void autoOpenEditor(QAbstractItemDelegate::EndEditHint hint);
+    void closeAnyEditor();
+    void closeEditor(QWidget* editor,QAbstractItemDelegate::EndEditHint hint);
+    void resizeRowToContents(int row);
+    void autoOpenEditor(QAbstractItemDelegate::EndEditHint hint);
 signals:
-	void editingStarted();
+    void editingStarted();
     void editingFinished();
-	void cursorChanged();
-  void focusChanged();
-  void sizeHintChanged(int row);
-  void wantBeClosed(QWidget * widget, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint, bool insertNext = false);
+    void cursorChanged();
+    void focusChanged();
+    void sizeHintChanged(int row);
+    void wantBeClosed(QWidget * widget, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint, bool insertNext = false);
 protected:
-	void keyPressEvent (QKeyEvent * event);
-  void focusOutEvent( QFocusEvent * event );
-  void focusInEvent( QFocusEvent * event );
+    void keyPressEvent (QKeyEvent * event);
+    void focusOutEvent( QFocusEvent * event );
+    void focusInEvent( QFocusEvent * event );
     void currentChanged ( const QModelIndex & current, const QModelIndex & previous );
-   // bool edit(const QModelIndex &index, EditTrigger trigger, QEvent *event);
+    // bool edit(const QModelIndex &index, EditTrigger trigger, QEvent *event);
 protected slots:
-	void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
+    void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
     void commitData (QWidget * editor );
-  void commitData (QWidget * editor , QAbstractItemDelegate::EndEditHint hint );
-  void mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint );
+    void commitData (QWidget * editor , QAbstractItemDelegate::EndEditHint hint );
+    void mayCloseEditor ( QWidget * editor, QAbstractItemDelegate::EndEditHint hint = QAbstractItemDelegate::NoHint );
 private:
-  void handleCloseHint(QAbstractItemDelegate::EndEditHint hint);
+    void handleCloseHint(QAbstractItemDelegate::EndEditHint hint);
     //bool editorOpen;
     ItSegmentDelegate * delegate;
     ItAlignmentView * alView;
