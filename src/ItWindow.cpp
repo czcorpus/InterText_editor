@@ -482,6 +482,7 @@ void ItWindow::createNewAlignment() {
 
   int format = 0;
   bool noalign = false;
+  //bool reload = false;
   for (int d=0; d<=1; d++) {
       if (a->info.ver[d].source.startsWith("http")) { // download text document from server
           ItServer s;
@@ -523,7 +524,7 @@ void ItWindow::createNewAlignment() {
           a->detectIdSystem(d);
           if (!checkNumbering(a, d, false))
               a->renumber(d);
-          a->syncDepsPermissions();
+          //reload = true;
       } else if (a->info.ver[d].source == "0") { // create new empty XML document
           a->info.ver[d].source = "";
           a->setDocXml(d, emptyDocTemplate);
@@ -554,7 +555,7 @@ void ItWindow::createNewAlignment() {
           a->detectIdSystem(d);
           if (!checkNumbering(a, d, false))
               a->renumber(d);
-          a->syncDepsPermissions();
+          //a->syncDepsPermissions();
       } else { // import from file
           QFileDialog fd(this);
           fd.setDirectory(workDir);
@@ -587,6 +588,18 @@ void ItWindow::createNewAlignment() {
       }
   }
 
+  if (!a->loadDependentAlignments()) {
+      QMessageBox::critical(this, tr("Dependent alignment"), tr("Error: ").append(a->errorMessage));
+      return;
+  }
+  a->syncDepsPermissions();
+  /*if (reload) { // reload alignments created with some existing document to load dependent alignments!
+      a->save();
+      QString name = a->info.name;
+      delete a;
+      a = new ItAlignment(storagePath, name);
+      a->syncDepsPermissions();
+  }*/
   setNewAlignment(a);
   syncAct->setEnabled(false);
   save();

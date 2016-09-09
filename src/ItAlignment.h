@@ -241,6 +241,9 @@ public:
   bool swapWithPrevPosition(aligned_doc d, int pos);
   int getAlElementOrder(aligned_doc d, QDomElement el);
   bool breaksOrder(aligned_doc d, int pos, int el);
+
+  bool loadDependentAlignments();
+
 private:
 	QList< QList<Link*>* > links [DOCUMENTS];
 	QList< QList<dependentLink*>* > depLinks [DOCUMENTS];
@@ -253,7 +256,6 @@ private:
 	Link * findLinkByDomElement(QDomElement el, aligned_doc doc, int startPos = 0, int startEl = 0);
 	bool validElement(aligned_doc doc, int pos, int el);
   bool canChStruct(aligned_doc doc);
-	bool loadDependentAlignments();
   bool loadDepAlignment(QString filename, ushort docNum, ushort sharedNum, QList<dependentLink*> * idlist);
   bool saveDependentAlignments();
   bool saveDepAlignment(alignmentInfo * myinfo, int idx, ushort docNum, ushort sharedNum);
