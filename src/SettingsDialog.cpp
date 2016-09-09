@@ -1840,5 +1840,4 @@ bool SettingsDialog::checkXml(QString xml, int linedec)
         return false;
     }
     return true;
-
 }

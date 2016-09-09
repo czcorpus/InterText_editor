@@ -21,6 +21,9 @@
 
 #include "ImportTxtDialog.h"
 #include "ui_ImportTxtDialog.h"
+#include <QInputDialog>
+#include <QDomDocument>
+#include <QMessageBox>
 
 ImportTxtDialog::ImportTxtDialog(QWidget *parent) :
     QDialog(parent),
@@ -34,6 +37,8 @@ ImportTxtDialog::ImportTxtDialog(QWidget *parent) :
     encodings.sort();
     ui->encSel->insertItems(0, encodings);
     setEncoding("UTF-8");
+    connect(ui->editHeaderButton, SIGNAL(clicked(bool)), this, SLOT(editXmlHeader()));
+    connect(ui->editFooterButton, SIGNAL(clicked(bool)), this, SLOT(editXmlFooter()));
 
     //adjustSize(); // makes it tall and narrow :-/
 }
@@ -54,12 +59,12 @@ void ImportTxtDialog::setHeaderFooterModeOnly(bool set)
 
 void ImportTxtDialog::setXmlHeader(QString text)
 {
-  ui->headerEdit->insertPlainText(text);
+  importXmlHeader = text;
 }
 
 QString ImportTxtDialog::getXmlHeader()
 {
-  return ui->headerEdit->toPlainText();
+  return importXmlHeader;
 }
 
 void ImportTxtDialog::setParSep(QString sep)
@@ -160,12 +165,12 @@ int ImportTxtDialog::getSplitProfile()
 
 void ImportTxtDialog::setXmlFooter(QString text)
 {
-  ui->footerEdit->insertPlainText(text);
+  importXmlFooter = text;
 }
 
 QString ImportTxtDialog::getXmlFooter()
 {
-  return ui->footerEdit->toPlainText();
+  return importXmlFooter;
 }
 
 void ImportTxtDialog::setKeepMarkup(bool set)
@@ -192,4 +197,42 @@ QString ImportTxtDialog::getEncoding()
 bool ImportTxtDialog::dontAsk()
 {
     return ui->dontAsk->isChecked();
+}
+void ImportTxtDialog::editXmlHeader()
+{
+    bool ok;
+    QString text = importXmlHeader;
+    do {
+        text = QInputDialog::getMultiLineText(this, tr("XML template"), tr("Document header"), text, &ok);
+        if (!ok || text.isEmpty()) {
+            return;
+        }
+    } while (!checkXml(text + importXmlFooter));
+    importXmlHeader = text;
+}
+
+void ImportTxtDialog::editXmlFooter()
+{
+    bool ok;
+    QString text = importXmlFooter;
+    do {
+        text = QInputDialog::getMultiLineText(this, tr("XML template"), tr("Document footer"), text, &ok);
+        if (!ok || text.isEmpty()) {
+            return;
+        }
+    } while (!checkXml(importXmlHeader + text, importXmlHeader.count("\n")));
+    importXmlFooter = text;
+
+}
+
+bool ImportTxtDialog::checkXml(QString xml, int linedec)
+{
+    QDomDocument doc;
+    QString errorMsg; int errorLine, errorColumn;
+    if (!doc.setContent(xml, true, &errorMsg, &errorLine, &errorColumn)) {
+        QString errorMessage = QObject::tr("Error parsing XML at line %1, column %2: %3.").arg(QString::number(errorLine-linedec), QString::number(errorColumn), errorMsg);
+        QMessageBox::critical(this, tr("XML validation"), tr("Error: ").append(errorMessage));
+        return false;
+    }
+    return true;
 }

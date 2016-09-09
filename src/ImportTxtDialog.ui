@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>532</width>
-    <height>1002</height>
+    <height>568</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -46,25 +46,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="headerBox">
-     <property name="title">
-      <string>Header</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QPlainTextEdit" name="headerEdit">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="parBox">
      <property name="title">
       <string>Paragraphs</string>
@@ -77,13 +58,6 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_parSep">
-        <property name="text">
-         <string>separated by:</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_parEl">
         <property name="text">
@@ -93,6 +67,13 @@
       </item>
       <item row="1" column="1">
        <widget class="QLineEdit" name="parElEdit"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_parSep">
+        <property name="text">
+         <string>separated by:</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -161,26 +142,24 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="FooterBox">
+    <widget class="QGroupBox" name="XMLBox">
      <property name="title">
-      <string>Footer</string>
+      <string>XML template</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="QPlainTextEdit" name="footerEdit"/>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
+       <widget class="QPushButton" name="editHeaderButton">
+        <property name="text">
+         <string>Edit header</string>
+        </property>
+       </widget>
       </item>
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="editFooterButton">
+        <property name="text">
+         <string>Edit footer</string>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -215,14 +194,12 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>headerEdit</tabstop>
   <tabstop>parSepBox</tabstop>
   <tabstop>parElEdit</tabstop>
   <tabstop>sel_sentSep</tabstop>
   <tabstop>sel_autoSep</tabstop>
   <tabstop>profileBox</tabstop>
   <tabstop>sentElEdit</tabstop>
-  <tabstop>footerEdit</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>

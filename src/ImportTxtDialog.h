@@ -62,6 +62,12 @@ public:
 private:
     Ui::ImportTxtDialog *ui;
     QStringList encodings;
+    QString importXmlHeader, importXmlFooter;
+    bool checkXml(QString xml, int linedec = 0);
+
+private slots:
+    void editXmlHeader();
+    void editXmlFooter();
 };
 
 #endif // IMPORTTXTDIALOG_H
