@@ -251,7 +251,6 @@ private:
     };
     searchQuery lastSearch;
     ItSearchBar * searchBar;
-    //QByteArray importFileDialogState;
     int importFormat;
     QSignalMapper * serverMapper;
     QSignalMapper * exTextMapper;

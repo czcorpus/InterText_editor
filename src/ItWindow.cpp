@@ -544,7 +544,7 @@ void ItWindow::createNewAlignment() {
     setNewAlignment(a);
     syncAct->setEnabled(false);
     save();
-    if (importFormat!=2 || !noalign)
+    if (importFormat!=2 && !noalign)
         autoAlign();
 }
 
@@ -704,9 +704,9 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
             return false;
         }
         a->detectIdSystem(d);
+        a->createLinks(d, alignableElements, groups);
         if (!checkNumbering(a, d, false, 1))
             a->renumber(d);
-        a->createLinks(d, alignableElements, groups);
         return true;
     } else {
         /* Plain text */
