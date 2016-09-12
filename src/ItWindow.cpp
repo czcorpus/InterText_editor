@@ -80,7 +80,6 @@ ItWindow::ItWindow() : QMainWindow()
     importParSeparator = "\n\n";
     importSentenceSeparator = "\n";
     importFormat = 0;
-    importFileDialogState = "";
     colors.fgdefault = QColor(DEFAULT_FGCOLOR_DEFAULT);
     colors.bgdefault = QColor(DEFAULT_BGCOLOR_DEFAULT);
     colors.bgnon11 = QColor(DEFAULT_BGCOLOR_NON11);
@@ -478,7 +477,7 @@ void ItWindow::createNewAlignment() {
         return;
     }
 
-    int format = 0;
+    QString selFilter = filters.at(importFormat);
     bool noalign = false;
     for (int d=0; d<=1; d++) {
         if (a->info.ver[d].source.startsWith("http")) { // download text document from server
@@ -524,31 +523,12 @@ void ItWindow::createNewAlignment() {
             if (!checkNumbering(a, d, false))
                 a->renumber(d);
         } else { // import from file
-            QFileDialog fd(this);
-            fd.setDirectory(workDir);
-            fd.setNameFilters(filters);
-            if (!importFileDialogState.isEmpty())
-                fd.restoreState(importFileDialogState);
-            fd.setFileMode(QFileDialog::ExistingFile);
-            fd.setWindowTitle(title[d]);
-            //QGridLayout *layout = (QGridLayout*)fd.layout();
-            //QComboBox * sel_format = new QComboBox(&fd);
-            //sel_format->addItems(filters);
-            //layout->addWidget(sel_format,1,5);
-            fd.exec();
-            //int format = sel_format->currentIndex();
-            //delete sel_format;
-            importFileDialogState = fd.saveState();
-            workDir = fd.directory().absolutePath();
-            format = 0;
-            /*if (filters.indexOf(fd.selectedNameFilter())!=0) {
-                QStringList list;
-                list << "Plain text" << "Newline aligned XML fragment";
-                QString selname = QInputDialog::getItem(this, tr("Import"), tr("Select type:"), list, importFormat, false);
-                importFormat = list.indexOf(selname);
-                format = importFormat+1;
-            }*/
-            if (!(fd.result()==QDialog::Accepted) || !processImportFile(a, d, fd.selectedFiles().at(0), format)) {
+            QString fileName = QFileDialog::getOpenFileName(this, title[d], workDir, filters.join(";;"), &selFilter);
+            if (!fileName.isEmpty()) {
+                workDir = QFileInfo(fileName).absolutePath();
+                importFormat = filters.indexOf(selFilter);
+            }
+            if (fileName.isEmpty() || !processImportFile(a, d, fileName, importFormat)) {
                 delete a;
                 return;
             }
@@ -564,7 +544,7 @@ void ItWindow::createNewAlignment() {
     setNewAlignment(a);
     syncAct->setEnabled(false);
     save();
-    if (format!=2 && !noalign)
+    if (importFormat!=2 || !noalign)
         autoAlign();
 }
 
@@ -1880,7 +1860,6 @@ void ItWindow::readSettings()
     importParSeparator = strunescape(settings->value("par_separator", importParSeparator).toString());
     importSentenceSeparator = strunescape(settings->value("sentence_separator", importSentenceSeparator).toString());
     importKeepMarkup = settings->value("keep_markup", importKeepMarkup).toBool();
-    importFileDialogState = settings->value("filedialog_state", importFileDialogState).toByteArray();
     importFormat = settings->value("import_format", importFormat).toInt();
     defaultNumberingLevels = settings->value("default_num_levels",defaultNumberingLevels).toInt();
     settings->endGroup();
@@ -2273,7 +2252,6 @@ void ItWindow::writeSettings()
     settings->setValue("par_separator", strescape(importParSeparator));
     settings->setValue("sentence_separator", strescape(importSentenceSeparator));
     settings->setValue("keep_markup", QVariant(importKeepMarkup).toString());
-    settings->setValue("filedialog_state", importFileDialogState);
     settings->setValue("import_format", importFormat);
     settings->setValue("default_num_levels", defaultNumberingLevels);
     settings->endGroup();
