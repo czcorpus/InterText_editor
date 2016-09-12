@@ -703,8 +703,8 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
             QMessageBox::critical(this, tr("Import"), tr("Error: ").append(a->errorMessage));
             return false;
         }
-        a->detectIdSystem(d);
         a->createLinks(d, alignableElements, groups);
+        a->detectIdSystem(d);
         if (!checkNumbering(a, d, false, 1))
             a->renumber(d);
         return true;

@@ -182,7 +182,7 @@ void ItDocument::detectIdSystem(QStringList alignedIds) {
         return;
     }
     QString parent_id = e->getParentID(idNamespaceURI);
-    if (id.startsWith(parent_id)) {
+    if (!parent_id.isEmpty() && id.startsWith(parent_id)) {
         //qDebug() << "First ID starts with parent's ID: 2-level(?).";
         numbering_parent_prefix = parent_id;
         numbering_parent_prefix.remove(QRegExp("[0-9]+$"));
