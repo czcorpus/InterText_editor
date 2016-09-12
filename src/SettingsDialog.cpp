@@ -191,8 +191,8 @@ SettingsDialog::SettingsDialog(ItWindow *parent) :
         ui->sel_textelements->setChecked(true);
     ui->edit_alelements->setText(window->alignableElements.join(","));
     ui->edit_textelements->setText(window->textElements.join(","));
-    if (window->defaultNumberingLevels == 2)
-        ui->twolevelButton->setChecked(true);
+    if (window->defaultNumberingLevels == 1)
+        ui->singleButton->setChecked(true);
 
     connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(buttonClicked(QAbstractButton*)));
     connect(ui->sel_aligner, SIGNAL(currentIndexChanged(int)), this, SLOT(showAligner(int)));

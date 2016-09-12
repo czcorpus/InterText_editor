@@ -468,8 +468,8 @@ void ItWindow::createNewAlignment() {
     title[1] = tr("Import right side text");
     QStringList filters;
     filters << tr("XML document(*.xml)")
-            << tr("All files (*.*)");
-    //<< tr("New-line aligned XML fragment (*.*)");
+            << tr("Plain text files (*.*)")
+            << tr("New-line aligned XML fragment (*.*)");
 
     // check whether such alignment can be generated from existing ones (cross-alignment)
     if (generateCrossAlignment(&a->info)) {
@@ -541,13 +541,13 @@ void ItWindow::createNewAlignment() {
             importFileDialogState = fd.saveState();
             workDir = fd.directory().absolutePath();
             format = 0;
-            if (filters.indexOf(fd.selectedNameFilter())!=0) {
+            /*if (filters.indexOf(fd.selectedNameFilter())!=0) {
                 QStringList list;
                 list << "Plain text" << "Newline aligned XML fragment";
                 QString selname = QInputDialog::getItem(this, tr("Import"), tr("Select type:"), list, importFormat, false);
                 importFormat = list.indexOf(selname);
                 format = importFormat+1;
-            }
+            }*/
             if (!(fd.result()==QDialog::Accepted) || !processImportFile(a, d, fd.selectedFiles().at(0), format)) {
                 delete a;
                 return;
