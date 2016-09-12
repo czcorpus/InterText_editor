@@ -1354,6 +1354,8 @@ void ItAlignment::setNumbering(int document, int levels, QString &prefix, QStrin
 }
 
 void ItAlignment::renumber(int document, bool updateCTime) {
+    if (!info.ver[document].perm_chstruct)
+        return;
     int cnt = 0;
     int parCnt = 0;
     QDomNode lastParent;
@@ -1949,10 +1951,14 @@ ItAlignment::Link * ItAlignment::nextLink(aligned_doc doc, int &pos, int &el) {
 
 void ItAlignment::syncDepsPermissions()
 {
-    info.ver[0].perm_chtext = canDepsChtext(0);
-    info.ver[1].perm_chtext = canDepsChtext(1);
-    info.ver[0].perm_chstruct = canDepsChstruct(0);
-    info.ver[1].perm_chstruct = canDepsChstruct(1);
+    if (info.ver[0].perm_chtext)
+        info.ver[0].perm_chtext = canDepsChtext(0);
+    if (info.ver[1].perm_chtext)
+        info.ver[1].perm_chtext = canDepsChtext(1);
+    if (info.ver[0].perm_chstruct)
+        info.ver[0].perm_chstruct = canDepsChstruct(0);
+    if (info.ver[1].perm_chstruct)
+        info.ver[1].perm_chstruct = canDepsChstruct(1);
 }
 
 bool ItAlignment::canDepsChtext(ushort doc) {

@@ -137,14 +137,14 @@ Univerzita Karlova, Filozofická fakulta \\
 \end{Huge}
 
 \begin{huge}
-v1.4\\
+v1.5\\
 \medskip
 comprehensive guide
 \end{huge}
 \bigskip
 
 \begin{Large}
-August 2016\\
+September 2016\\
 \end{Large}
 
 %\vspace*{2cm}
@@ -400,6 +400,7 @@ When you run \ITeditor for the first time, you probably do not really see very m
 	\item Create an alignment from two text files
 	\item Import an \IT compatible alignment from files you have obtained somewhere else (e.g. from TCA2 aligner).
 	\item Import an alignment from your project's \ITserver (if you already are running one).
+  \item Write your own translation aligned with an existing text
 \end{itemize}
 
 \section{Create new alignment from two text files}\label{ch:howto:createfromtext}
@@ -408,15 +409,15 @@ When you run \ITeditor for the first time, you probably do not really see very m
 
 Once you have two parallel text files or XML documents in UTF-8 encoding, you can create a new alignment, e.g. through the menu \menu{Alignment} > \menu{New} (or from the \emph{Repository manager}). First, you will be asked to enter an arbitrary name (identifier) for the text (use e.g. the name of the book or story, do not worry about file names here!). Both texts will be treated under this common name, even though they are probably in different languages. You also have to enter the names for the two versions you are going to align. A good practice is to use the names or (even better) just the two-letter \emph{codes} of the two languages as the names of the versions.
 
-Next you have to select the file with the first text version. In the ``filter'' box, select whether you are going to open an XML file or just any plain text file and then select the file. (If you open XML, skip 3 paragraphs below.) Confirm, that the file is a plain text file (and not something else). In the next dialog you will have to say how your paragraphs are separated in the text file, whether it is already segmented into sentences, and confirm how the resulting XML document will look like. If you have no cue about XML, just keep the defaults. However, you need to know something about your source text. Usually, paragraphs are separated by a single \keys{Enter} (a ``line break''), which is the default setting. But sometimes the paragraphs may be separated by blank lines (or ``empty lines'' -- i.e. by two \keys{Enter}s) -- in that case you would select the appropriate option. You may also select the encoding of the file, if it is different from UTF-8: the contents will automatically be converted, so you should \emph{not} change the ``UTF-8'' string in the XML header header field.
+Next you have to select the file with the first text version. In the ``filter'' box (``Files of type'' or similar), select whether you are going to open an XML file or just any plain text file and then select the file. (If you open XML, skip 3 paragraphs below.) In the next dialog you will have to say how your paragraphs are separated in the text file, whether it is already segmented into sentences, and confirm how the resulting XML document will look like. If you have no cue about XML, just keep the defaults. However, you need to know something about your source text. Usually, paragraphs are separated by a single \keys{Enter} (a ``line break''), which is the default setting. But sometimes the paragraphs may be separated by blank lines (or ``empty lines'' -- i.e. by two \keys{Enter}s) -- in that case you would select the appropriate option. You may also select the encoding of the file, if it is different from UTF-8: the contents will automatically be converted, so you should \emph{not} change the ``UTF-8'' string in the XML header header field.
 
 If your text file is not already segmented into sentences (e.g. one line = one sentence) by some tool or manually, you probably want to switch to the integrated automatic sentence splitter, which will usually be better than nothing as a starting point. You do not need to change any other settings (unless you know why you should).
 
-In the next dialog, you have to choose how your sentences will be numbered. The default is ``two level numbering'' which means, that each sentence will first bear the number of the paragraph it belongs to and then the number of sentence within that paragraph. ``Single level numbering'' means that sentences will just be numbered continuously through the whole document by a single number.
+%In the next dialog, you have to choose how your sentences will be numbered. The default is ``two level numbering'' which means, that each sentence will first bear the number of the paragraph it belongs to and then the number of sentence within that paragraph. ``Single level numbering'' means that sentences will just be numbered continuously through the whole document by a single number.
 
-Now, you have to repeat the same steps for the other text version to be aligned to: select text file, its type and set the appropriate parameters.
+Now, you have to repeat the same steps for the other text version to be aligned to: select text file, its type and set the appropriate parameters (unless they are the same as for the first text).
 
-If you have selected an XML document and not a plain text file, you will be greeted by another dialog window, where you have to enter whether the text is already segmented into the alignable text units (usually sentences) and what are the names of all the XML elements containing the alignable text units (all others will be considered metadata and ignored) or whether you want to apply the integrated sentence splitter to create the sentences -- in the latter case you have to enter the names of elements (containers) containing the text to be split into sentences (which usually means paragraphs). Take care: segmenting a text which already has been segmented into sentences (or contains XML elements with the same name of another reason) may result into unusable alignment which will fail to open.
+If you have selected an XML document and not a plain text file, you will be greeted by another dialog window, where you have to enter whether the text is already segmented into some alignable text units (usually sentences) and what are the names of all the XML elements containing the alignable text units (all others will be considered metadata and ignored) or whether you want to apply the integrated sentence splitter to create the sentences -- in the latter case you have to enter the names of elements (containers) containing the text to be split into sentences (which usually means paragraphs). Take care: segmenting a text which already has been segmented into sentences (or contains XML elements with the same name of another reason) may result into unusable alignment which will fail to open.
 
 When both texts are set up, a fake 1:1 alignment of the texts is immediately created and opened in the window, and at the same moment you are automatically offered to run a real automatic aligner (see chapter \ref{ch:howto:autoalign}). If you have some aligner configured, you can just select the right aligner and profile and run it. By default it will (re)align the texts from the beginning to the end.
 
@@ -628,7 +629,9 @@ Beside of creating alignment of two existing texts, you may also create alignmen
 
 \subsection{Selecting text file(s)}\label{ch:detail:managing_local:new:files}
 
-If you did not select a remote server as a source, you will have to select a file to import for one (or both) text versions. You can either select an XML document or just any plain text file (switch filter to \emph{All files}).\footnote{Plain text can also be a XML fragment or text containing some XML/HTML-style mark-up. \IT can also import so-called \emph{newline-aligned texts} -- see chapter \ref{ch:detail:managing_local:new:txt}.}
+If you did not select a remote server as a source, you will have to select a file to import for one (or both) text versions. First choose the type of your file: you can either import XML documents or just any plain text files (switch filter of file types to \emph{Plain text file}).\footnote{Plain text can also be a XML fragment or text containing some XML/HTML-style mark-up.}
+
+You may also choose to import new-line aligned text pairs: they are plain text files, where each line corresponds to a single segment in the alignment and may thus include several sentences, just one sentence or none at all. It is produced by some automatic aligners, such as \emph{hunalign} or \emph{TCA2}. A pair of lines with the same number thus contains a segment (group) of text units corresponding to each other in the two corresponding text files. You just need to select the appropriate file type ``New-line aligned XML fragment'' in the file type filter.
 
 \subsection{Importing an XML document}\label{ch:detail:managing_local:new:xml}
 
@@ -642,35 +645,37 @@ If the XML document is already segmented into alignable text units, you can dire
 
 If your text is not segmented into the desired text units yet, you may use the integrated configurable splitter. By default it is configured to split text into sentences based on simple regular expressions (which may need adaptation for your particular language). But it can be configured to split text on arbitrary places, which can be defined by a set of regular expressions and a list of exceptions (see chapter \ref{ch:detail:config:splitter} for details). To use the splitter, switch to the \menu{automatically segment text}. You have to enter the list of names of all current XML elements containing blocks of text to be segmented (e.g. elements ``p'' containing paragraphs), you have to select a pre-configured profile of the splitter (several independent sets of splitting rules may be defined for different languages or purposes), and you have to choose a name for the newly created XML sub-elements delimiting the desired text units (``s'' for sentences by default).
 
-\subsection{Importing plain text document}\label{ch:detail:managing_local:new:txt}
+If you do not want to be asked every time about the parameters of your files, just select the option ``don't ask me every time''. This choice will also disable the dialog asking about the numbering of elements in XML documents with unknown ID scheme as mentioned below (see \ref{ch:detail:managing_local:new:numbering}). You can always change the import settings (as well as turn on this dialog) later again (see \ref{ch:detail:config:import}).
 
-When selecting a plain text file, you will have to select whether it is really just some ``plain text'' file or a text from a newline-aligned pair of texts.
+%\subsection{Importing plain text document}\label{ch:detail:managing_local:new:txt}
 
-\begin{figure}[htb]
- \includegraphics[width=0.5\textwidth]{screenshots/text_import_type.png}
-\end{figure}
+%When selecting a plain text file, you will have to select whether it is really just some ``plain text'' file or a text from a newline-aligned pair of texts.
 
-Newline aligned text pairs are plain text files, where each line corresponds to a single segment in the alignment and may thus include several sentences, just one sentence or none at all. It is produced by some automatic aligners, such as \emph{hunalign} or \emph{TCA2}. A pair of lines with the same number thus contains a segment (group) of text units corresponding to each other in the two corresponding text files.
+%\begin{figure}[htb]
+% \includegraphics[width=0.5\textwidth]{screenshots/text_import_type.png}
+%\end{figure}
 
 \subsection{Converting plain text into simple XML document}\label{ch:detail:managing_local:new:txt2xml}
 
-The next dialog will ask for details on how to convert the plain text file into an XML document. First of all, you should select the encoding of your text if it is different from UTF-8. The text will automatically be converted into UTF-8 and then processed in the following steps.
+If you selected to import plain text file, another dialog will ask for details on how to convert the plain text file into an XML document. First of all, you should select the encoding of your text if it is different from UTF-8. The text will automatically be converted into UTF-8 and then processed in the following steps.
 
-The text will be enclosed by an XML header and footer and its body will be parsed depending on the fact whether it is only segmented into text blocks (like paragraphs) or whether it is already segmented into the single alignable text units (e.g. sentences).
-
-\begin{figure}[htb]
+\begin{figure}[htb!]
  \includegraphics[width=0.9\textwidth]{screenshots/text_import.png}
 \end{figure}
 
-In this dialog, you can modify the XML header\footnote{Do not change the encoding in the XML header! Whatever you have selected as the encoding of the text file, it will be converted into UTF-8, so that the resulting XML will \emph{always} be an UTF-8 encoded document.} and footer to be pre-pended and appended to the body of the text. You can also define the names for XML elements containing paragraphs and sentences, which will be created,\footnote{Of course these text units do not necessarily need to be paragraphs and sentences, but just any arbitrary alignable text units you want to distinguish and their corresponding parent blocks or containers.} and select how these text units are delimited in the current source text file.
+The text will be enclosed by an XML header and footer and its body will be parsed depending on the fact whether it is only segmented into text blocks (like paragraphs) or whether it is already segmented into the single alignable text units (e.g. sentences).
+
+In this dialog, you can modify the XML header\footnote{Do not change the encoding in the XML header! Whatever you have selected as the encoding of the text file, it will be converted into UTF-8, so that the resulting XML will \emph{always} be an UTF-8 encoded document.} and footer to be pre-pended and appended to the body of the text. You can also define the names for XML elements containing paragraphs and sentences, which will be created,\footnote{Of course these text units do not necessarily need to be paragraphs and sentences, but just any arbitrary alignable text units you want to distinguish and their corresponding parent blocks or containers.} and select how these text units are currently delimited in the current source text file.
 
 For current delimitation of paragraphs and sentences only two choices are available at the moment: either plain \emph{line-breaks} or \emph{empty lines} (i.e. two line-breaks following each other immediately). In common cases, you will only have paragraphs separated by line breaks and the sentences will not be segmented (separated) yet. In that case you may switch to the option \menu{automatically segment text} and select a pre-configured profile for the integrated rule based sentence splitter (see chapter \ref{ch:detail:config:splitter} for details). The splitter will delimit sentences for you and enclose them into elements with the name configured in the next field.
 
 In case your text file contains some XML/HTML-style mark-up (emphasis by italics, bold type or underline, superscript or subscript, etc.), you should check the option \menu{keep HTML/XML markup in text}. Otherwise the elements from the source text will be converted into entities and handled as text characters and not as mark-up elements.
 
-\subsection{Choosing numbering scheme}\label{ch:detail:managing_local:new:numbering}
+If you do not want to be asked every time about the parameters of your text files, just select the option ``don't ask me every time''. You can always change the import settings (as well as turn on this dialog) later again (see \ref{ch:detail:config:import}).
 
-Because \IT is able to change the structure of XML files (split or merge text elements / units), it must also be able to generate unique IDs of all the elements concerned.\footnote{See chapter \ref{ch:intro:albasics:alignable}} When importing XML documents, \IT tries to determine any existing numbering scheme used in the document. If no numbering scheme is detected or its structure is too complex for \IT to understand,\footnote{See chapter \ref{ch:detail:managing_local:properties} for closer description of acceptable numbering structures and how the scheme can be changed.} you will be asked which scheme you want to use. \IT is able to create two types of generated IDs:
+\subsection{Numbering scheme}\label{ch:detail:managing_local:new:numbering}
+
+Because \IT is able to change the structure of XML files (split or merge text elements / units), it must also be able to generate unique IDs of all the elements concerned.\footnote{See chapter \ref{ch:intro:albasics:alignable}} When importing XML documents, \IT tries to determine any existing numbering scheme used in the document. If there are no IDs on the alignable elements yet, the default numbering scheme will be used as set in the import settings (see \ref{ch:detail:config:import}). If the structure of the existing IDs is too complex for \IT to understand,\footnote{See chapter \ref{ch:detail:managing_local:properties} for closer description of acceptable numbering structures and how the scheme can be changed.} and you have not disabled the dialogs on XML import, you will be asked by another dialog which scheme you want to use. \IT is able to create two types of generated IDs, or you can decide to keep the original IDs:
 
 \begin{figure}[htb]
  \includegraphics[width=0.8\textwidth]{screenshots/numbering_dialog.png}
@@ -679,9 +684,10 @@ Because \IT is able to change the structure of XML files (split or merge text el
 \begin{enumerate}
  \item single level numbering, where only the alignable elements are numbered and the ID is thus a simple number from a single sequence of numbers (e.g. sentences 1, 2, 3, 4, etc.) showing the order of the unit in the whole text, independent of its place in the document's structure
  \item two level numbering, where the parent elements contain a simple number from a single sequence of numbers (e.g. paragraph 1, 2, 3, 4, etc.) and the alignable text-units (e.g. sentences) within contain both the number of the container (parent element / text block), a separator and a number showing the order of the unit within the current container (e.g. sentences in the paragraph 3 will be numbered as 3:1, 3:2, 3:3, etc.)
+ \item keeping original IDs is possible when you disable structural changes to the text; when the structure is not changed, there is no need to renumber the elements
 \end{enumerate}
 
-When importing new texts, you have to decide which numbering scheme will be used. If you choose the two level numbering, the default separator will be ``:'' and there will be no additional prefix.
+If you choose the two level numbering, the default separator will be ``:'' and there will be no additional prefix.
 
 \subsection{Creating automatic alignment}\label{ch:detail:managing_local:new:align}
 
@@ -713,7 +719,7 @@ The submenu \menu{Export texts as} offers different pre-configured formats to ex
 
 \begin{itemize}
  \item \menu{Newline aligned (one file)} -- exports both text versions into a single plain text file containing the alignment in the form of a tab-separated table: each line represents a single segment and contains: all text units from the first text version, a TAB character as separator, and all text units from the second text version belonging to the same segment. This format is a common output of hunalign as well.
- \item \menu{Newline aligned (separate files)} -- exports both text versions as two separate plain text files, where each line corresponds to a single segment and may contain one, several or no sentence, so that text units placed on lines with corresponding line numbers are members of the same segment (i.e. correspond to each other). This is the format which may also be imported as indicated in chapter \ref{ch:detail:managing_local:new:txt}.
+ \item \menu{Newline aligned (separate files)} -- exports both text versions as two separate plain text files, where each line corresponds to a single segment and may contain one, several or no sentence, so that text units placed on lines with corresponding line numbers are members of the same segment (i.e. correspond to each other). This is the format which may also be imported as indicated in chapter \ref{ch:detail:managing_local:new:files}.
  \item \menu{ParaConc text (UTF-8)} -- exports both text versions as (seemingly) ordinary XML files, but with their contents partitioned by additional ``seg'' tags into the segments numbered sequentially by the position numbers like row numbers in \IT. These ``seg'' elements with corresponding numbers link the aligned contents of the two text files. However, ParaConc does not care about validity of XML structure and so is this export not a valid XML file either.\footnote{The ``seg'' elements completely ignore the rest of the XML structure and just overlap randomly with the structure of the contents.}
  \item \menu{TMX (stripped markup)} -- exports a simple TMX file\footnote{\emph{Translation Memory eXchange} is an open XML standard for the exchange of translation memory data created by computer-aided translation and localization tools. (Wikipedia: \url{http://en.wikipedia.org/wiki/Translation_Memory_eXchange})} stripped of any mark-up and all segments where one or the other text version is missing any contents (translation). This file can be imported by different CAT tools\footnote{Computer Aided Translation}, e.g. to be used in translation memories. You will be asked to enter valid values for language identifiers used in the resulting files (by default filled by the names of the exported versions).
 \end{itemize}

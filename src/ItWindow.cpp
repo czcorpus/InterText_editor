@@ -469,8 +469,8 @@ void ItWindow::createNewAlignment() {
     title[0] = tr("Import left side text");
     title[1] = tr("Import right side text");
     QStringList filters;
-    filters << tr("XML document(*.xml)")
-            << tr("Plain text files (*.*)")
+    filters << tr("XML document (*.xml)")
+            << tr("Plain text file (*.*)")
             << tr("New-line aligned XML fragment (*.*)");
 
     // check whether such alignment can be generated from existing ones (cross-alignment)
@@ -708,7 +708,7 @@ bool ItWindow::processImportFile(ItAlignment * a, aligned_doc d, QString filenam
         }
         a->createLinks(d, alignableElements, groups);
         a->detectIdSystem(d);
-        if (!checkNumbering(a, d, false, 1))
+        if (!checkNumbering(a, d, true))
             a->renumber(d);
         return true;
     } else {
@@ -807,10 +807,10 @@ bool ItWindow::checkNumbering(ItAlignment * a, aligned_doc doc, bool allowLock, 
             if (importXmlLock)
                 xmllevels = 0;
             form->setDefaultLevels(xmllevels);
-            if (a->info.ver[doc].numLevels<1) {
-                while (a->info.ver[doc].numLevels<1) form->exec();
+            //if (a->info.ver[doc].numLevels<1) {
+            while (a->info.ver[doc].numLevels<1) form->exec();
                 //a->renumber(doc);
-            }
+            //}
             delete form;
         } else { // otherwise just use the defaults
             if (allowLock && (importXmlLock || levels==0)) {
