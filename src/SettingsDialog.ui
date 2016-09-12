@@ -1331,13 +1331,6 @@
               <string>XML import defaults</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_22">
-              <item row="4" column="0" colspan="2">
-               <widget class="QRadioButton" name="sel_textelements">
-                <property name="text">
-                 <string>use the splitter to automatically segment text within the following elements:</string>
-                </property>
-               </widget>
-              </item>
               <item row="0" column="0" colspan="2">
                <widget class="QCheckBox" name="askOnXmlCheckBox">
                 <property name="text">
@@ -1345,27 +1338,41 @@
                 </property>
                </widget>
               </item>
-              <item row="6" column="0" colspan="2">
-               <widget class="QCheckBox" name="lockIDs_checkBox">
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_alelements">
                 <property name="text">
-                 <string>Lock imported XML for structure changes and preserve original IDs</string>
+                 <string>Alignable elements:</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="edit_alelements"/>
+              </item>
+              <item row="2" column="0" colspan="2">
                <widget class="QRadioButton" name="sel_alelements">
                 <property name="text">
-                 <string>text is already segmented into the following alignable elements:</string>
+                 <string>text is already segmented into alignable elements:</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
                 </property>
                </widget>
               </item>
-              <item row="2" column="0" colspan="2">
-               <widget class="QLineEdit" name="edit_alelements"/>
+              <item row="3" column="0" colspan="2">
+               <widget class="QRadioButton" name="sel_textelements">
+                <property name="text">
+                 <string>use the splitter to automatically segment text within the following elements:</string>
+                </property>
+               </widget>
               </item>
               <item row="5" column="0" colspan="2">
+               <widget class="QCheckBox" name="lockIDs_checkBox">
+                <property name="text">
+                 <string>Lock imported XML for structure changes and preserve original IDs</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0" colspan="2">
                <widget class="QLineEdit" name="edit_textelements"/>
               </item>
              </layout>
@@ -2016,7 +2023,6 @@
   <tabstop>expProfCustVarDelButton</tabstop>
   <tabstop>expProfCustVarNewButton</tabstop>
   <tabstop>scrollArea_import</tabstop>
-  <tabstop>tabWidget</tabstop>
   <tabstop>askOnTextCheckBox</tabstop>
   <tabstop>editSkipMargin</tabstop>
   <tabstop>editAutoSaveInterval</tabstop>
