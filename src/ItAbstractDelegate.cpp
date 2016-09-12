@@ -150,7 +150,7 @@ void ItAbstractDelegate::createContents(QTextDocument * doc, const QStyleOptionV
         complete = complete.replace("&","&amp;").replace(">","&gt;").replace("<","&lt;");
     //QString header = "<body onMouseOver=\"document.getElementById('controls').style.visibility='visible';\" onMouseOut=\"document.getElementById('controls').style.visibility='hidden';\">";
     //header.append("<div id=\"controls\">Controls</div>");
-    complete = QString("<body>%1</p></body>").arg(complete.replace("\n","</p>"));
+    complete = QString("<body>%1</p></body>").arg(complete.replace("\n","</p>\n<p>"));
     QString brk = "<hr class=\"break\"/>"; // no styling possible :-(
     //QString brk = "<img src=\":/images/svg/break.svgz\"/>"; // no relative scaling working
     //QString brk = "<p>******************************</p>"; // simple, better default?
