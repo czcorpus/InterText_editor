@@ -101,6 +101,8 @@ ItWindow::ItWindow() : QMainWindow()
     view = new ItAlignmentView(this);
     view->hide();
 
+    exTextActGroup = new QActionGroup(this);
+
     createActions();
     enableActions(false);
     settings = new QSettings("InterText");
@@ -139,6 +141,7 @@ ItWindow::ItWindow() : QMainWindow()
 }
 
 ItWindow::~ItWindow() {
+    delete exTextActGroup;
     delete settings;
     //delete model;
     //delete view;
@@ -1619,6 +1622,10 @@ void ItWindow::updateExTextMenu()
         qDeleteAll(exTextActions);
         exTextActions.clear();
     }
+    foreach (QAction * a, exTextActGroup->actions())
+    {
+        exTextActGroup->removeAction(a);
+    }
 
     QAction * teAct;
     exTextMapper = new QSignalMapper(this);
@@ -1628,6 +1635,7 @@ void ItWindow::updateExTextMenu()
         teAct = new QAction(i.value().name, this);
         exTextActions.append(teAct);
         exTextMenu->addAction(teAct);
+        exTextActGroup->addAction(teAct);
         exTextMapper->setMapping(teAct, i.value().name);
         connect(teAct, SIGNAL(triggered()), exTextMapper, SLOT(map()));
     }
@@ -3111,6 +3119,7 @@ void ItWindow::enableActions(bool en)
     //saveAct->setEnabled(en);
     closeAct->setEnabled(en);
     fexportAct->setEnabled(en);
+    exTextActGroup->setEnabled(en);
     alPropAct->setEnabled(en);
     syncAct->setEnabled(en);
 }
@@ -3824,6 +3833,8 @@ void ItWindow::setProgressBarValue(int value)
 
 void ItWindow::extractTextAndSave(QString profileName)
 {
+    if (!model)
+        return;
     ExTextProfile prof = exTextProfiles.value(profileName);
     QStringList customValues;
     if (prof.customVars.size()) {

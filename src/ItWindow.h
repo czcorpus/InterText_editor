@@ -256,6 +256,7 @@ private:
     QSignalMapper * exTextMapper;
     QList< QAction* > serverActions;
     QList< QAction* > exTextActions;
+    QActionGroup * exTextActGroup;
     QLabel * infoBar;
     QProgressBar * progressBar;
     int autoSaveInterval;
