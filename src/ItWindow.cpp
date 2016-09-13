@@ -880,61 +880,24 @@ bool ItWindow::setAlignmentNames(ItAlignment * a)
 bool ItWindow::exportFile() {
     if (model==0)
         return false;
-    QFileInfo info;
-    QDir dir = QDir(workDir);
-    QString doc1FileName = QFileDialog::getSaveFileName(this, tr("Save first document as..."),
-                                                        QFileInfo(dir, model->alignment->info.ver[0].filename).absoluteFilePath());
-    if (doc1FileName.isEmpty()) {
+    QString dest = QFileDialog::getExistingDirectory(this, tr("Save files into..."), workDir);
+    if (dest.isEmpty())
+        return false;
+    workDir = QDir(dest).absolutePath();
+    QString doc1target = model->alignment->info.ver[0].filename;
+    QString doc2target = model->alignment->info.ver[1].filename;
+    QString altarget = model->alignment->info.filename;
+    QString doc1FileName = QFileInfo(workDir, doc1target).absoluteFilePath();
+    QString doc2FileName = QFileInfo(workDir, doc2target).absoluteFilePath();
+    QString alFileName = QFileInfo(workDir, altarget).absoluteFilePath();
+    if (!model->alignment->saveFile(alFileName, doc1target, doc2target)) {
+        QMessageBox::warning(this, tr("Saving alignment"), tr("Cannot save file '%1':\n%2.").arg(alFileName, model->alignment->errorMessage));
         return false;
     }
-    info.setFile(doc1FileName);
-    workDir = info.absolutePath();
-    dir = QDir(workDir);
-    QString doc2FileName = QFileDialog::getSaveFileName(this, tr("Save second document as..."),
-                                                        QFileInfo(dir, model->alignment->info.ver[1].filename).absoluteFilePath());
-    if (doc2FileName.isEmpty()) {
-        return false;
-    }
-    info.setFile(doc2FileName);
-    workDir = info.absolutePath();
-    dir = QDir(workDir);
-    QString alFileName = QFileDialog::getSaveFileName(this, tr("Save alignment as..."),
-                                                      QFileInfo(dir, model->alignment->info.filename).absoluteFilePath());
-    if (alFileName.isEmpty()) {
-        return false;
-    }
-    info.setFile(alFileName);
-    workDir = info.absolutePath();
-    if (!alFileName.isEmpty()) {
-        QString doc1target(doc1FileName), doc2target(doc2FileName), basePath(alFileName);
-        basePath.remove(QRegExp("[^\\/]*$"));
-        QRegExp pathRE("^.*/");
-        pathRE.setMinimal(false);
-        if (doc1FileName.isEmpty()) doc1target = model->alignment->info.ver[0].filename;
-        else {
-            doc1target = doc1FileName;
-            doc1target.remove(basePath);
-            if (doc1target==doc1FileName) doc1target.remove(pathRE);
-        }
-        if (doc2FileName.isEmpty()) doc2target = model->alignment->info.ver[1].filename;
-        else {
-            doc2target = doc2FileName;
-            doc2target.remove(basePath);
-            if (doc2target==doc2FileName) doc2target.remove(pathRE);
-        }
-        if (!model->alignment->saveFile(alFileName, doc1target, doc2target)) {
-            QMessageBox::warning(this, tr("Saving alignment"), tr("Cannot save file '%1':\n%2.").arg(alFileName, model->alignment->errorMessage));
-            return false;
-        }
-    }
-    if (!doc1FileName.isEmpty()) {
-        if (!model->alignment->saveDoc(0, doc1FileName))
-            QMessageBox::warning(this, tr("Saving first document"), tr("Cannot save file '%1':\n%2.").arg(doc1FileName, model->alignment->errorMessage));
-    }
-    if (!doc2FileName.isEmpty()) {
-        if (!model->alignment->saveDoc(1, doc2FileName))
-            QMessageBox::warning(this, tr("Saving second document"), tr("Cannot save file '%1':\n%2.").arg(doc2FileName, model->alignment->errorMessage));
-    }
+    if (!model->alignment->saveDoc(0, doc1FileName))
+        QMessageBox::warning(this, tr("Saving first document"), tr("Cannot save file '%1':\n%2.").arg(doc1FileName, model->alignment->errorMessage));
+    if (!model->alignment->saveDoc(1, doc2FileName))
+        QMessageBox::warning(this, tr("Saving second document"), tr("Cannot save file '%1':\n%2.").arg(doc2FileName, model->alignment->errorMessage));
     return true;
 }
 
