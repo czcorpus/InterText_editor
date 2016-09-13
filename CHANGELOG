@@ -2,24 +2,26 @@
 
 Improvements:
 
+UI behaviour improvements for import/export:
 - create global default settings for file import
 - let the user avoid the import settings dialogs open every time
 - simplify dialog with text file import settings
 - autodetect alignable elements for documents already present in repository
 - simplify import file & format selection
+- simplify export target selection
 
 Fixes:
 
 - new alignments created from existing documents must also load dependent alignments
 - text color after linebreak lost
 - issues with import of new-line aligned texts
+- XML ID lock fixed
 
 1.4.1
 
 Fixes:
 
 - fix renumbering of parent elements
-
 
 1.4
 
