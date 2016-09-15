@@ -42,6 +42,9 @@ ItWindow::ItWindow() : QMainWindow()
     workDir = QStandardPaths::standardLocations(QStandardPaths::HomeLocation).at(0);
     //qDebug()<<QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
 
+    if (!QDir(storagePath).exists())
+        QDir().mkdir(storagePath);
+
     lockfile.setFileName(storagePath+"/.lock");
     if (lockfile.exists()) {
         QMessageBox::StandardButton resp = QMessageBox::question(this, tr("Repository locked"),

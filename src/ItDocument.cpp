@@ -80,7 +80,7 @@ bool ItDocument::setXml(QByteArray &xml)
 bool ItDocument::setXml(QString &xml)
 {
     QString errorMsg; int errorLine, errorColumn;
-    if (!doc.setContent(xml, true, &errorMsg, &errorLine, &errorColumn)) {
+    if (!doc.setContent(xml, true, &errorMsg, &errorLine, &errorColumn)) {//qDebug()<<xml.split("\n").at(errorLine-1);
         errorMessage = QObject::tr("Error parsing XML document at line %1, column %2: %3.").arg(QString::number(errorLine), QString::number(errorColumn), errorMsg);
         return false;
     }
