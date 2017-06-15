@@ -1,5 +1,5 @@
-/*  Copyright (c) 2010-2016 Pavel Vondřička (Pavel.Vondricka@korpus.cz)
- *  Copyright (c) 2010-2016 Charles University in Prague, Faculty of Arts,
+/*  Copyright (c) 2010-2017 Pavel Vondřička (Pavel.Vondricka@korpus.cz)
+ *  Copyright (c) 2010-2017 Charles University in Prague, Faculty of Arts,
  *                          Institute of the Czech National Corpus
  *
  *  This file is part of InterText Editor.
@@ -909,9 +909,9 @@ void ItWindow::about()
     QMessageBox m;
     m.setWindowTitle(tr("About InterText"));
     m.setIconPixmap(QPixmap(":/images/32/InterText.ico"));
-    m.setText(tr("<h1>InterText editor 1.5</h1>"));
+    m.setText(tr("<h1>InterText editor 1.6</h1>"));
     m.setInformativeText(tr("<p><b>Alignment editor for parallel texts.</b></p>"
-                            "<p>Copyright &copy; 2010-2016 Pavel Vondřička,<br/>"
+                            "<p>Copyright &copy; 2010-2017 Pavel Vondřička,<br/>"
                             "Institute of the Czech National Corpus,<br/>"
                             "Charles University in Prague, Faculty of Arts</p>"
                             "<p>This software is licensed under the GNU General Public License (Version 3).</p>"));

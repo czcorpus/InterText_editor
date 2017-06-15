@@ -1,5 +1,5 @@
-/*  Copyright (c) 2010-2016 Pavel Vondřička (Pavel.Vondricka@korpus.cz)
- *  Copyright (c) 2010-2016 Charles University in Prague, Faculty of Arts,
+/*  Copyright (c) 2010-2017 Pavel Vondřička (Pavel.Vondricka@korpus.cz)
+ *  Copyright (c) 2010-2017 Charles University in Prague, Faculty of Arts,
  *                          Institute of the Czech National Corpus
  *
  *  This file is part of InterText Editor.
@@ -649,6 +649,8 @@ bool ItAlignmentModel::isFirstParEl(QModelIndex index) {
 }
 
 bool ItAlignmentModel::remove(QModelIndex index, int count) {
+    if (!index.isValid() || !index.parent().isValid())
+        return false;
     if (!alignment->removeAfter(index.parent().column()-1, index.parent().row(), index.row()-1, count))
         return false;
     emit dataChanged(index.parent(), index.parent());

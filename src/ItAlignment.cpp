@@ -1,5 +1,5 @@
-/*  Copyright (c) 2010-2016 Pavel Vondřička (Pavel.Vondricka@korpus.cz)
- *  Copyright (c) 2010-2016 Charles University in Prague, Faculty of Arts,
+/*  Copyright (c) 2010-2017 Pavel Vondřička (Pavel.Vondricka@korpus.cz)
+ *  Copyright (c) 2010-2017 Charles University in Prague, Faculty of Arts,
  *                          Institute of the Czech National Corpus
  *
  *  This file is part of InterText Editor.
@@ -646,13 +646,13 @@ bool ItAlignment::canSplitParent(aligned_doc doc, int pos, int el) {
     return true;
 }
 
-bool ItAlignment::updateContents(aligned_doc doc, int pos, int el, QString string)
+bool ItAlignment::updateContents(aligned_doc doc, int pos, int el, QString string, bool forceupdate)
 {
     if (!ignorePermissions && ((doc==0 && !info.ver[0].perm_chtext) || (doc==1 && !info.ver[1].perm_chtext))) {
         //qDebug() << "Permission denied.";
         return false;
     }
-    if (string==getContents(doc,pos,false).toStringList().at(el)) {
+    if (!forceupdate && string==getContents(doc,pos,false).toStringList().at(el)) {
         //qDebug() << "No change, no update.";
         return true;
     }
@@ -755,7 +755,7 @@ bool ItAlignment::split(aligned_doc doc, int pos, int el, QStringList newstrings
         newstrings[i] = newstrings[i].trimmed();
         fixBrokenTags(newstrings[i], &inherittags);
     }
-    if (!updateContents(doc, pos, el, newstrings.takeFirst()))
+    if (!updateContents(doc, pos, el, newstrings.takeFirst(),true))
         return false;
     while (!newstrings.isEmpty())
         if (!duplicate(doc, pos, el++, newstrings.takeFirst()))

@@ -1,3 +1,13 @@
+1.6
+
+Improvements:
+- update to Qt 5.9
+
+Fixes:
+- synchronization broke if new elements were added behind some element (by editing), but the original text element not changed itself
+- crash if splitting text with broken XML
+
+
 1.5
 
 Improvements:

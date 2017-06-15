@@ -1,5 +1,5 @@
-/*  Copyright (c) 2010-2016 Pavel Vondřička (Pavel.Vondricka@korpus.cz)
- *  Copyright (c) 2010-2016 Charles University in Prague, Faculty of Arts,
+/*  Copyright (c) 2010-2017 Pavel Vondřička (Pavel.Vondricka@korpus.cz)
+ *  Copyright (c) 2010-2017 Charles University in Prague, Faculty of Arts,
  *                          Institute of the Czech National Corpus
  *
  *  This file is part of InterText Editor.
@@ -160,7 +160,7 @@ public:
     QVariant getContents(aligned_doc doc, int pos, bool prepend = true, bool ignoreMarkup=false, const QList<Replacement> *transformations=0);
     QStringList getIDs(aligned_doc doc, int pos);
     int getSize(aligned_doc doc, int pos);
-    bool updateContents(aligned_doc doc, int pos, int el, QString string);
+    bool updateContents(aligned_doc doc, int pos, int el, QString string, bool forceupdate=false);
     ushort getStat(int pos);
     QString getStatName(int pos);
     ushort getMark(int pos);

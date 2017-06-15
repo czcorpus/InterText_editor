@@ -1,5 +1,5 @@
-/*  Copyright (c) 2010-2016 Pavel Vondřička (Pavel.Vondricka@korpus.cz)
- *  Copyright (c) 2010-2016 Charles University in Prague, Faculty of Arts,
+/*  Copyright (c) 2010-2017 Pavel Vondřička (Pavel.Vondricka@korpus.cz)
+ *  Copyright (c) 2010-2017 Charles University in Prague, Faculty of Arts,
  *                          Institute of the Czech National Corpus
  *
  *  This file is part of InterText Editor.
@@ -1702,8 +1702,7 @@ bool ServerDialog::serverRequestUpdate(int aid, ItAlignment * a, aligned_doc d, 
     postData.addQueryItem("ver", a->info.ver[d].name);
     postData.addQueryItem("l", QString::number(n));
     postData.addQueryItem("newtext", text);
-    postData.addQueryItem("lastsync", a->info.ver[d].synced.toUTC().toString(Qt::ISODate));//qDebug()<<query.encodedQuery();
-    //query.setQuery(postData);
+    postData.addQueryItem("lastsync", a->info.ver[d].synced.toUTC().toString(Qt::ISODate));
     QEventLoop * loop = new QEventLoop();
     QNetworkReply * reply = net->post(request, postData.query(QUrl::EncodeUnicode).toLatin1());
     connect(reply, SIGNAL(finished()), loop, SLOT(quit()));
