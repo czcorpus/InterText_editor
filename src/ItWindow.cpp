@@ -812,7 +812,7 @@ bool ItWindow::checkNumbering(ItAlignment * a, aligned_doc doc, bool allowLock, 
             form->setDefaultLevels(xmllevels);
             //if (a->info.ver[doc].numLevels<1) {
             while (a->info.ver[doc].numLevels<1) form->exec();
-                //a->renumber(doc);
+            //a->renumber(doc);
             //}
             delete form;
         } else { // otherwise just use the defaults

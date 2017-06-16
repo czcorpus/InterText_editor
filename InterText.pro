@@ -14,13 +14,13 @@ ICON = InterText.icns
 # Input
 HEADERS += \
     src/ItWindow.h \
-		src/ItAlignment.h \
-		src/ItDocument.h \
-		src/ItElement.h \
-		src/ItAlignmentModel.h \
-		src/ItAlignmentView.h \
-		src/ItAlignmentDelegate.h \
-		src/ItSegmentView.h \
+    src/ItAlignment.h \
+    src/ItDocument.h \
+    src/ItElement.h \
+    src/ItAlignmentModel.h \
+    src/ItAlignmentView.h \
+    src/ItAlignmentDelegate.h \
+    src/ItSegmentView.h \
     src/ItPlainTextEdit.h \
     src/ItCommands.h \
     src/numberingdialog.h \
@@ -52,14 +52,14 @@ HEADERS += \
     src/xmltreedialog.h
 SOURCES += \
     src/ItWindow.cpp \
-		src/ItAlignment.cpp \
-		src/ItDocument.cpp \
-		src/main.cpp \
-		src/ItElement.cpp \
-		src/ItAlignmentModel.cpp \
-		src/ItAlignmentView.cpp \
-		src/ItAlignmentDelegate.cpp \
-		src/ItSegmentView.cpp \
+    src/ItAlignment.cpp \
+    src/ItDocument.cpp \
+    src/main.cpp \
+    src/ItElement.cpp \
+    src/ItAlignmentModel.cpp \
+    src/ItAlignmentView.cpp \
+    src/ItAlignmentDelegate.cpp \
+    src/ItSegmentView.cpp \
     src/ItPlainTextEdit.cpp \
     src/ItCommands.cpp \
     src/numberingdialog.cpp \
