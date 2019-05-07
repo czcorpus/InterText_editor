@@ -306,8 +306,7 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::changeTextFont()
 {
-    //textfont.setItalic(false);
-    textfont = QFontDialog::getFont(0, textfont);
+    textfont = QFontDialog::getFont(0, textfont, this, QString(), QFontDialog::DontUseNativeDialog);
     textfont.setItalic(false);
     showTextFont();
 }
