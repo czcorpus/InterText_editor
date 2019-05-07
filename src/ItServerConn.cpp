@@ -24,12 +24,14 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QEventLoop>
+#include <ItWindow.h>
 
-ItServerConn::ItServerConn(QString url, QString username, QString passwd)
+ItServerConn::ItServerConn(QString url, QString username, QString passwd, ItWindow *parent)
 {
     server_url = url;
     server_username = username;
     server_passwd = passwd;
+    parent_object = parent;
     net = new QNetworkAccessManager(this);
     net->setCookieJar(new QNetworkCookieJar(this));
     connect(net, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), this, SLOT(handleSSLErrors(QNetworkReply*,QList<QSslError>)));
@@ -55,10 +57,13 @@ bool ItServerConn::login()
     query.setQuery(postData);
 
     emit statusChanged(tr("Logging in to the server..."));
-    QEventLoop * loop = new QEventLoop();
+    QEventLoop * loop = new QEventLoop(this);
     QNetworkReply * reply = net->post(request, postData.query(QUrl::EncodeUnicode).toLatin1());
     connect(reply, SIGNAL(finished()), loop, SLOT(quit()));
+    connect(parent_object, SIGNAL(closing()), reply, SLOT(abort()));
     loop->exec();//QEventLoop::ExcludeUserInputEvents);
+    disconnect(reply, SIGNAL(finished()), loop, SLOT(quit()));
+    delete loop;
 
     if (!extractReply(reply, &body))
         return false;
@@ -68,7 +73,7 @@ bool ItServerConn::login()
 
 int ItServerConn::canMerge(int aid, QString text, QString ver, QString ver2, int n, int count, QDateTime lastsynced, QString * message)
 {
-    QEventLoop * loop = new QEventLoop();
+    QEventLoop * loop = new QEventLoop(this);
 
     emit statusChanged(tr("Checking acceptability of the merge on the server..."));
 
@@ -89,7 +94,9 @@ int ItServerConn::canMerge(int aid, QString text, QString ver, QString ver2, int
     //query.setQuery(postData);
     QNetworkReply * reply = net->post(request, postData.query(QUrl::EncodeUnicode).toLatin1());//qDebug()<<query.encodedQuery();
     connect(reply, SIGNAL(finished()), loop, SLOT(quit()));
+    connect(parent_object, SIGNAL(closing()), reply, SLOT(abort()));
     loop->exec();//QEventLoop::ExcludeUserInputEvents);
+    disconnect(reply, SIGNAL(finished()), loop, SLOT(quit()));
     delete loop;
     emit statusChanged(tr("Response received."));
     QDomElement body;
@@ -120,10 +127,12 @@ void ItServerConn::docGetLastChange(QString text, QString ver)
     postData.addQueryItem("text", text);
     postData.addQueryItem("ver", ver);
     //query.setQuery(postData);
-    QEventLoop * loop = new QEventLoop();
+    QEventLoop * loop = new QEventLoop(this);
     QNetworkReply * reply = net->post(request, postData.query(QUrl::EncodeUnicode).toLatin1());//qDebug()<<query.encodedQuery();
     connect(reply, SIGNAL(finished()), loop, SLOT(quit()));
+    connect(parent_object, SIGNAL(closing()), reply, SLOT(abort()));
     loop->exec();//QEventLoop::ExcludeUserInputEvents);
+    disconnect(reply, SIGNAL(finished()), loop, SLOT(quit()));
     delete loop;
     QDomElement body;
     if (!extractReply(reply, &body)) {
@@ -160,10 +169,13 @@ bool ItServerConn::checkVersion()
     QNetworkRequest request(server_url);
     request.setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
     emit statusChanged(tr("Connecting to the server..."));
-    QEventLoop * loop = new QEventLoop();
+    QEventLoop * loop = new QEventLoop(this);
     QNetworkReply * reply = net->post(request, postData.query(QUrl::EncodeUnicode).toLatin1());
     connect(reply, SIGNAL(finished()), loop, SLOT(quit()));
+    connect(parent_object, SIGNAL(closing()), reply, SLOT(abort()));
     loop->exec();//QEventLoop::ExcludeUserInputEvents);
+    disconnect(reply, SIGNAL(finished()), loop, SLOT(quit()));
+    delete loop;
 
     QDomElement body;
     if (!extractReply(reply, &body, true))
@@ -179,6 +191,8 @@ bool ItServerConn::checkVersion()
 bool ItServerConn::extractReply(QNetworkReply * reply, QDomElement * body, bool firsttouch)
 {
     lastErrCode = ERR_OTHER;
+    if (!reply->isFinished())
+        return false;
     if (reply->error() != QNetworkReply::NoError) {
         handleNetworkError(reply);
         return false;

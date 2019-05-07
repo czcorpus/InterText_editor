@@ -187,6 +187,9 @@ public:
     int getAutoSaveInterval();
     QString getCss();
 
+signals:
+    void closing();
+
 public slots:
     void open(const QString &name = QString(), bool skipsync = false);
     QStringList scanDataDir(const QString &dir);

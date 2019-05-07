@@ -157,6 +157,7 @@ ItWindow::~ItWindow() {
 void ItWindow::closeEvent(QCloseEvent *event)
 {
     if (maybeSave()) {
+        emit closing();
         writeSettings();
         event->accept();
         if (restartApp)
@@ -909,7 +910,7 @@ void ItWindow::about()
     QMessageBox m;
     m.setWindowTitle(tr("About InterText"));
     m.setIconPixmap(QPixmap(":/images/32/InterText.ico"));
-    m.setText(tr("<h1>InterText editor 1.6</h1>"));
+    m.setText(tr("<h1>InterText editor 1.6.1</h1>"));
     m.setInformativeText(tr("<p><b>Alignment editor for parallel texts.</b></p>"
                             "<p>Copyright &copy; 2010-2017 Pavel Vondřička,<br/>"
                             "Institute of the Czech National Corpus,<br/>"
@@ -3286,7 +3287,7 @@ void ItWindow::checkForServerUpdates(ItAlignment * a, int d)
           setProgressBarRange(0,0);
           progressBar->setMaximumHeight(infoBar->height());
           progressBar->show();*/
-        ItServerConn * sc = new ItServerConn(s.url, s.username, s.passwd);
+        ItServerConn * sc = new ItServerConn(s.url, s.username, s.passwd, this);
         connect(sc, SIGNAL(statusChanged(QString)), statusBar(), SLOT(showMessage(QString)));
         connect(sc, SIGNAL(docGetLastChangeMessage(QString,QString,QDateTime)),
                 this, SLOT(serverDocLastChangeMessage(QString,QString,QDateTime)));
@@ -3440,7 +3441,7 @@ void ItWindow::merge() {
             canmerge = -1;
         } else {
             //ServerDialog * d = new ServerDialog(this, storagePath, s.url, s.username, s.passwd, true, true);
-            ItServerConn * d = new ItServerConn(s.url, s.username, s.passwd);
+            ItServerConn * d = new ItServerConn(s.url, s.username, s.passwd, this);
             connect(d, SIGNAL(statusChanged(QString)), statusBar(), SLOT(showMessage(QString)));
 
 #ifndef QT_NO_CURSOR

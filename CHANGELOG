@@ -1,3 +1,11 @@
+1.6.1
+
+Improvements:
+- update to Qt 5.12
+
+Fixes:
+- do not use native font dialog on MacOS to avoid settings dialog hiding in the background
+
 1.6
 
 Improvements:

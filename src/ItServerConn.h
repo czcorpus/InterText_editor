@@ -35,12 +35,14 @@
 #define ERR_TEXT_CHANGED 5
 #define ERR_OTHER       65535
 
+class ItWindow;
+
 class ItServerConn : public QObject
 {
     Q_OBJECT
 
 public:
-    ItServerConn(QString url, QString username, QString passwd);
+    ItServerConn(QString url, QString username, QString passwd, ItWindow *parent);
     ~ItServerConn();
 
     int getLastErrCode();
@@ -64,6 +66,7 @@ private:
     QString server_url;
     QString server_username;
     QString server_passwd;
+    ItWindow *parent_object;
     int server_version;
     int server_userid;
     QNetworkAccessManager * net;
