@@ -5,6 +5,7 @@ Improvements:
 
 Fixes:
 - do not use native font dialog on MacOS to avoid settings dialog hiding in the background
+- improved quitting behaviour while network connections in progress (still may need to exit the application twice)
 
 1.6
 
