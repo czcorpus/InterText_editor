@@ -48,7 +48,7 @@ ItAlignmentView::ItAlignmentView(QWidget * parent) : QTableView(parent) {
     resizeNextTime = false;
     keepMarginNextTime = true;
     skipMargin = 1;
-    timer.start(250);
+    timer.start(100);
     nexthint = QAbstractItemDelegate::NoHint;
 
     floatControl = new ItFloatControls(this);
@@ -129,7 +129,7 @@ void ItAlignmentView::setModel(QAbstractItemModel * model) {
     horizontalHeader()->resizeSection(0,24);
     horizontalHeader()->resizeSection(3,24);
     //nextToResize = 0;
-    //verticalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+    //verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
     setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed);
     connect(itmodel, SIGNAL(focusOnChange(QModelIndex)), this, SLOT(setCurrentIndex(QModelIndex)));
@@ -692,6 +692,7 @@ void ItAlignmentView::dataChanged(const QModelIndex &topLeft, const QModelIndex 
         last = rowAt(height());
     for (int i = first; i <= last; ++i)
         resizeRowToContents(i);
+    updateRowSize(); // workaround: code above suddenly stopped working in case of element shift/pop - why, oh why again?! (FIXME?)
     /*if (last<nextToResize-1)
       nextToResize = last+1;*/
 }

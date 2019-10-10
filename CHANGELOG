@@ -1,4 +1,9 @@
-1.6.1
+1.6.2
+
+- workaround for broken autoresizing after element shift/pop (caused by Qt update?)
+- shortened interval for autoresize
+
+1.6.1 (MacOS only)
 
 Improvements:
 - update to Qt 5.12
