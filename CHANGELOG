@@ -1,3 +1,6 @@
+
+- fix export: filtering unconfirmed segments (actually filtered out segments without bookmark)
+
 1.6.2
 
 - workaround for broken autoresizing after element shift/pop (caused by Qt update?)

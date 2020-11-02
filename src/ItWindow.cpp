@@ -3885,7 +3885,7 @@ QString ItWindow::extractText(ExTextProfile &prof, aligned_doc version, QStringL
     QString out = header;
     int segCount = model->alignment->maxPos()+1;
     for (int seg=0; seg<segCount; seg++) {
-        if (prof.skipUnconfirmed && model->alignment->getMark(seg)!=LINK_MANUAL)
+        if (prof.skipUnconfirmed && model->alignment->getStat(seg)!=LINK_MANUAL)
             continue;
         if (prof.skipEmptySeg && (model->alignment->getSize(0, seg)<1 || model->alignment->getSize(1, seg)<1))
             continue;
