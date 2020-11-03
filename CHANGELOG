@@ -1,3 +1,4 @@
+1.6.3
 
 - fix export: filtering unconfirmed segments (actually filtered out segments without bookmark)
 
