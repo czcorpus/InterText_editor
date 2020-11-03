@@ -1,5 +1,6 @@
 1.6.3
 
+- update to Qt 5.15
 - fix export: filtering unconfirmed segments (actually filtered out segments without bookmark)
 
 1.6.2
