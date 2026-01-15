@@ -142,6 +142,7 @@ void ServerDialog::connectToServer()
     QString mytype;
     while(!n.isNull()) {
         QDomElement e = n.toElement();
+        n = n.nextSibling();
         if(!e.isNull() && e.tagName()=="user") {
             if (e.attribute("id","")=="")
                 continue;
@@ -158,7 +159,6 @@ void ServerDialog::connectToServer()
                 continue;
             userList.insert(u.id, u);
         }
-        n = n.nextSibling();
     }
 
     if (!loadAlList())
